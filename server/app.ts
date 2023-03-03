@@ -1,7 +1,7 @@
 import express from "express";
 import { EXIT_ERROR, EXIT_SUCCESS } from "./constant/code";
 import { connectClient, disconnectClient } from "./database";
-import { PORT, AssetEnvironment } from "./environment";
+import { EXPRESS_PORT, AssetEnvironment } from "./environment";
 import route from "./route";
 
 AssetEnvironment(); // Check if all environment variables are defined
@@ -13,8 +13,8 @@ instance.use(express.json());
 instance.use(express.urlencoded({ extended: true }));
 instance.use("/", route);
 
-const server = instance.listen(PORT, () => {
-  console.log(`${PORT} Online 🚀`);
+const server = instance.listen(EXPRESS_PORT, () => {
+  console.log(`${EXPRESS_PORT} 🚀 Online`);
 });
 
 process.on("uncaughtException", uncaughtException);
@@ -28,7 +28,7 @@ process.on("SIGTERM", terminate); // on `kill`
 function terminate() {
   server.close(() => {
     disconnectClient();
-    console.log(`${PORT} Offline!`);
+    console.log(`${EXPRESS_PORT} Offline!`);
     process.exit(EXIT_SUCCESS);
   });
 }

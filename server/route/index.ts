@@ -1,12 +1,15 @@
 import express from "express";
 import { client } from "../database";
+import { FORBIDDEN } from "../constant/code";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from "../constant/code";
 
 const router = express.Router();
 
+// todo: create a meaningful abstraction for routing and database queries
+
 router
-  .get("/document.list", (_, res) => {
-    client.query("SELECT * FROM documents", (err, result) => {
+  .get("/article.list", (_, res) => {
+    client.query("select * from Article", (err, result) => {
       if (err) {
         console.error("Query Error: " + err);
         res
@@ -15,9 +18,9 @@ router
       } else res.json(result.rows);
     });
   })
-  .post("/document.create", (req, res) => {
-    // todo: body validation
+  .post("/article.create", (req, res) => {
     const { name, body } = req.body;
+
     if (!name) {
       res.status(BAD_REQUEST).send("Document Name is required");
       return;
@@ -30,17 +33,24 @@ router
 
     // todo: guard against injection?
     client.query(
-      "INSERT INTO documents (name, body) VALUES ($1, $2)",
+      "insert into Article (name, body) values ($1, $2)",
       [name, body],
       (err, result) => {
         if (err) {
           console.error("Query Error: " + err);
-          res.status(500).send("Internal Server Error");
+          res.status(INTERNAL_SERVER_ERROR).send("Internal Server Error");
         } else {
+          console.log(result);
           res.status(OK).json(result.rows);
         }
       }
     );
+  })
+  .delete("/article.delete", (req, res) => {
+    res.status(FORBIDDEN).json();
+  })
+  .put("/article.mutate", (req, res) => {
+    res.status(FORBIDDEN).json();
   });
 
 export default router;

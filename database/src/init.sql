@@ -1,12 +1,12 @@
-create user docker
-create database news_outlet_dev
-grant all privileges on database news_outlet_dev to docker;
+create table Article (
+        id serial primary key,
+        name varchar(64) not null,
+        body varchar(256) not null
+);
 
--- todo: make body JSON
--- todo: Add constraints on body
-drop if exists table Documents;
-create table documents (
-        id int primary key autoincrement,
-        name varchar(32) not null,
-        body varchar(64) not null,
+insert into Article (name, body)
+values (
+        'How to use Scrapy!', 'first run pip3 install scrappy in your teminal..'
+),(
+        '10 Reasons why AI is going to take your Job!', 'May as well quit now hile we still have our dignity'
 );

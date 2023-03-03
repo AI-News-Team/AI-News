@@ -1,9 +1,23 @@
-import { Client } from "pg";
-import { PORT, DB_CONNECTION_STRING } from "../environment";
+import { Client, ClientConfig } from "pg";
+import {
+  EXPRESS_PORT,
+  // DB_CONNECTION_STRING,
+  DB_USER,
+  DB_PASSWORD,
+  DB_PORT,
+} from "../environment";
+import { DB_HOST, DB_NAME } from "../environment/index";
+import { EXIT_ERROR } from "../constant/code";
 
-export const client = new Client({
-  connectionString: DB_CONNECTION_STRING,
-});
+const config: ClientConfig = {
+  // connectionString: DB_CONNECTION_STRING,
+  host: DB_HOST,
+  port: DB_PORT as number | undefined,
+  user: DB_USER,
+  database: DB_NAME,
+  password: DB_PASSWORD,
+};
+export const client = new Client(config);
 
 export function connectClient() {
   client.connect(handleError);
@@ -13,6 +27,14 @@ export function disconnectClient() {
 }
 
 function handleError(err: Error) {
-  if (err) console.error(err.stack);
-  else console.log(`${PORT} Connected 🔌`);
+  if (err) {
+    const { name, message, stack } = err;
+    console.error(`Unhandled '${name}'`);
+    console.error(`Message: '${message}'`);
+    console.error(`Stacktrace: '${stack}'`);
+    process.exit(EXIT_ERROR);
+  } else
+    console.log(
+      `${EXPRESS_PORT} 🔌 Connected to Postgres running on '${DB_HOST}:${DB_PORT}'`
+    );
 }

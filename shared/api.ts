@@ -17,8 +17,8 @@ export type ResultError = {
 };
 
 /**
- * Defines the result of a query
- * @param T the type of table that the query is returning
+ * Defines the result of a query of `T`
+ * @param T the unconstrained type of a query
  */
 export type Result<T> = {
   data: T | null;

@@ -1,15 +1,17 @@
 import express from 'express';
 import { EXIT_ERROR, EXIT_SUCCESS } from './constant/code';
 import { connectClient, disconnectClient } from './database';
+import listEndpoints from 'express-list-endpoints';
 import { EXPRESS_PORT } from './environment';
-import route from './route';
+import { articleRouter, useRouter } from './route';
 
 connectClient(); // Connect to the database
 
 const instance = express();
 instance.use(express.json());
 instance.use(express.urlencoded({ extended: true }));
-instance.use('/', route);
+
+useRouter(instance, '/', articleRouter);
 
 const server = instance.listen(EXPRESS_PORT, () => {
 	console.log(`${EXPRESS_PORT} 🚀 Online`);

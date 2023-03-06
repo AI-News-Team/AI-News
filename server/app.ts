@@ -1,10 +1,8 @@
 import express from "express";
 import { EXIT_ERROR, EXIT_SUCCESS } from "./constant/code";
 import { connectClient, disconnectClient } from "./database";
-import { EXPRESS_PORT, AssetEnvironment } from "./environment";
+import { EXPRESS_PORT } from "./environment";
 import route from "./route";
-
-AssetEnvironment(); // Check if all environment variables are defined
 
 connectClient(); // Connect to the database
 

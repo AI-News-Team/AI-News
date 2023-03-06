@@ -1,18 +1,18 @@
 import { Client, ClientConfig } from "pg";
 import {
-  EXPRESS_PORT,
-  // DB_CONNECTION_STRING,
-  DB_USER,
+  DB_HOST,
+  DB_NAME,
   DB_PASSWORD,
   DB_PORT,
+  DB_USER,
+  EXPRESS_PORT,
 } from "../environment";
-import { DB_HOST, DB_NAME } from "../environment/index";
 import { EXIT_ERROR } from "../constant/code";
 
 const config: ClientConfig = {
   // connectionString: DB_CONNECTION_STRING,
   host: DB_HOST,
-  port: DB_PORT as number | undefined,
+  port: DB_PORT,
   user: DB_USER,
   database: DB_NAME,
   password: DB_PASSWORD,

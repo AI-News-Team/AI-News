@@ -1,5 +1,11 @@
 # REST API
 
+## Documentation
+
+Check out our docs!
+
+[`Postman Documentation 📬`](https://documenter.getpostman.com/view/18456662/2s93CUGVNW)
+
 ## Installation
 
 Clone, and navigate to the `/server` directory.
@@ -33,9 +39,3 @@ Ignore `DB_CONNECTION_STRING`. Though this _may_ be used for offsite deployments
 ```
 
 ```
-
-## Documentation
-
-Check out our docs!
-
-[`Postman Documentation 📬`](https://documenter.getpostman.com/view/18456662/2s93CUGVNW)

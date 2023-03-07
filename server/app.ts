@@ -8,6 +8,8 @@ AssetEnvironment(); // Check if all environment variables are defined
 
 connectClient(); // Connect to the database
 
+
+
 const instance = express();
 instance.use(express.json());
 instance.use(express.urlencoded({ extended: true }));

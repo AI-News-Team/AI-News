@@ -1,22 +1,27 @@
 import React from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const NavBar = () => {
 
+    const [data, setData] = useState<any>();
     
     const getData = async () => {
-        console.log("here")
         try {
             const response = await axios.get("http://localhost:3002/article.list");
+            setData(response)
             return response
         }
         catch (error) {
             console.log(error);
         }
     }
-    const getStuff = getData();
+    // const getStuff = getData();
 
-    console.log(getStuff)
+    useEffect(() => {
+        getData()
+    },[])
+
     
 
     return (

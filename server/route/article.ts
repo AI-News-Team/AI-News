@@ -17,6 +17,32 @@ export const articleRouter = createRouter('article', {
 			});
 		},
 	},
+	get: {
+		method: 'get',
+		handler: (req, res) => {
+			const { id } = req.body;
+
+			if (!id) {
+				Error(res, BAD_REQUEST, {
+					message: 'Document id is required',
+					type: 'QueryError',
+				});
+				return;
+			}
+
+			client.query<Article>('select * from Article where id = $1', [id], (err, result) => {
+				if (err) {
+					Error(res, INTERNAL_SERVER_ERROR, {
+						message: err.message || 'An unknown error occurred',
+						type: 'QueryError',
+					});
+				} else {
+					const data = result.rows.at(0) ?? null;
+					Success(res, data);
+				}
+			});
+		},
+	},
 	create: {
 		method: 'post',
 		handler: (req, res) => {

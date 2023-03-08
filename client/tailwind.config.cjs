@@ -8,4 +8,5 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  variants: ["responsive", "group-hover", "hover", "focus"],
 }

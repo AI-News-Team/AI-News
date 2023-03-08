@@ -4,19 +4,27 @@ import './App.css'
 import NavBar from './components/nav/NavBar'
 import { Route, Routes } from "react-router-dom"
 import Home from './pages/Home'
-import Topic1 from './pages/Topic1'
+import TopicPage from './pages/TopicPage'
 import Topic2 from './pages/Topic2'
+import colors from './styles/colors'
 
 function App() {
 
+  const topics = ["sport", "politics", "world"]
+
+  const topicDetails = colors.filter(color => {
+    if (topics.includes(color.topic)) {
+      return color
+    }
+  })
+
   return (
     <>
-      <NavBar />
-      <div>
+      <NavBar topics={topics}/>
+      <div className='w-[80em] mx-auto py-10'>
         <Routes >
           <Route path="/" element={<Home />} />
-          <Route path="/topic1" element={<Topic1 />} />
-          <Route path="/topic2" element={<Topic2 />} />
+          {topicDetails.map(x => <Route path={`/${x.topic}`} element={<TopicPage topic={x.topic} color={x.color}/>} />)}
         </Routes>
       </div>
     </>

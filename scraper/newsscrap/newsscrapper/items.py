@@ -1,5 +1,10 @@
 import scrapy
+from scrapy.item import Item, Field
 
 
-class News(scrapy.Item):
-    news_url = scrapy.Field()
+class Article(scrapy.Item):
+    name = scrapy.Field()
+    author = scrapy.Field()
+    source_url = scrapy.Field()
+
+

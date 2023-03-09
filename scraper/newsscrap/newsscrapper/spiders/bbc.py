@@ -2,7 +2,7 @@ import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
-from newsscrapper.items import News
+from newsscrapper.items import Article
 
 #
 #   cd to spiders
@@ -15,19 +15,31 @@ class BbcSpider(scrapy.Spider):
     allowed_domains = ['bbc.com']
     start_urls = ['https://www.bbc.com/news']
 
-    rules = (
-        Rule(
-            LinkExtractor (allow=('/news', '/sport', '/world', '/asia', '/uk', '/business', '/technology', '/science_and_environment', '/stories')), 
-            callback='parse', 
-            follow=True
-        ),
-    )
+    # rules = (
+    #     Rule(
+    #         LinkExtractor (allow=('/news', '/sport', '/world', '/asia', '/uk', '/business', '/technology', '/science_and_environment', '/stories')), 
+    #         callback='parse', 
+    #         follow=True
+    #     ),
+    # )
 
     def parse(self, response):
-        item = News()
-        item['news_url'] = response.url
-        item['article_names'] = response.xpath('//h3[@class="gs-c-promo-heading__title gel-pica-bold nw-o-link-split__text"]/text()').getall()
-        item['article_summaries'] = response.xpath('//p[@class="gs-c-promo-summary gel-long-primer gs-u-mt nw-c-promo-summary"]/text()').getall()
+        for href in response.xpath('//a[contains(@class, "gs-c-promo-heading")]/@href'): 
+            print(href)
+            url = response.urljoin(href.extract())
+            yield scrapy.Request(url, callback = self.getArticle)
+
+        #   MOST READ ARTICLES
+        #for href in response.xpath('//div[@class="gs-o-media__body"]/a/@href').getall() : print(href)
+    
+    def getArticle(self, response):
+        item = Article()
+        item['name'] = response.xpath('//h1/text()').get()
+        item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get()
+        item['source_url'] = response.url
+
 
         yield item
+        
+
 

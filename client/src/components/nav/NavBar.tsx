@@ -7,7 +7,6 @@ type Props = {
     topics: string[];
   };
 
-
 const NavBar = ({ topics }: Props) => {
 
     const [location, setLocation] = useState<string>(window.location.pathname);
@@ -27,7 +26,7 @@ const NavBar = ({ topics }: Props) => {
     console.log(useResolvedPath("/topic1"))
 
     return (
-        <div className="bg-black w-screen flex justify-center">
+        <div className="bg-black flex justify-center">
         <nav className="w-[80em] text-white flex justify-between items-stretch">
             <Link to="/" className="text-xl py-3">Site Name</Link>
             <ul className="flex flex-column">

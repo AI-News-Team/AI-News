@@ -18,8 +18,8 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%; */
 }
-/* 
-a {
+
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
@@ -34,14 +34,24 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
+} */
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
-button {
+h2 {
+  font-size: 1.3em;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: 1.0em;
+  line-height: 1.1;
+}
+
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -58,9 +68,9 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-} */
+} 
 
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;

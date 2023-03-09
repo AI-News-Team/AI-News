@@ -1,4 +1,4 @@
-# Let's set you up
+# Let's set you up with **_Scrapy_**
 ### 1. Python installation
 * Let's install [**_Python_**](https://www.python.org/downloads/)
 * After installation, we need to add **_Python_** to `path` in `environmet variable`
@@ -22,7 +22,8 @@ OR
 python --version
 ```
 NOTE: You might need to restart your PC if you won't be able to run **_scrapy_** commands
-NOTE: If you use **_VS CODE_** I would suggest to install **_Python_** through extensions in **_VS CODE_** 
+
+NOTE: If you use **_VS CODE_**, I would suggest to install **_Python_** through extensions in **_VS CODE_** 
 
 ---
 ### 2. Scrapy installation
@@ -45,7 +46,7 @@ cd scraper/newsscrap/newsscrapper/spiders/
 ``` shell
 scrapy crawl bbc
 ```
-* If you want to test your `xpatth` commands without running a spyder everytime, you can run:
+* If you want to test your `xpath` commands without running a spyder everytime, you can run:
 ``` shell
 scrapy shell "https://www.bbc.com/news"
 ```

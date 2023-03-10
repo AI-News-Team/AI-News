@@ -23,6 +23,10 @@ const NavBar = ({ topics }: Props) => {
         }
     }
 
+    useEffect(() => {
+        // getData()
+    },[])
+
     console.log(useResolvedPath("/topic1"))
 
     return (

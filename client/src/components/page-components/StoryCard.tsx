@@ -4,9 +4,14 @@ var cardStyle = {
     backgroundImage: `url(${Image})`
 }
 
-const StoryCard = () => {
+type Props = {
+    image: string;
+  };
 
-    return <div style={cardStyle} className="w-[31%] bg-red-500 mt-5 h-80 flex flex-col justify-end bg-cover">
+const StoryCard = ({ image }: Props) => {
+
+    return <div className="w-[31%] mt-5 h-80">
+        <img src={Image} alt="" className='object-cover h-4/5 w-full' />
     <div className="bg-white p-2 border">
         <h3>HEADLINE</h3>
         <div>A bit of a summary of the story presented in the image.</div>

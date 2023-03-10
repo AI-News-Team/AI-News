@@ -9,6 +9,10 @@ const colors = [{
 {
     topic: "world",
     color: "#f403fc"
+},
+{
+    topic: "gardening",
+    color: "#0aa834"
 }]
 
 export default colors;

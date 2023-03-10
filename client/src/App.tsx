@@ -9,7 +9,7 @@ import colors from './styles/colors'
 
 function App() {
 
-  const topics = ["sport", "politics", "world"]
+  const topics = ["sport", "politics", "world", "gardening"]
 
   const topicDetails: Topic[] = colors.filter(color => {
     if (topics.includes(color.topic)) {

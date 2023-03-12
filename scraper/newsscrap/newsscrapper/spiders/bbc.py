@@ -37,7 +37,21 @@ class BbcSpider(scrapy.Spider):
         item['name'] = response.xpath('//h1/text()').get()
         item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get()
         item['source_url'] = response.url
+        item['date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
+        item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p[1]/text()').getall()
 
+        # Checks if element text-block exists
+        if response.xpath('//div[contains(@data-component, "text-block")]'):
+            item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p/text()').getall()
+            
+        if response.xpath('//div[@class="article__body-content"]'):
+            item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get()
+            item['date'] = response.xpath('//div[@class="author-unit"]/div/span/text()').get()
+            item['body'] = response.xpath('//div[@class="body-text-card b-reith-sans-font"]/div[2]/div/p/text()').getall()
+            
+        if response.xpath('//div[@data-testid="reveal-text-wrapper"]'):
+            item['body'] = response.xpath('//div[@data-reactid=".19qwbyoyauw.0.0.0.1"]/descendant-or-self::*[not(self::script)][normalize-space()]/text()').getall()
+            item['date'] = response.xpath('//span[@class="qa-status-date-output"]/text()').get()
 
         yield item
         

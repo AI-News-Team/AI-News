@@ -92,6 +92,6 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 FEED_EXPORT_ENCODING = "utf-8"
-FEED_EXPORT_FIELDS = ["name", "author", "source_url"]
+FEED_EXPORT_FIELDS = ["name", "author", "date", "body", "source_url", "cover_url"]
 FEED_FORMAT = "json"
-FEED_URI = 'bbc_output.json'
+FEED_URI = 'articles_output.json'

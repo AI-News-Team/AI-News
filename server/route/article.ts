@@ -1,6 +1,7 @@
 import { client } from '../database';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from '../constant/code';
 import createRouter, { Error, Success } from './router';
+import format from 'pg-format';
 import { Article } from '@shared';
 
 export const articleRouter = createRouter('article', {
@@ -23,11 +24,10 @@ export const articleRouter = createRouter('article', {
 			const { id } = req.body;
 
 			if (!id) {
-				Error(res, BAD_REQUEST, {
+				return Error(res, BAD_REQUEST, {
 					message: 'Document id is required',
 					type: 'QueryError',
 				});
-				return;
 			}
 
 			client.query<Article>('select * from Article where id = $1', [id], (err, result) => {
@@ -46,26 +46,12 @@ export const articleRouter = createRouter('article', {
 	create: {
 		method: 'post',
 		handler: (req, res) => {
-			const { name, body } = req.body;
+			const { articles } = req.body;
 
-			if (!name) {
-				Error(res, BAD_REQUEST, {
-					message: 'Document name is required',
-					type: 'QueryError',
-				});
-				return;
-			}
+			if (!articles || !Array.isArray(articles)) return Error(res, BAD_REQUEST, { message: 'Body must be an array', type: 'QueryError' });
 
-			if (!body) {
-				Error(res, BAD_REQUEST, {
-					message: 'Document body is required',
-					type: 'QueryError',
-				});
-				return;
-			}
-
-			// todo: guard against injection?
-			client.query<Article>('insert into Article (name, body) values ($1, $2)', [name, body], (err, result) => {
+			const insertion = format('insert Article (name, author, category, body, source_url, cover_url, publication_date) %L', [articles])
+			client.query<Article>(insertion, [], (err, result) => {
 				if (err) {
 					Error(res, INTERNAL_SERVER_ERROR, {
 						message: err.message || 'An unknown error occurred',

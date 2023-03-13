@@ -1,4 +1,5 @@
 import { Result } from "./api";
+import { Category } from "./category";
 
 export type Table = Document | User;
 
@@ -9,6 +10,7 @@ export type Article = {
   id: number;
   name: string;
   author: string;
+  category: Category;
   body: string[];
   source_url: string;
   cover_url?: string;

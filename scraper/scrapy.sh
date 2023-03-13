@@ -1,2 +1,2 @@
-cd newsscrap/newsscrapper/spiders
+cd newsscrapper/spiders
 scrapy crawl bbc

@@ -9,9 +9,10 @@ type Props = {
   };
 
 const StoryCard = ({ image }: Props) => {
+    {console.log(image)}
 
     return <div className="w-[31%] mt-5 h-80">
-        <img src={Image} alt="" className='object-cover h-4/5 w-full' />
+        <img src={image} alt="" className='object-cover h-4/5 w-full' />
     <div className="bg-white p-2 border">
         <h3>HEADLINE</h3>
         <div>A bit of a summary of the story presented in the image.</div>

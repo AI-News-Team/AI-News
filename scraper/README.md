@@ -36,7 +36,16 @@ pip install scrapy
 * That should be it!
 
 ---
-### How to run a Spyder?
+### How to run a Spyder with a script?
+* First of all, go to `scraper` directory
+``` shell
+cd scraper/
+```
+* Run the following to start scraping data with `bbc` spyder:
+``` shell
+./scrapy.sh
+```
+### How to run a Spyder manually?
 * Open the cloned project with any IDE
 * Open terminal and get into `spyders` directory
 ``` shell

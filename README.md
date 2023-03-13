@@ -11,7 +11,7 @@ cd ai_driven_news_outlet
 
 [`Web Client 👤`](/client/README.md)
 [`API 📨`](/server/README.md#Configuration)
-~~[`Web Scrapper 🔍`](/scrapper/README.md)~~
+[`Web Scrapper 🔍`](/scraper/README.md)
 ~~[`Summarizer 📃`](/summarizer/README.md)~~
 [`Postgres Database 📦`](/database/README.md#Configuration)
 
@@ -25,7 +25,7 @@ Watch this space for an deployment when our prototype is complete.
 
 ~~[`Web Client 👤`](/client/README.md#Depoyment)~~
 [`API 📨`](/server/README.md#Deployment)
-~~[`Web Scrapper 🔍`](/scrapper/README.md#Deployment)~~
+~~[`Web Scrapper 🔍`](/scraper/README.md#Deployment)~~
 ~~[`Summarizer 📃`](/summarizer/README.md#Deployment)~~
 [`Postgres Database 📦`](/database/README.md#Deployment)
 

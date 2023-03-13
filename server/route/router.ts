@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { Method, Result, Table } from '@shared';
-import { Code, OK } from '../constant/code';
+import { Code, OK, INTERNAL_SERVER_ERROR } from '../constant/code';
 import { ResultError } from '../../shared/api';
 import { timestamp } from '../../shared/time';
 
@@ -21,7 +21,17 @@ type Operations = Record<string, Operation>;
  */
 export default function createRouter(namespace: string = '', operations: Operations) {
 	return Object.entries(operations).reduce((router, [operation, { method, handler }]) => {
-		router[method](`/${namespace}.${operation}`, handler);
+		router[method](`/${namespace}.${operation}`, (req, res) => {
+			try {
+				handler(req, res);
+			} catch (error) {
+				// handle the unhandled errors
+				return Error(res, INTERNAL_SERVER_ERROR, {
+					message: (error as any).message || 'An unknown error occurred',
+					type: 'UnhandledError',
+				});
+			}
+		});
 		return router;
 	}, Router());
 }
@@ -38,7 +48,7 @@ function createResponse<T>(res: Response, code: Code, result: Result<T>) {
  * @param res response to bind
  * @param data data to respond with
  */
-export function Success<T>(res: Response, data: T) {
+export function Success<T>(res: Response, data: T | null = null) {
 	const result: Result<T> = {
 		data,
 		error: null,

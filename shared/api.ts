@@ -6,7 +6,7 @@ export type Method = "get" | "post" | "put" | "delete";
  */
 export type ErrorType =
   | "QueryError" // Your query is malformed or invalid
-  | "UnknownError"; // An unknown error occurred
+  | "UnhandledError"; // An unknown error occurred
 
 /**
  * Defines an error returned from the query

@@ -49,7 +49,7 @@ cd scraper/
 * Open the cloned project with any IDE
 * Open terminal and get into `spyders` directory
 ``` shell
-cd scraper/newsscrap/newsscrapper/spiders/
+cd scraper/newsscrapper/spiders/
 ``` 
 * If you want to run a spider paste in the console (where **_bbc_** name of the spyder):
 ``` shell

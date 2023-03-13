@@ -39,6 +39,7 @@ class BbcSpider(scrapy.Spider):
         item['source_url'] = response.url
         item['date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p[1]/text()').getall()
+        item['category'] = 'news'
 
         # Checks if element text-block exists
         if response.xpath('//div[contains(@data-component, "text-block")]'):

@@ -1,6 +1,9 @@
 const colors = [{
     topic: "sport",
     color: "#2596be"
+},{
+    topic: "news",
+    color: "#2596be"
 },
 {
     topic: "politics",
@@ -13,6 +16,7 @@ const colors = [{
 {
     topic: "gardening",
     color: "#0aa834"
-}]
+}
+]
 
 export default colors;

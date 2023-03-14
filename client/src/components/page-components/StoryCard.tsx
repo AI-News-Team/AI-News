@@ -1,22 +1,30 @@
-import Image from '../../images/sample2.jpg'
+import { Link } from "react-router-dom";
 
 var cardStyle = {
     backgroundImage: `url(${Image})`
 }
 
+type Story = {
+    name: string,
+    author: string,
+    body: string,
+    source_url: string,
+    cover_url: string,
+    category: string
+}
+
 type Props = {
-    image: string;
+    title: string,
+    image: string,
+    body: string
   };
 
-const StoryCard = ({ image }: Props) => {
-    {console.log(image)}
-
+const StoryCard = ({ image, title, body }: Props) => {
     return <div className="w-[31%] mt-5 h-80">
-        <img src={image} alt="" className='object-cover h-4/5 w-full' />
-    <div className="bg-white p-2 border">
-        <h3>HEADLINE</h3>
-        <div>A bit of a summary of the story presented in the image.</div>
-    </div>
+        <Link to="/news" ><img src={image} alt="" className='object-cover h-4/5 w-full' /></Link>
+        <div className="bg-white p-2 border">
+            <h3 className='font-bold'>{title}</h3>
+        </div>
     </div>
 }
 

@@ -28,55 +28,50 @@ type Story = {
     category: string
 }
 
-
 const Home = (props: Props) => {
 
     const [data, setData] = useState<any>();
     const [sport, setSport] = useState<any>();
     const [world, setWorld] = useState<any>();
     const [politics, setPolitics] = useState<any>();
+
+    const sortData = (data: Story[]) => {
+        data.forEach(story => {
+            console.log(story)
+            switch (story.category) {
+                case "sport":
+                    setSport([...sport, story])
+                    break;
+                case "politics":
+                    setPolitics([...politics, story])
+                    break;
+                case "world":
+                    setWorld([...world, story])
+                    break;
+            
+                default:
+                    break;
+            }
+        });
+    }
         
         const getData = async () => {
             try {
                 const response = await axios.get("http://localhost:3002/article.list");
                 console.log(response.data.data)
                 setData(response.data.data)
-                    const sortData = (data: Story[]) => {
-                        data.forEach(story => {
-                            console.log(story)
-                            switch (story.category) {
-                                case "sport":
-                                    setSport([...sport, story])
-                                    break;
-                                case "politics":
-                                    setPolitics([...politics, story])
-                                    break;
-                                case "world":
-                                    setWorld([...world, story])
-                                    break;
-                            
-                                default:
-                                    break;
-                            }
-                        });
-                    }
+                sortData(data)
                 }
                 catch (error) {
                     console.log(error);
                 }
             }
             
-            useEffect(() => {
-                getData()
-                // sortData(data)
-            },[])
-            
-            console.log(sport)
-            console.log(world)
-            console.log(politics)
-
+        useEffect(() => {
+            getData()
+            // sortData(data)
+        },[])
         
-        console.log(data)
     return (
     <>
         <Headlines />

@@ -31,36 +31,11 @@ type Story = {
 const Home = (props: Props) => {
 
     const [data, setData] = useState<any>();
-    const [sport, setSport] = useState<any>();
-    const [world, setWorld] = useState<any>();
-    const [politics, setPolitics] = useState<any>();
-
-    const sortData = (data: Story[]) => {
-        data.forEach(story => {
-            console.log(story)
-            switch (story.category) {
-                case "sport":
-                    setSport([...sport, story])
-                    break;
-                case "politics":
-                    setPolitics([...politics, story])
-                    break;
-                case "world":
-                    setWorld([...world, story])
-                    break;
-            
-                default:
-                    break;
-            }
-        });
-    }
         
         const getData = async () => {
             try {
                 const response = await axios.get("http://localhost:3002/article.list");
-                console.log(response.data.data)
                 setData(response.data.data)
-                sortData(data)
                 }
                 catch (error) {
                     console.log(error);
@@ -69,12 +44,11 @@ const Home = (props: Props) => {
             
         useEffect(() => {
             getData()
-            // sortData(data)
         },[])
         
     return (
     <>
-        <Headlines />
+        <Headlines stories={data}/>
         {props.topics.map(topic =>  <TopicSection topic={topic.topic} color={topic.color} stories={data}/>)}
     </>
     )

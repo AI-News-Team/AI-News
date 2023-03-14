@@ -1,18 +1,5 @@
 import { Link } from "react-router-dom";
 
-var cardStyle = {
-    backgroundImage: `url(${Image})`
-}
-
-type Story = {
-    name: string,
-    author: string,
-    body: string,
-    source_url: string,
-    cover_url: string,
-    category: string
-}
-
 type Props = {
     title: string,
     image: string,
@@ -20,12 +7,14 @@ type Props = {
   };
 
 const StoryCard = ({ image, title, body }: Props) => {
-    return <div className="w-[31%] mt-5 h-80">
-        <Link to="/news" ><img src={image} alt="" className='object-cover h-4/5 w-full' /></Link>
-        <div className="bg-white p-2 border">
-            <h3 className='font-bold'>{title}</h3>
+    return (
+        <div className="w-[31%] mt-5 h-80">
+            <Link to="/news" ><img src={image} alt="" className='object-cover h-72 w-full' /></Link>
+            <div className="bg-white p-2 border-l-2 border-r-2 border-b-2 h-14">
+                <h3 className='font-bold'>{title}</h3>
+            </div>
         </div>
-    </div>
+    )
 }
 
 export default StoryCard

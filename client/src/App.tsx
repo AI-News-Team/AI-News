@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 import NavBar from './components/nav/NavBar'
 import { Route, Routes } from "react-router-dom"
@@ -9,7 +7,7 @@ import colors from './styles/colors'
 
 function App() {
 
-  const topics = ["news"]
+  const topics = ["news", "gardening"]
 
   const topicDetails: Topic[] = colors.filter(color => {
     if (topics.includes(color.topic)) {

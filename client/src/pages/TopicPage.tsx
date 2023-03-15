@@ -2,6 +2,9 @@ import React, { useEffect } from "react"
 import { useState } from "react";
 import axios from "axios";
 import StoryCard from "../components/page-components/StoryCard";
+import { getData } from "../utils/axios";
+
+const domain = import.meta.env.VITE_SERVER_DOMAIN
 
 type Props = {
     topic: string,
@@ -13,22 +16,8 @@ const TopicPage = ({ topic, color }: Props) => {
     const [data, setData] = useState<any[]>([])
 
     useEffect(() => {
-        getData()
-        // sortData(data)
+        getData(domain, setData)
     },[])
-
-    console.log(data?.map)
-
-    const getData = async () => {
-        try {
-            const response = await axios.get("http://localhost:3002/article.list");
-            console.log(response.data.data)
-            setData(response.data.data)
-            }
-            catch (error) {
-                console.log(error);
-            }
-        }
 
     return (
          <>

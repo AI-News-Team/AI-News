@@ -1,10 +1,12 @@
 import React from "react"
 import Headlines from "../components/page-components/Headlines"
-import StoryCard from "../components/page-components/StoryCard";
 import { Link } from "react-router-dom"
 import TopicSection from "../components/page-components/TopicSection";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getData } from "../utils/axios";
+
+const domain = import.meta.env.VITE_SERVER_DOMAIN
 
 type Topic = {
     topic: string,
@@ -31,19 +33,9 @@ type Story = {
 const Home = (props: Props) => {
 
     const [data, setData] = useState<any>();
-        
-        const getData = async () => {
-            try {
-                const response = await axios.get("http://localhost:3002/article.list");
-                setData(response.data.data)
-                }
-                catch (error) {
-                    console.log(error);
-                }
-            }
             
         useEffect(() => {
-            getData()
+            getData(domain, setData)
         },[])
         
     return (

@@ -5,7 +5,7 @@ create table Category (
 create table Article (
         id serial primary key,
         name varchar(96) not null,
-        author varchar(32) not null,
+        author varchar(128),
         category varchar(32) not null references Category(category),
         body json not null,
         source_url varchar(256) not null,

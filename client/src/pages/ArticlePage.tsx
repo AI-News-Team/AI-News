@@ -7,7 +7,6 @@ import colors from "../styles/colors";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
 
-const [colour, setColour] = useState<string>()
 
 type Story = {
     id: number,
@@ -22,6 +21,8 @@ type Story = {
 
 const ArticlePage = () => {
 
+    const [color, setColor] = useState<string>()
+
     const params = useParams();
     const currentDomain=`${domain}article.get/${params.id}`
 
@@ -29,22 +30,32 @@ const ArticlePage = () => {
 
     useEffect(()=>{
         getData(currentDomain, setData)
-    },[])
+        },[])
 
-    // console.log(colors)
-    colors.forEach(color => {
-        if (color.topic == data?.category) {
-            setColour(color.topic)
-        }
-        
-    });
+    useEffect(()=>{
+        colors.forEach(color => {
+            if (color.topic == data?.category) {
+                setColor(color.color)
+            }})
+    },[data])
 
-return (<>
-<h1>{data?.name}</h1>
-<img src={data?.cover_url}/>
-<h2>By {data?.author}</h2>
-<p>{data?.body}</p>
-</>)
+return (
+    <>
+        <h2 className="pt-10"style={{color: color}}>{data?.category.toUpperCase()}</h2>
+        <hr style={{background: color}} className="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-10"></hr>
+        <div className="flex">
+            <div className="w-8/12 pr-6 border-gray-300 border-r">
+                <h1 className="pb-8">{data?.name}</h1>
+                <img className="object-cover h-96 w-full" src={data?.cover_url}/>
+                <h2 className="py-3">By {data?.author}</h2>
+                <p className="py-3">{data?.body}</p>
+            </div>
+            <div className="w-4/12 pl-6">
+                <h2 >Headlines</h2>
+            </div>
+        </div>
+    </>
+)
 }
 
 export default ArticlePage

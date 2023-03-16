@@ -7,6 +7,8 @@ import { articleRouter, useRouter } from './route';
 
 connectClient(); // Connect to the database
 
+
+
 const instance = express();
 instance.use(cors());
 instance.use(express.json({ limit: '50mb' }));

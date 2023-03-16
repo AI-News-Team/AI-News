@@ -16,23 +16,24 @@ export const insertionKeySchema = [
 ] as const;
 
 export const articleRouter = createRouter('article', {
-  list: {
-    method: 'get',
-    handler: (_, res) => {
-      client.query<Article>('select * from Article', (err, result) => {
-        if (err)
-          Error(res, INTERNAL_SERVER_ERROR, {
-            message: err.message || 'An unknown error occurred',
-            type: 'QueryError',
-          });
-        else Success(res, result.rows);
-      });
-    },
-  },
-  get: {
-    method: 'get',
-    handler: (req, res) => {
-      const { id } = req.body;
+	list: {
+		method: 'get',
+		handler: (_, res) => {
+			client.query<Article>('select * from Article', (err, result) => {
+				if (err)
+					Error(res, INTERNAL_SERVER_ERROR, {
+						message: err.message || 'An unknown error occurred',
+						type: 'QueryError',
+					});
+				else Success(res, result.rows);
+			});
+		},
+	},
+	get: {
+		method: 'get',
+		params: ["id"],
+		handler: (req, res) => {
+			const { id } = req.params;
 
       if (!id) {
         return Error(res, BAD_REQUEST, {

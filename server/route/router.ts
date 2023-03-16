@@ -10,6 +10,7 @@ type ExpressInstance = Core.Express;
 type Operation = {
 	method: Method;
 	handler: (req: Request, res: Response) => void;
+	params?: string[]
 };
 type Operations = Record<string, Operation>;
 
@@ -20,8 +21,8 @@ type Operations = Record<string, Operation>;
  * @returns an express router
  */
 export default function createRouter(namespace: string = '', operations: Operations) {
-	return Object.entries(operations).reduce((router, [operation, { method, handler }]) => {
-		router[method](`/${namespace}.${operation}`, (req, res) => {
+	return Object.entries(operations).reduce((router, [operation, { method, handler, params }]) => {
+		router[method](`/${namespace}.${operation}${params ? "/:" + params.join('/:') : ''}`, (req, res) => {
 			try {
 				handler(req, res);
 			} catch (error) {

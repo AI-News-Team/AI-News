@@ -31,8 +31,9 @@ export const articleRouter = createRouter('article', {
 	},
 	get: {
 		method: 'get',
+		params: ["id"],
 		handler: (req, res) => {
-			const { id } = req.body;
+			const { id } = req.params;
 
 			if (!id) {
 				return Error(res, BAD_REQUEST, {

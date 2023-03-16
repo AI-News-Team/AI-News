@@ -5,6 +5,7 @@ type Props = {
 }
 
 type Story = {
+    id: number,
     name: string,
     author: string,
     body: string,
@@ -16,7 +17,7 @@ type Story = {
 const Headlines = ( props: Props ) => {
     return (
         <div className="w-full flex justify-between px-10">
-            {props.stories?.map(story => <HeadlineCard img={story.cover_url} headline={story.name}/>)}
+            {props.stories?.map(story => <HeadlineCard key={story.id} id={story.id} img={story.cover_url} headline={story.name}/>)}
         </div>
     )
 }

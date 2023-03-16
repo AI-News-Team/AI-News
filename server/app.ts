@@ -9,7 +9,7 @@ connectClient(); // Connect to the database
 
 const instance = express();
 instance.use(cors());
-instance.use(express.json());
+instance.use(express.json({ limit: '50mb' }));
 instance.use(express.urlencoded({ extended: true }));
 
 useRouter(instance, '/', articleRouter);

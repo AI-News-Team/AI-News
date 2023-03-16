@@ -2,7 +2,6 @@ import express from 'express';
 import { EXIT_ERROR, EXIT_SUCCESS } from './constant/code';
 import { connectClient, disconnectClient } from './database';
 import cors from 'cors';
-import listEndpoints from 'express-list-endpoints';
 import { EXPRESS_PORT } from './environment';
 import { articleRouter, useRouter } from './route';
 
@@ -16,7 +15,7 @@ instance.use(express.urlencoded({ extended: true }));
 useRouter(instance, '/', articleRouter);
 
 const server = instance.listen(EXPRESS_PORT, () => {
-	console.log(`${EXPRESS_PORT} 🚀 Online`);
+console.log(`${EXPRESS_PORT} 🚀 Online`);
 });
 
 process.on('uncaughtException', uncaughtException);

@@ -19,7 +19,7 @@ const NavBar = ({ topics }: Props) => {
                     <Link to="/" className="text-4xl font-black py-3 mr-8">D<span className="text-pink-700">AI</span>LY</Link>
                     <ul className="flex flex-column">
                         {topics.map((topic) =>  
-                            <li>
+                            <li key={topic}>
                                 <Link className={`h-full hover:bg-pink-800 flex items-center px-5 ${window.location.pathname == `/${topic}` ? "bg-slate-500" : "bg-black"}`} to={`/${topic}`}>{topic}</Link>
                             </li>)}
                     </ul>

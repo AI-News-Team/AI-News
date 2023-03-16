@@ -1,5 +1,5 @@
 import { Result } from "./api";
-import { Category } from "./category";
+import { Category, Categories } from './category';
 
 export type Table = Document | User;
 
@@ -17,6 +17,13 @@ export type Article = {
   publication_date?: string | null;
 };
 export type DocumentResult = Result<Document>;
+
+export type ArticleSummary = {
+  top_stories: Article[];
+} & {
+  [key in Category]: Article[];
+}
+export type ArticleSummaryResult = Result<ArticleSummary>;
 
 /**
  * A user account for the application

@@ -45,6 +45,8 @@ const Home = (props: Props) => {
         // console.log(data?.[news])
         
         
+        console.log(data)
+        
     return (
     <>
         <Headlines stories={data?.news}/>

@@ -8,7 +8,9 @@ type Props = {
   };
 
 const StoryCard = ({ image, title, body, id }: Props) => {
+
     // console.log(id)
+
     return (
         <div className="w-[31%] mt-5 h-80">
             <Link to={`/article/${id}`} ><img src={image} alt="" className='object-cover h-72 w-full' /></Link>

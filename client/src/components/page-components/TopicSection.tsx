@@ -19,6 +19,12 @@ type Props = {
 
   
   const TopicSection = ({topic, color, stories}: Props) => {
+
+    // console.log(stories)
+    // const {id} = stories;
+    // const news = { stories }
+    // console.log(news)
+    // {console.log(stories[topic as keyof typeof stories])}
       
     return (
         <>

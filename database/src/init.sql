@@ -40,4 +40,12 @@ values (
         '["The contest, held each June at the Sonoma-Marin Fair, said it is seeking dogs with ''too little hair, too many wrinkles, an unusual nose or a funny waddle'' to compete in this year''s competition. "]',
         'https://www.upi.com/Odd_News/2023/02/28/Worlds-Ugliest-Dog-contest-accepting-applications/9171677609998/',
         'https://cdnph.upi.com/svc/sv/i/9171677609998/2023/1/16776103117700/Worlds-Ugliest-Dog-contest-seeking-unalluring-canines-for-2023-competition.jpg'
-);
+),(
+        4,
+        'This is the world''s greatest story',
+        'Ben Hooper',
+        'news',
+        '["Look, Its the world''s most important story and you must pay attention to it.  Without this story the world as we know it will never be the same.  Thank you."]',
+        'https://www.upi.com/Odd_News/2023/02/28/Worlds-Ugliest-Dog-contest-accepting-applications/9171677609998/',
+        'https://images.squarespace-cdn.com/content/v1/60e6341f017575363ab46dbc/1627357208379-MVVT1Q1MZXUAFYOFJ3W3/placeholder-world.png'
+);;

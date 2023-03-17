@@ -7,7 +7,7 @@ import axios from "axios";
 import { getData } from "../utils/axios";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
-const currentDomain=`${domain}article.list`
+const currentDomain=`${domain}article.summary`
 
 type Topic = {
     topic: string,
@@ -34,18 +34,21 @@ type Story = {
 
 const Home = (props: Props) => {
 
+    const news:string = "news"
+
     const [data, setData] = useState<any>();
             
         useEffect(() => {
             getData(currentDomain, setData)
         },[])
+
+        // console.log(data?.[news])
         
-        console.log(data)
         
     return (
     <>
-        <Headlines stories={data}/>
-        {props.topics.map(topic =>  <TopicSection key={topic.topic} topic={topic.topic} color={topic.color} stories={data}/>)}
+        <Headlines stories={data?.news}/>
+        {props.topics.map(topic =>  <TopicSection key={topic.topic} topic={topic.topic} color={topic.color} stories={data?.[topic.topic]}/>)}
     </>
     )
 }

@@ -24,7 +24,7 @@ const TopicPage = ({ topic, color }: Props) => {
     return (
          <>
         <h2 className="pt-10"style={{color: color}}>{topic.toUpperCase()}</h2>
-        <hr style={{background: color}} className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+        <hr style={{background: color}} className="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-12"></hr>
         <div className="flex justify-between flex-wrap">
             {data?.map((story) => <StoryCard id={story.id} image={story.cover_url} title={story.name} body={story.body}/>)}
         </div>

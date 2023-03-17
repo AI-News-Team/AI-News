@@ -10,7 +10,7 @@ type Props = {
 const NavBar = ({ topics }: Props) => {
 
     //not sure why, but this is necessary to have the active menu item change colour
-    console.log(useResolvedPath("/topic1"))
+    // console.log(useResolvedPath("/topic1"))
 
     return (
         <div className="bg-black flex justify-center align-center">

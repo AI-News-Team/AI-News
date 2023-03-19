@@ -16,16 +16,18 @@ class CNNSpider(scrapy.Spider):
     start_urls = ['https://edition.cnn.com/']
 
     def parse(self, response):
-        # Extract the links from every section element that contains an "a" tag with an "href" attribute
-        sections = response.xpath('//section[contains(a/@href, "")]')
-        
-        # Loop over each section element and extract the links
-        for section in sections:
-            links = section.xpath('.//a/@href').extract()
+        sections = response.xpath('//article[contains(a/@href, "")]')
 
-            # Do something with the links, such as yield a new request for each link
+        for section in sections:
+            links = section.xpath('//a/@href').extract()
+
+            links = response.xpath('//a[not(contains(@class,"cn__title--link icon"))/@href').getall()
+            print(links)
+
             for link in links:
-                yield scrapy.Request(link, callback=self.getArticle)
+                url = response.urljoin(link)
+                yield scrapy.Request(url, callback = self.getArticle)
+        
     
     def getArticle(self, response):
         item = Article()

@@ -25,7 +25,6 @@ class BbcSpider(scrapy.Spider):
 
     def parse(self, response):
         for href in response.xpath('//a[contains(@class, "gs-c-promo-heading")]/@href'): 
-            print(href)
             url = response.urljoin(href.extract())
             yield scrapy.Request(url, callback = self.getArticle)
 

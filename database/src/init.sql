@@ -15,9 +15,8 @@ create table Article (
 
 insert into Category (category) values ('news');
 
-insert into Article (id, name, author, category, body, source_url, cover_url)
+insert into Article (name, author, category, body, source_url, cover_url)
 values (
-        1,
         'British bus driver stops to give loose sheep a lift',
         'Ben Hooper',
         'news',
@@ -25,7 +24,6 @@ values (
         'https://www.upi.com/Odd_News/2023/03/03/Brighton-Hove-Buses-loose-sheep/3311677870361/',
         'https://cdnph.upi.com/svc/sv/i/3311677870361/2023/1/16778704733821/British-bus-driver-stops-to-give-loose-sheep-a-lift.jpg'
 ),(
-        2,
         'Minnesota officer removes jar from raccoon''s head',
         'Ben Hooper',
         'news',
@@ -33,7 +31,6 @@ values (
         'https://www.upi.com/Odd_News/2023/03/02/Oak-Grove-police-raccoon-jar-video/5671677787328/',
         'https://www.irishnews.com/picturesarchive/irishnews/irishnews/2017/03/09/180005893-a2d58e60-3107-49b3-a0e4-0e29c187dfd4.jpg'
 ),(
-        3,
         'World''s Ugliest Dog contest seeking unalluring canines for 2023 competition',
         'Ben Hooper',
         'news',
@@ -41,7 +38,6 @@ values (
         'https://www.upi.com/Odd_News/2023/02/28/Worlds-Ugliest-Dog-contest-accepting-applications/9171677609998/',
         'https://cdnph.upi.com/svc/sv/i/9171677609998/2023/1/16776103117700/Worlds-Ugliest-Dog-contest-seeking-unalluring-canines-for-2023-competition.jpg'
 ),(
-        4,
         'This is the world''s greatest story',
         'Ben Hooper',
         'news',

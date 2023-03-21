@@ -44,13 +44,6 @@ const Home = (props: Props) => {
             getData(currentDomain, setData)
             getData(allArticlesDomain, setHeadlines)
         },[])
-
-        // console.log(data?.[news])
-        
-        
-        console.log(headlines)
-        
-        console.log(headlines)
         
     return (
     <>

@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getData } from "../utils/axios";
 import axios from "axios";
-
+import LeadingSidebar from "../components/page-components/LeadingSidebar";
 import colors from "../styles/colors";
+import React from "react";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
-
 
 type Story = {
     id: number,
@@ -17,7 +17,6 @@ type Story = {
     cover_url: string,
     category: string
 }
-
 
 const ArticlePage = () => {
 
@@ -40,22 +39,27 @@ const ArticlePage = () => {
     },[data])
 
 return (
-    <>
-        <h2 className="pt-10"style={{color: color}}>{data?.category.toUpperCase()}</h2>
-        <hr style={{background: color}} className="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-10"></hr>
-        <div className="flex">
-            <div className="w-8/12 pr-6 border-gray-300 border-r">
-                <h1 className="pb-8">{data?.name}</h1>
-                <img className="object-cover h-96 w-full" src={data?.cover_url}/>
-                <h2 className="py-3">By {data?.author}</h2>
-                <p className="py-3">{data?.body}</p>
-            </div>
-            <div className="w-4/12 pl-6">
-                <h2 >Headlines</h2>
-            </div>
-        </div>
-    </>
-)
+  <>
+    <h2 className="pt-10" style={{ color: color }}>
+      {data?.category.toUpperCase()}
+    </h2>
+    <hr
+      style={{ background: color }}
+      className="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-10"
+    ></hr>
+    <div className="flex">
+      <div className="w-8/12 pr-6 border-gray-300 border-r">
+        <h1 className="pb-8">{data?.name}</h1>
+        <img className="object-cover h-96 w-full" src={data?.cover_url} />
+        <h2 className="py-3">By {data?.author}</h2>
+        <p className="py-3">{data?.body}</p>
+      </div>
+      <div className="w-4/12 pl-20">
+        <LeadingSidebar color={color!} />
+      </div>
+    </div>
+  </>
+);
 }
 
 export default ArticlePage

@@ -15,10 +15,13 @@ type Story = {
 }
 
 const Headlines = ( props: Props ) => {
+
+    const firstFourStories = props.stories?.slice(0, 4)
+
     return (<>
         {console.log(props.stories)}
         <div className="w-full flex justify-between px-10">
-            {props.stories?.map(story => <HeadlineCard key={story.id} id={story.id} img={story.cover_url} headline={story.name}/>)}
+            {firstFourStories?.map(story => <HeadlineCard key={story.id} id={story.id} img={story.cover_url} headline={story.name}/>)}
         </div>
         </>
     )

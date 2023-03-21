@@ -30,7 +30,7 @@ type Props = {
         <>
             <h2 className="pt-10"style={{color: color}}><Link to={`/${topic}`}>{topic.toUpperCase()}</Link></h2>
             <hr style={{background: color}} className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-            <div className="flex justify-between">
+            <div className="flex justify-between pt-10">
                 {stories?.map((story) => <StoryCard key={story.id} id={story.id} image={story.cover_url} title={story.name} body={story.body}/>)}
             </div>
         </>

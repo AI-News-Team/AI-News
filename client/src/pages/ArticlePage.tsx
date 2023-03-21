@@ -39,13 +39,6 @@ const ArticlePage = () => {
             }})
     },[data])
 
-        console.log(color)
-
-    // console.log(color)
-
-        
-    // });
-
 return (
     <>
         <h2 className="pt-10"style={{color: color}}>{data?.category.toUpperCase()}</h2>

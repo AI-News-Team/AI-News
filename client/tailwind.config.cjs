@@ -24,6 +24,8 @@ module.exports = {
     //   world: '#7800FF',
     // },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp')
+  ],
   variants: ["responsive", "group-hover", "hover", "focus"],
 }

@@ -32,7 +32,7 @@ const TopicPage = ({ topic, color }: Props) => {
 
     return (
       <>
-        <h2 className="pt-10" style={{ color: color }}>
+        <h2 className="pt-10 font-bold" style={{ color: color }}>
           {topic.toUpperCase()}
         </h2>
         <hr

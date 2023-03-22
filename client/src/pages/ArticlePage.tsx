@@ -40,7 +40,7 @@ const ArticlePage = () => {
 
 return (
   <>
-    <h2 className="pt-10" style={{ color: color }}>
+    <h2 className="pt-10 font-bold" style={{ color: color }}>
       {data?.category.toUpperCase()}
     </h2>
     <hr

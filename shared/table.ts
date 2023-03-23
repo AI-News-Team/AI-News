@@ -1,10 +1,10 @@
 import { Result } from "./api";
-import { Category, Categories } from './category';
+import { Category, Categories } from "./category";
 
 export type Table = Document | User;
 
 /**
- * Defines a raw document scrapped from news outlets
+ * Defines a full article returned from the API
  */
 export type Article = {
   id: number;
@@ -16,13 +16,19 @@ export type Article = {
   cover_url?: string;
   publication_date?: string | null;
 };
-export type DocumentResult = Result<Document>;
+export type ArticleResult = Result<Article>;
+
+/**
+ * Defines a raw article returned in a list of articles
+ */
+export type ArticleThumbnail = Omit<Article, "body">;
+export type ArticleThumbnailResult = Result<Article>;
 
 export type ArticleSummary = {
   top_stories: Article[];
 } & {
   [key in Category]: Article[];
-}
+};
 export type ArticleSummaryResult = Result<ArticleSummary>;
 
 /**

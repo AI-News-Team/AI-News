@@ -19,7 +19,7 @@ export const articleRouter = createRouter('article', {
 	list: {
 		method: 'get',
 		handler: (_, res) => {
-			client.query<Article>('select * from Article', (err, result) => {
+			client.query<Article>('select name, author, publication_date, category, source_url, cover_url from Article', (err, result) => {
 				if (err)
 					Error(res, INTERNAL_SERVER_ERROR, {
 						message: err.message || 'An unknown error occurred',

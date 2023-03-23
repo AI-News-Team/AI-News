@@ -5,6 +5,7 @@ import TopicSection from "../components/page-components/TopicSection";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getData } from "../utils/axios";
+import { Article } from "@shared";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
 const currentDomain=`${domain}article.summary`
@@ -20,17 +21,7 @@ type Props = {
 }
 
 type Stories = {
-    stories: Story[]
-}
-
-type Story = {
-    id: number,
-    name: string,
-    author: string,
-    body: string,
-    source_url: string,
-    cover_url: string,
-    category: string
+    stories: Article[]
 }
 
 const Home = (props: Props) => {

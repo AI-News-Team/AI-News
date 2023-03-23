@@ -1,19 +1,10 @@
 import { useState, useEffect } from "react";
 import { getData } from "../../utils/axios";
 import CompactStoryCard from "./CompactStoryCard";
+import { Article } from "@shared";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN;
 const allArticles = `${domain}article.list`;
-
-type Story = {
-  id: number;
-  name: string;
-  author: string;
-  body: string;
-  source_url: string;
-  cover_url: string;
-  category: string;
-};
 
 type Props = {
   color: string
@@ -21,7 +12,7 @@ type Props = {
 
 const LeadingSidebar = ({ color }: Props) => {
 
-    const [data, setData] = useState<Story[]>();
+    const [data, setData] = useState<Article[]>();
 
     const leadingStories = data?.slice(0, 5);
 

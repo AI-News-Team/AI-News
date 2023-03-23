@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 type Props = {
   id: number;
   title: string;
-  image: string;
-  body: string;
+  image?: string;
+  body: string[];
 };
 
 const StoryCard = ({ image, title, body, id }: Props) => {

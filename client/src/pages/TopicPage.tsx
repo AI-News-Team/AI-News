@@ -7,7 +7,6 @@ import { getData } from "../utils/axios";
 const domain = import.meta.env.VITE_SERVER_DOMAIN
 const currentDomain=`${domain}article.list`
 
-
 type Props = {
     topic: string,
     color: string

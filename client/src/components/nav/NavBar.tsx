@@ -15,7 +15,7 @@ const NavBar = ({ topics }: Props) => {
     return (
         <>
         <div className="bg-black flex justify-center">
-            <nav className="w-[80em] text-white flex h-20">
+            <nav className="w-[80em] text-white flex h-16">
                 <div className="my-auto">
                     <Link to="/" className="leading-none text-4xl font-black mr-8 pt-0">D<span className="text-pink-700">AI</span>LY</Link>
                 </div>

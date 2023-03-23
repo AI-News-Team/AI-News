@@ -1,20 +1,11 @@
 import StoryCard from "./StoryCard";
 import { Link } from "react-router-dom";
-
-type Story = {
-  id: number;
-  name: string;
-  author: string;
-  body: string;
-  source_url: string;
-  cover_url: string;
-  category: string;
-};
+import { Article } from "@shared";
 
 type Props = {
   topic: string;
   color: string;
-  stories: Story[];
+  stories: Article[];
 };
 
 const TopicSection = ({ topic, color, stories }: Props) => {

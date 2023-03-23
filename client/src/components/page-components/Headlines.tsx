@@ -1,17 +1,8 @@
 import HeadlineCard from "./HeadlineCard"
+import { Article } from "@shared";
 
 type Props = {
-    stories: Story[]
-}
-
-type Story = {
-    id: number,
-    name: string,
-    author: string,
-    body: string,
-    source_url: string,
-    cover_url: string,
-    category: string
+    stories: Article[]
 }
 
 const Headlines = ( props: Props ) => {

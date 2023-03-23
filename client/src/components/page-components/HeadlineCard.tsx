@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 type Props = {
     id: number
     headline: string;
-    img: string;
+    img?: string;
   };
 
 const HeadlineCard = ({ id, headline, img }: Props) => {

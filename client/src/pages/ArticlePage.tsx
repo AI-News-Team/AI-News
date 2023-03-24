@@ -44,7 +44,6 @@ return (
         <img className="object-cover h-96 w-full" src={data?.cover_url} />
         <h3 className="py-6">{data?.author}</h3>
         {data?.body.map(text => <p className="py-2">{text}</p>)}
-        {/* <p className="py-3">{data?.body}</p> */}
       </div>
       <div className="w-4/12 pl-20">
         <LeadingSidebar color={color!} />

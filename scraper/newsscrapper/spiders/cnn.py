@@ -4,6 +4,12 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from newsscrapper.items import Article
 
+import datetime
+import re
+import pytz
+
+#   to install pytz module for converting time to UTC
+#   pip install pytz
 #
 #   cd to spiders
 #   scrapy crawl cnn (to run spider)
@@ -24,26 +30,27 @@ class CNNSpider(scrapy.Spider):
     def getArticle(self, response):
         item = Article()
         
-        item['name'] = response.xpath('//h1/text()').get()
+        item['name'] = response.xpath('//h1[@id="maincontent"]/text()').get().strip()
+
         item['author'] = response.xpath('//span[@class="byline__name"]/text()').get()
-        item['date'] = response.xpath('//div[@class="timestamp"]/text()').get()
+
+        item['date'] = response.xpath('//div[@class="timestamp"]/text()').get().strip()
+        item['date'] = item['date'].replace('Updated\n', '').replace('Published\n', '')
+        item['date'] = item['date'].strip()
+
         item['category'] = 'World'
         
-        if response.xpath('//div[@class="article__content"]/p[a[contains(@href, "/a")]]'):
-            body_text = response.xpath('//div[@class="article__content"]/p//text()').getall()
-
-        else:
-            body_text = response.xpath('//div[@class="article__content"]/p/text()').getall()
-
-        for i in range(len(body_text)):
-            body_text[i] = body_text[i].strip()
-
+        body_text = [text.strip() for text in response.xpath('//div[@class="article__content"]/p//text()').getall()]
         body_text = ' '.join(body_text)
-
         item['body'] = body_text
 
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//picture[@class="image__picture"]/source/@srcset').get()
+        
+        if response.xpath('//div[@class="gallery-inline__container"]'):
+            item['body'] = response.xpath('//span[@class="inline-placeholder"]/text()').getall()
+            item['cover_url'] = response.xpath('//picture[@class="image_gallery-image__picture"]/img/@src').getall()
+
 
         yield item
 

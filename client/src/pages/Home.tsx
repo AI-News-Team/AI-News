@@ -5,8 +5,11 @@ import TopicSection from "../components/page-components/TopicSection";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getData } from "../utils/axios";
+import { Article } from "@shared";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
+const currentDomain=`${domain}article.summary`
+const allArticlesDomain=`${domain}article.list`
 
 type Topic = {
     topic: string,
@@ -18,30 +21,25 @@ type Props = {
 }
 
 type Stories = {
-    stories: Story[]
-}
-
-type Story = {
-    name: string,
-    author: string,
-    body: string,
-    source_url: string,
-    cover_url: string,
-    category: string
+    stories: Article[]
 }
 
 const Home = (props: Props) => {
 
+    const news:string = "news"
+
     const [data, setData] = useState<any>();
+    const [headlines, setHeadlines] = useState<any>();
             
         useEffect(() => {
-            getData(domain, setData)
+            getData(currentDomain, setData)
+            getData(allArticlesDomain, setHeadlines)
         },[])
         
     return (
     <>
-        <Headlines stories={data}/>
-        {props.topics.map(topic =>  <TopicSection topic={topic.topic} color={topic.color} stories={data}/>)}
+        <Headlines stories={headlines}/>
+        {props.topics.map(topic =>  <TopicSection key={topic.topic} topic={topic.topic} color={topic.color} stories={data?.[topic.topic]}/>)}
     </>
     )
 }

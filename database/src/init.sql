@@ -29,7 +29,7 @@ values (
         'news',
         '["The officer engaged in a foot chase with the raccoon, which led to the officer traveling ''a quarter mile in steps within 10 square feet'' as the animal attempted to evade capture", "The officer was eventually able to grab the raccoon and remove the jar."]',
         'https://www.upi.com/Odd_News/2023/03/02/Oak-Grove-police-raccoon-jar-video/5671677787328/',
-        null
+        'https://www.irishnews.com/picturesarchive/irishnews/irishnews/2017/03/09/180005893-a2d58e60-3107-49b3-a0e4-0e29c187dfd4.jpg'
 ),(
         'World''s Ugliest Dog contest seeking unalluring canines for 2023 competition',
         'Ben Hooper',
@@ -37,4 +37,11 @@ values (
         '["The contest, held each June at the Sonoma-Marin Fair, said it is seeking dogs with ''too little hair, too many wrinkles, an unusual nose or a funny waddle'' to compete in this year''s competition. "]',
         'https://www.upi.com/Odd_News/2023/02/28/Worlds-Ugliest-Dog-contest-accepting-applications/9171677609998/',
         'https://cdnph.upi.com/svc/sv/i/9171677609998/2023/1/16776103117700/Worlds-Ugliest-Dog-contest-seeking-unalluring-canines-for-2023-competition.jpg'
-);
+),(
+        'This is the world''s greatest story',
+        'Ben Hooper',
+        'news',
+        '["Look, Its the world''s most important story and you must pay attention to it.  Without this story the world as we know it will never be the same.  Thank you."]',
+        'https://www.upi.com/Odd_News/2023/02/28/Worlds-Ugliest-Dog-contest-accepting-applications/9171677609998/',
+        'https://images.squarespace-cdn.com/content/v1/60e6341f017575363ab46dbc/1627357208379-MVVT1Q1MZXUAFYOFJ3W3/placeholder-world.png'
+);;

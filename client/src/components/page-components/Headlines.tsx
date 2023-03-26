@@ -1,23 +1,20 @@
 import HeadlineCard from "./HeadlineCard"
+import { Article } from "@shared";
 
 type Props = {
-    stories: Story[]
-}
-
-type Story = {
-    name: string,
-    author: string,
-    body: string,
-    source_url: string,
-    cover_url: string,
-    category: string
+    stories: Article[]
 }
 
 const Headlines = ( props: Props ) => {
-    return (
+
+    const firstFourStories = props.stories?.slice(0, 4)
+
+    return (<>
+        {console.log(props.stories)}
         <div className="w-full flex justify-between px-10">
-            {props.stories?.map(story => <HeadlineCard img={story.cover_url} headline={story.name}/>)}
+            {firstFourStories?.map(story => <HeadlineCard key={story.id} id={story.id} img={story.cover_url} headline={story.name}/>)}
         </div>
+        </>
     )
 }
 

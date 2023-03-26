@@ -15,13 +15,12 @@ class BbcSpider(scrapy.Spider):
     allowed_domains = ['bbc.com']
     start_urls = ['https://www.bbc.com/news']
 
-    # rules = (
-    #     Rule(
-    #         LinkExtractor (allow=('/news', '/sport', '/world', '/asia', '/uk', '/business', '/technology', '/science_and_environment', '/stories')), 
-    #         callback='parse', 
-    #         follow=True
-    #     ),
-    # )
+    custom_settings = {
+        'SETTINGS_MODULE': 'newsscrapper.settings.settings_bbc',
+        'ITEM_PIPELINES': {
+            'newsscrapper.pipelines.pipeline_bbc.PipelineBBC': 100,
+        }
+    }
 
     def parse(self, response):
         for href in response.xpath('//a[contains(@class, "gs-c-promo-heading")]/@href'): 

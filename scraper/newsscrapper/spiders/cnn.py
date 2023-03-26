@@ -4,10 +4,6 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from newsscrapper.items import Article
 
-import datetime
-import re
-import pytz
-
 #   to install pytz module for converting time to UTC
 #   pip install pytz
 #
@@ -20,6 +16,13 @@ class CNNSpider(scrapy.Spider):
     name = "cnn"
     allowed_domains = ['edition.cnn.com']
     start_urls = ['https://edition.cnn.com/world']
+
+    custom_settings = {
+        'SETTINGS_MODULE': 'newsscrapper.settings.settings_cnn',
+        'ITEM_PIPELINES': {
+            'newsscrapper.pipelines.pipeline_cnn.PipelineCNN': 100,
+        }
+    }
 
     def parse(self, response):
         for href in response.xpath('//div[@class="stack"]//a/@href'):
@@ -46,11 +49,10 @@ class CNNSpider(scrapy.Spider):
 
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//picture[@class="image__picture"]/source/@srcset').get()
-        
+
         if response.xpath('//div[@class="gallery-inline__container"]'):
             item['body'] = response.xpath('//span[@class="inline-placeholder"]/text()').getall()
             item['cover_url'] = response.xpath('//picture[@class="image_gallery-image__picture"]/img/@src').getall()
-
 
         yield item
 

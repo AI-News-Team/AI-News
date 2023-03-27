@@ -9,7 +9,7 @@ import ArticlePage from './pages/ArticlePage'
 
 function App() {
 
-  const topics = ["news", "gardening"]
+  const topics = ["news", "gardening", "sport", "motoring", "politics", "business", "culture" ,"world"]
 
   const topicDetails: Topic[] = colors.filter(color => {
     if (topics.includes(color.topic)) {

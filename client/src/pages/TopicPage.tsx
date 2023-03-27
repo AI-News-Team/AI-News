@@ -5,22 +5,23 @@ import StoryCard from "../components/page-components/StoryCard";
 import { getData } from "../utils/axios";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
-const currentDomain=`${domain}article.list`
 
 type Props = {
-    topic: string,
-    color: string
-  };
+  topic: string,
+  color: string
+};
 
 const TopicPage = ({ topic, color }: Props) => {
+  
+  const currentDomain=`${domain}article.list/${topic}`
+  
 
     const [data, setData] = useState<any[]>([])
     const [storiesFilterd, setStoriesFilterd] = useState<any[]>([]);
 
     useEffect(() => {
         getData(currentDomain, setData)
-
-    },[])
+    },[topic])
 
     useEffect(() => {
         const stories = data?.filter((story) => {

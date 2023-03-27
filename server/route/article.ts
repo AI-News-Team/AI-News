@@ -2,9 +2,8 @@ import { client } from '../database';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from '../constant/code';
 import createRouter, { Error, Success } from './router';
 import format from 'pg-format';
-import { Article, ArticleSummary } from '@shared';
-import { AssertKeySchema } from '../util/schema';
-import { Categories } from '../../shared/category';
+import { AssertKeySchema, getListParams } from '../util/schema';
+import { Article, ArticleSummary, Categories } from '../../shared';
 
 export const insertionKeySchema = [
   'name',
@@ -19,8 +18,15 @@ export const insertionKeySchema = [
 export const articleRouter = createRouter('article', {
   list: {
     method: 'get',
-    params: ['category'],
+    pathParams: ['category'],
+    queryParams: ['filter', 'for', 'sort', 'order'],
     handler: (req, res) => {
+      const {
+        filter,
+        for: _for,
+        sort,
+        order,
+      } = getListParams<Article>(req.query, ['name', 'publication_date', 'author'], ['name', 'publication_date', 'author']);
       const { category } = req.params;
 
       if (!Categories.includes(category as any))
@@ -29,14 +35,26 @@ export const articleRouter = createRouter('article', {
           type: 'QueryError',
         });
 
-      const projection = 'select name, author, publication_date, category, source_url, cover_url from Article';
-      const filter = category ? ` where category = $1` : '';
+      const projection = 'select id, name, author, publication_date, category, source_url, cover_url from Article';
+      let where = ` where category = $1`;
 
-      client.query<Article>(projection + filter, [category], (err, result) => {
+      const parameters = [category];
+
+      if (filter && sort) {
+        parameters.push(_for!);
+        where += ` and ${filter} = $2 order by ${sort} ${order}`; // pre-validation of `sort` & `order` prevents SQL injection without parameterization
+      } else if (filter) {
+        parameters.push(_for!);
+        where += ` and ${filter} like $2`;
+      } else if (sort) {
+        where += ` order by ${sort} ${order}`; // pre-validation of `sort` & `order` prevents SQL injection without parameterization
+      }
+
+      client.query<Article>(projection + where, parameters, (err, result) => {
         if (err)
           Error(res, INTERNAL_SERVER_ERROR, {
             message: err.message || 'An unknown error occurred',
-            type: 'QueryError',
+            type: 'DatabaseError',
           });
         else Success(res, result.rows);
       });
@@ -44,7 +62,7 @@ export const articleRouter = createRouter('article', {
   },
   get: {
     method: 'get',
-    params: ['id'],
+    pathParams: ['id'],
     handler: (req, res) => {
       const { id } = req.params;
 
@@ -55,14 +73,14 @@ export const articleRouter = createRouter('article', {
         });
       }
 
-      client.query<Article>('select * from Article where category = $1', [id], (err, result) => {
+      client.query<Article>('select * from Article where id = $1', [id], (err, result) => {
         if (err) {
           Error(res, INTERNAL_SERVER_ERROR, {
             message: err.message || 'An unknown error occurred',
             type: 'DatabaseError',
           });
         } else {
-          const data = result.rows.at(0) ?? null;
+          const data = result.rows ?? null;
           Success(res, data);
         }
       });

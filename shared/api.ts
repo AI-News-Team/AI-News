@@ -18,6 +18,26 @@ export type ResultError = {
 };
 
 /**
+ * Defines the possible orders of a query
+ */
+export const orders = ["asc", "desc"] as const;
+
+/**
+ * Defines an order
+ */
+export type Order = typeof orders[number];
+
+/**
+ * Defines the parameters of some list|get query
+ */
+export type ListQueryParams = {
+  filter?: string;
+  for?: string;
+  sort?: string;
+  order?: Order;
+};
+
+/**
  * Defines the result of a query of `T`
  * @param T the unconstrained type of a query
  */

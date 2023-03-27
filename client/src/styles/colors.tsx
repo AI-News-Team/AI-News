@@ -4,7 +4,7 @@ const colors = [{
     color: "#2596be"
 },{
     topic: "news",
-    color: "#2596be"
+    color: "#cc0099"
 },
 {
     topic: "politics",
@@ -17,6 +17,18 @@ const colors = [{
 {
     topic: "gardening",
     color: "#0aa834"
+},
+{
+    topic: "motoring",
+    color: "#ffcc66"
+},
+{
+    topic: "business",
+    color: "#009999"
+},
+{
+    topic: "culture",
+    color: "#ff9933"
 }
 ]
 

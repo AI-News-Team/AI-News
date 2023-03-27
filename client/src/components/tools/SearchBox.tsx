@@ -10,7 +10,7 @@ const SearchBox =() => {
             name="search"
           />
           <button className="ml-auto px-1" type="submit">
-            <i className="fa-solid fa-magnifying-glass" />
+            <i className="fa-solid fa-magnifying-glass text-black" />
           </button>
         </form>
       </>

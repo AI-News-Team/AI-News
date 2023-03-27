@@ -4,21 +4,28 @@ import CompactStoryCard from "./CompactStoryCard";
 import { Article } from "@shared";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN;
-const allArticles = `${domain}article.list`;
+const summaryArticles = `${domain}article.summary`;
 
 type Props = {
   color: string
 };
 
+type Topic = {
+  topic: string,
+  color: string
+};
+
 const LeadingSidebar = ({ color }: Props) => {
 
-    const [data, setData] = useState<Article[]>();
+    const [data, setData] = useState<any>();
 
-    const leadingStories = data?.slice(0, 5);
+    // const leadingStories = data?.slice(0, 5);
 
     useEffect(() => {
-      getData(allArticles, setData);
+      getData(summaryArticles, setData);
     }, []);
+
+    console.log(data?.news)
 
   return (
     <>
@@ -26,7 +33,7 @@ const LeadingSidebar = ({ color }: Props) => {
         <h2 style={{ color: color, borderBottom: `1px solid ${color}`}} className="border-b w-full p-2 mb-5 text-white text-center ">
           LEADING STORIES
         </h2>
-        {leadingStories?.map((story) => (
+        {data?.news.map((story: Article) => (
           <CompactStoryCard
             id={story.id}
             image={story.cover_url}

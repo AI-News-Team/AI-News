@@ -81,7 +81,7 @@ export const articleRouter = createRouter('article', {
           });
         } else {
           const data = result.rows ?? null;
-          Success(res, data);
+          Success(res, data[0]);
         }
       });
     },

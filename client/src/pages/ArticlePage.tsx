@@ -18,6 +18,8 @@ const ArticlePage = () => {
 
     const [data, setData] = useState<Article>();
 
+    // console.log(data)
+    
     useEffect(()=>{
         getData(currentDomain, setData)
         },[])
@@ -32,6 +34,7 @@ const ArticlePage = () => {
 return (
   <>
     <h2 className="pt-10 font-bold" style={{ color: color }}>
+      
       {data?.category.toUpperCase()}
     </h2>
     <hr

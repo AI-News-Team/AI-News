@@ -30,7 +30,7 @@ export function getListParams<T extends Record<string, unknown>>(
 
   if (filter) {
     if (typeof filter !== 'string') throw new InvalidType('filter', filter, 'string');
-    if (!filterable.includes(filter)) throw new Error(`Cannot filter by \`${filter}\`'`);
+    if (!filterable.includes(filter)) throw new Error(`Cannot filter by \`${filter}\``);
     if (typeof _for !== 'string') throw new InvalidType('for', _for, 'string');
 
     query.filter = filter;
@@ -39,7 +39,7 @@ export function getListParams<T extends Record<string, unknown>>(
 
   if (sort) {
     if (typeof sort !== 'string') throw new InvalidType('filter', sort, 'string');
-    if (!sortable.includes(sort)) throw new Error(`Cannot sort by '${sort}'`);
+    if (!sortable.includes(sort)) throw new Error(`Cannot sort by \`${sort}\``);
 
     if (typeof params.order === 'string' && !orders.includes(params.order as Order))
       throw new InvalidType('order', params.order, 'asc | desc');

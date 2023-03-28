@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { noImage } from "../../images/commonImages";
 
 type Props = {
   id: number;
@@ -15,7 +16,7 @@ const StoryCard = ({ image, title, body, id }: Props) => {
         <img src={image} alt="" className="object-cover h-72 w-full" />
       </Link>
         :<Link to={`/article/${id}`}>
-        <img src="https://icon-library.com/images/no-image-available-icon/no-image-available-icon-10.jpg" alt="" className="object-cover h-72 w-full" />
+        <img src={noImage} alt="" className="object-cover h-72 w-full" />
       </Link>
       }
       <div className="bg-white p-4 h-26 border-t">

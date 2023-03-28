@@ -23,7 +23,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className='flex flex-col min-h-screen'>
       <NavBar topics={topics} />
       <div className="w-[80em] mx-auto py-10">
         <Routes>
@@ -39,7 +39,7 @@ function App() {
         </Routes>
       </div>
       <Footer topics={topics} />
-    </>
+    </div>
   );
 }
 

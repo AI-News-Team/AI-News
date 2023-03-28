@@ -9,10 +9,12 @@ type Props = {
   topics: string[];
 };
 
+const year = new Date().getFullYear();
+
 const Footer = ({ topics }: Props) => {
 
   return (
-    <div className="flex justify-center align-center bg-black mt-10">
+    <div className="flex justify-center align-center bg-black mt-auto">
       <div className="w-[80em]">
         <div className="py-8">
           <SearchBox />
@@ -29,7 +31,7 @@ const Footer = ({ topics }: Props) => {
         </div>
         <hr className="h-px my-8 bg-gray-600 border-0 dark:bg-gray-700"></hr>
         <p className="text-slate-400 text-sm mb-5">
-          © 2023 Artificial Intelligence Daily News. Produced by AI-News-Team.
+          © {year} Artificial Intelligence Daily News. Produced by AI-News-Team.
           All Rights Reserved.
         </p>
       </div>

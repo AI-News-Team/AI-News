@@ -5,6 +5,7 @@ import LeadingSidebar from "../components/page-components/LeadingSidebar";
 import colors from "../styles/colors";
 import React from "react";
 import { Article } from "@shared";
+import { noImage } from "../images/commonImages";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
 
@@ -29,6 +30,8 @@ const ArticlePage = () => {
             }})
     },[data])
 
+    console.log(data)
+
 return (
   <>
     <h2 className="pt-10 font-bold" style={{ color: color }}>
@@ -42,7 +45,10 @@ return (
     <div className="flex">
       <div className="w-8/12 pr-6 border-gray-300 border-r">
         <h1 className="pb-8">{data?.name}</h1>
-        <img className="object-cover h-96 w-full" src={data?.cover_url} />
+        {data?.cover_url 
+        ?<img className="object-cover h-96 w-full" src={data?.cover_url} />
+        :<img className="object-cover h-96 w-full" src={noImage} />
+      }
         <h3 className="py-6">{data?.author}</h3>
         {data?.body.map(text => <p className="py-2">{text}</p>)}
       </div>

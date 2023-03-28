@@ -1,8 +1,6 @@
-import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link, useResolvedPath } from "react-router-dom"
 import SearchBox from "../tools/SearchBox";
+import HomeLogo from "../graphics/HomeLogo";
 
 type Props = {
     topics: string[];
@@ -17,8 +15,8 @@ const NavBar = ({ topics }: Props) => {
         <>
         <div className="bg-black flex justify-center">
             <nav className="w-[80em] text-white flex h-16">
-                <div className="my-auto">
-                    <Link to="/" className="leading-none text-4xl font-black mr-8 pt-0">D<span className="text-pink-700">AI</span>LY</Link>
+                <div className="my-auto pr-4">
+                    <HomeLogo size={4} />
                 </div>
                 <ul className="flex flex-column h-full">
                     {topics.map((topic) =>  
@@ -36,5 +34,4 @@ const NavBar = ({ topics }: Props) => {
 }
 
 const liStyle = "hover:bg-pink-800 flex items-center px-5"
-
 export default NavBar;

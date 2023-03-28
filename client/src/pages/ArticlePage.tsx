@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getData } from "../utils/axios";
-import axios from "axios";
 import LeadingSidebar from "../components/page-components/LeadingSidebar";
 import colors from "../styles/colors";
 import React from "react";
@@ -17,8 +16,6 @@ const ArticlePage = () => {
     const currentDomain=`${domain}article.get/${params.id}`
 
     const [data, setData] = useState<Article>();
-
-    // console.log(data)
     
     useEffect(()=>{
         getData(currentDomain, setData)

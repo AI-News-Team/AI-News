@@ -19,13 +19,9 @@ const LeadingSidebar = ({ color }: Props) => {
 
     const [data, setData] = useState<any>();
 
-    // const leadingStories = data?.slice(0, 5);
-
     useEffect(() => {
       getData(summaryArticles, setData);
     }, []);
-
-    console.log(data?.news)
 
   return (
     <>

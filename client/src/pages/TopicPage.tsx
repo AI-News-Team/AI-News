@@ -22,9 +22,6 @@ const TopicPage = ({ topic, color }: Props) => {
       getData(articleData, setData)
     },[topic])
 
-
-    console.log(data)
-
     return (
       <>
         <h2 className="pt-10 font-bold" style={{ color: color }}>

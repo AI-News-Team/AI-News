@@ -38,7 +38,7 @@ const Home = (props: Props) => {
         
     return (
     <>
-        <Headlines stories={headlines}/>
+        <Headlines stories={data?.news}/>
         {props.topics.map(topic =>  <TopicSection key={topic.topic} topic={topic.topic} color={topic.color} stories={data?.[topic.topic]}/>)}
     </>
     )

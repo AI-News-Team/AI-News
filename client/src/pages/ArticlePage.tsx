@@ -19,6 +19,7 @@ const ArticlePage = () => {
     
     useEffect(()=>{
         getData(currentDomain, setData)
+        window.scrollTo(0, 0);
         },[])
 
     useEffect(()=>{

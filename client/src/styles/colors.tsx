@@ -1,10 +1,11 @@
 
 const colors = [{
-    topic: "sport",
-    color: "#2596be"
-},{
     topic: "news",
     color: "#cc0099"
+},
+{
+    topic: "sport",
+    color: "#2596be"
 },
 {
     topic: "politics",

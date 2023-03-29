@@ -1,14 +1,18 @@
 import json
 import requests
 import os
+from scrapy import Spider
+from itemadapter import ItemAdapter
 
-class PipelineCNN:
+class NewsscrapperPipeline:
     def __init__(self):
         self.url = 'http://localhost:3000/article.create'
     
     def process_item(self, item, spider):
-
-        output_file_path = 'spiders/cnn_output.json'
+        return item
+    
+    def closed_spider(self, spider):
+        output_file_path = spider.settings.get('OUTPUT_FILE')
         
         with open(output_file_path, encoding="utf8") as f:
             data = json.load(f)
@@ -27,5 +31,3 @@ class PipelineCNN:
                 os.remove(output_file_path)
             else:
                 print(f'File "{output_file_path}" does not exist.')
-
-        return item

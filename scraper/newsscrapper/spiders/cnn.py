@@ -16,12 +16,11 @@ class CNNSpider(scrapy.Spider):
     name = "cnn"
     allowed_domains = ['edition.cnn.com']
     start_urls = ['https://edition.cnn.com/world']
+    output_file = 'data/cnn_output.json'
 
     custom_settings = {
-        'SETTINGS_MODULE': 'newsscrapper.settings.settings_cnn',
-        'ITEM_PIPELINES': {
-            'newsscrapper.pipelines.pipeline_cnn.PipelineCNN': 100,
-        }
+        'FEED_URI': 'data/cnn_output.json',
+        'OUTPUT_FILE': output_file
     }
 
     def parse(self, response):

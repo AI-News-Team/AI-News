@@ -14,12 +14,11 @@ class BbcSpider(scrapy.Spider):
     name = "bbc"
     allowed_domains = ['bbc.com']
     start_urls = ['https://www.bbc.com/news']
+    output_file = 'data/bbc_output.json'
 
     custom_settings = {
-        'SETTINGS_MODULE': 'newsscrapper.settings.settings_bbc',
-        'ITEM_PIPELINES': {
-            'newsscrapper.pipelines.pipeline_bbc.PipelineBBC': 100,
-        }
+        'FEED_URI': 'data/bbc_output.json',
+        'OUTPUT_FILE': output_file
     }
 
     def parse(self, response):

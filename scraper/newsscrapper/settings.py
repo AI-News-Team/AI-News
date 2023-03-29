@@ -2,7 +2,9 @@ BOT_NAME = "newsscrapper"
 
 SPIDER_MODULES = ["newsscrapper.spiders"]
 NEWSPIDER_MODULE = "newsscrapper.spiders"
-PIPELINE_MODULE = 'newsscrapper.pipelines'
+ITEM_PIPELINES = {
+   "newsscrapper.pipelines.NewsscrapperPipeline": 300,
+}
 
 ROBOTSTXT_OBEY = True
 
@@ -18,4 +20,3 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 FEED_EXPORT_FIELDS = ["name", "author", "date", "body", "category", "source_url", "cover_url"]
 FEED_FORMAT = "json"
-FEED_URI = 'data/cnn_output.json'

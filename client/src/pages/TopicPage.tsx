@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import StoryCard from "../components/page-components/StoryCard";
 import { getData } from "../utils/axios";
+import Sort from "../components/tools/Sort";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
 
@@ -29,8 +30,9 @@ const TopicPage = ({ topic, color }: Props) => {
         </h2>
         <hr
           style={{ background: color }}
-          className="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-12"
+          className="h-px bg-gray-200 border-0 dark:bg-gray-700"
         ></hr>
+        <Sort />
         { data.length
         ?<div className="flex justify-between flex-wrap gap-y-10">
           {data?.map((story) => (

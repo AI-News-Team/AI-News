@@ -2,7 +2,7 @@ const SearchBox =() => {
 
     return (
       <>
-        <form className="bg-white flex p-2 ">
+        <form className="bg-white flex p-2 text-black">
           <input
             className="w-full"
             type="text"
@@ -10,7 +10,7 @@ const SearchBox =() => {
             name="search"
           />
           <button className="ml-auto px-1" type="submit">
-            <i className="fa-solid fa-magnifying-glass text-black" />
+            <i className="fa-solid fa-magnifying-glass" />
           </button>
         </form>
       </>

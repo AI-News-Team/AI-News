@@ -1,9 +1,10 @@
 
 const colors = [{
-    topic: "sport",
-    color: "#2596be"
-},{
     topic: "news",
+    color: "#cc0099"
+},
+{
+    topic: "sport",
     color: "#2596be"
 },
 {
@@ -17,6 +18,18 @@ const colors = [{
 {
     topic: "gardening",
     color: "#0aa834"
+},
+{
+    topic: "motoring",
+    color: "#ffcc66"
+},
+{
+    topic: "business",
+    color: "#009999"
+},
+{
+    topic: "culture",
+    color: "#ff9933"
 }
 ]
 

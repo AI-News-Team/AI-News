@@ -1,5 +1,6 @@
 import './App.css'
 import NavBar from './components/nav/NavBar'
+import Footer from './components/footer/Footer'
 import { Route, Routes } from "react-router-dom"
 import Home from './pages/Home'
 import TopicPage from './pages/TopicPage'
@@ -8,7 +9,7 @@ import ArticlePage from './pages/ArticlePage'
 
 function App() {
 
-  const topics = ["news", "gardening"]
+  const topics = ["news", "gardening", "motoring", "politics", "business", "culture" ,"world", "sport"]
 
   const topicDetails: Topic[] = colors.filter(color => {
     if (topics.includes(color.topic)) {
@@ -22,7 +23,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className='flex flex-col min-h-screen'>
       <NavBar topics={topics} />
       <div className="w-[80em] mx-auto py-10">
         <Routes>
@@ -37,7 +38,8 @@ function App() {
           <Route path="/article/:id" element={<ArticlePage />} />
         </Routes>
       </div>
-    </>
+      <Footer topics={topics} />
+    </div>
   );
 }
 

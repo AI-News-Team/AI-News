@@ -1,2 +1,2 @@
 cd newsscrapper/spiders
-scrapy crawl bbc
+scrapy crawl cnn

@@ -10,5 +10,3 @@ class Article(scrapy.Item):
     body = scrapy.Field()
     source_url = scrapy.Field()
     cover_url = scrapy.Field()
-
-

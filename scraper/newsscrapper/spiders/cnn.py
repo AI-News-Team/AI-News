@@ -4,6 +4,10 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from newsscrapper.items import Article
 
+import json
+import requests
+import os
+
 #   to install pytz module for converting time to UTC
 #   pip install pytz
 #
@@ -19,8 +23,8 @@ class CNNSpider(scrapy.Spider):
     output_file = 'data/cnn_output.json'
 
     custom_settings = {
-        'FEED_URI': 'data/cnn_output.json',
-        'OUTPUT_FILE': output_file
+        # 'FEED_URI': 'data/cnn_output.json',
+        # 'OUTPUT_FILE': output_file
     }
 
     def parse(self, response):
@@ -54,4 +58,27 @@ class CNNSpider(scrapy.Spider):
             item['cover_url'] = response.xpath('//picture[@class="image_gallery-image__picture"]/img/@src').getall()
 
         yield item
+
+
+
+    # def spider_closed(self, spider):
+    #     output_file_path = 'data/cnn_output.json'
+        
+    #     with open(output_file_path, encoding="utf8") as f:
+    #         data = json.load(f)
+    #         response = requests.post(
+    #             self.url, json = {"articles": data}, 
+    #             headers={'Content-Type': 'application/json'}
+    #         )
+        
+    #         if response.status_code != 200:
+    #             raise Exception('Failed to send data: {response.text}')
+            
+    #         if response.status_code == 200:
+    #             print('Data sent successfully')
+
+    #             if os.path.exists(output_file_path):
+    #                 os.remove(output_file_path)
+    #             else:
+    #                 print(f'File "{output_file_path}" does not exist.')
 

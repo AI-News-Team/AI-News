@@ -16,6 +16,8 @@ export const insertionKeySchema = [
   'cover_url',
 ] as const;
 
+type FakeCategory = { fake_category: string }; // todo: delete me!
+
 export const articleRouter = createRouter('article', {
   list: {
     method: 'get',
@@ -155,23 +157,40 @@ export const articleRouter = createRouter('article', {
   summary: {
     method: 'get',
     handler: (_, res) => {
-      client.query<Article>(
-        "select * from Article where category = 'news' order by publication_date limit 3",
-        (err, result) => {
-          if (err)
-            return Error(res, INTERNAL_SERVER_ERROR, {
-              message: err.message || 'An unknown error occurred',
-              type: 'DatabaseError',
-            });
+      const ARTICLES_PER_CATEGORY = 4;
+      // todo: remove fake category and use real category
+      const groupCategoriesInThrees = `
+        select id, name, author, publication_date, fake_category category, source_url, cover_url
+        from (
+          select 
+            *,
+            row_number() over (partition by fake_category order by publication_date) index_in_category 
+          from Article 
+        ) categorized_articles 
+        where index_in_category < ${ARTICLES_PER_CATEGORY}
+      `;
 
-          const summary: ArticleSummary = {
-            top_stories: [],
-            news: result.rows,
-          };
+      client.query<Article>(groupCategoriesInThrees, (err, result) => {
+        if (err)
+          return Error(res, INTERNAL_SERVER_ERROR, {
+            message: err.message || 'An unknown error occurred',
+            type: 'DatabaseError',
+          });
 
-          return Success(res, summary);
-        },
-      );
+        const baseSummary: ArticleSummary = {
+          top_stories: [],
+        };
+
+        const categorizeArticles = (articles: Article[]) =>
+          articles.reduce((summaryAcc, article) => {
+            return {
+              ...summaryAcc,
+              [article.category]: [...(summaryAcc[article.category] ?? []), article],
+            };
+          }, baseSummary);
+
+        return Success(res, categorizeArticles(result.rows as Article[]));
+      });
     },
   },
 });

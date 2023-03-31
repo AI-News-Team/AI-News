@@ -1,7 +1,6 @@
 import { Result } from "./api";
-import { Category, Categories } from "./category";
 
-export type Table = Document | User;
+export type Table = Document | Category;
 
 /**
  * Defines a full article returned from the API
@@ -10,7 +9,7 @@ export type Article = {
   id: number;
   name: string;
   author: string;
-  category: Category;
+  category: string;
   body: string[];
   source_url: string;
   cover_url?: string;
@@ -26,19 +25,15 @@ export type ArticleThumbnailResult = Result<Article>;
 
 export type ArticleSummary = {
   top_stories: Article[];
-} & {
-  [key in Category]: Article[];
+  [category: string]: Article[]; // some collection of arbitrary categories in the database
 };
 export type ArticleSummaryResult = Result<ArticleSummary>;
 
 /**
  * A user account for the application
  */
-export type User = {
-  id: number;
-  email: string;
-  password: string;
-  created_at: string;
-  updated_at: string;
+export type Category = {
+  category: string;
+  description: string;
 };
-export type UserResult = Result<User>;
+export type CategoryResult = Result<Category>;

@@ -36,26 +36,27 @@ pip install scrapy
 * That should be it!
 
 ---
-### How to run a Spyder with a script?
-* First of all, go to `scraper` directory
+### How to run Spyders with a script?
+* Add `.env` to `/newsscrapper` directory. There is a `template.env` in `/scraper` that will help you with other sub-setup
+* Then go to `scraper` directory
 ``` shell
 cd scraper/
 ```
-* Run the following to start scraping data with `bbc` spyder:
+* Run the following to start scraping data with `cnn` and `bbc` spiders:
 ``` shell
-./scrapy.sh
+./runspiders.sh
 ```
-### How to run a Spyder manually?
+### How to run a Spider manually?
 * Open the cloned project with any IDE
-* Open terminal and get into `spyders` directory
+* Open terminal and get into `spiders` directory
 ``` shell
 cd scraper/newsscrapper/spiders/
 ``` 
-* If you want to run a spider paste in the console (where **_bbc_** name of the spyder):
+* If you want to run a spider paste in the console (where **_bbc_** name of the spider):
 ``` shell
 scrapy crawl bbc
 ```
-* If you want to test your `xpath` commands without running a spyder everytime, you can run:
+* If you want to test your `xpath` commands without running a spider everytime, you can run:
 ``` shell
-scrapy shell "https://www.bbc.com/news"
+scrapy shell "Your link to the website here. Yes, wrap it in quotes"
 ```

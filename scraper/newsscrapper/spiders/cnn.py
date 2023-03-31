@@ -3,10 +3,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from newsscrapper.items import Article
-
-import json
-import requests
-import os
+from scrapy.loader.processors import TakeFirst, MapCompose
 
 #   to install pytz module for converting time to UTC
 #   pip install pytz
@@ -22,11 +19,6 @@ class CNNSpider(scrapy.Spider):
     start_urls = ['https://edition.cnn.com/world']
     output_file = 'data/cnn_output.json'
 
-    custom_settings = {
-        # 'FEED_URI': 'data/cnn_output.json',
-        # 'OUTPUT_FILE': output_file
-    }
-
     def parse(self, response):
         for href in response.xpath('//div[@class="stack"]//a/@href'):
             url = response.urljoin(href.extract())
@@ -40,45 +32,24 @@ class CNNSpider(scrapy.Spider):
 
         item['author'] = response.xpath('//span[@class="byline__name"]/text()').get()
 
-        item['date'] = response.xpath('//div[@class="timestamp"]/text()').get().strip()
-        item['date'] = item['date'].replace('Updated\n', '').replace('Published\n', '')
-        item['date'] = item['date'].strip()
-
-        item['category'] = 'World'
-        
+        item['publication_date'] = response.xpath('//div[@class="timestamp"]/text()').get()
+        item['publication_date'] = item['publication_date'].split(',', 1)[1].strip() if item['publication_date'] else "Not Found"
+                
         body_text = [text.strip() for text in response.xpath('//div[@class="article__content"]/p//text()').getall()]
         body_text = ' '.join(body_text)
         item['body'] = body_text
+
+        item['category'] = 'news'
 
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//picture[@class="image__picture"]/source/@srcset').get()
 
         if response.xpath('//div[@class="gallery-inline__container"]'):
             item['body'] = response.xpath('//span[@class="inline-placeholder"]/text()').getall()
-            item['cover_url'] = response.xpath('//picture[@class="image_gallery-image__picture"]/img/@src').getall()
+            # item['cover_url'] = response.xpath('//picture[@class="image_gallery-image__picture"]/img/@src').getall()
+
+        for key in ['name', 'author', 'publication_date', 'cover_url']:
+            if not item[key]:
+                item[key] = "Not Found"
 
         yield item
-
-
-
-    # def spider_closed(self, spider):
-    #     output_file_path = 'data/cnn_output.json'
-        
-    #     with open(output_file_path, encoding="utf8") as f:
-    #         data = json.load(f)
-    #         response = requests.post(
-    #             self.url, json = {"articles": data}, 
-    #             headers={'Content-Type': 'application/json'}
-    #         )
-        
-    #         if response.status_code != 200:
-    #             raise Exception('Failed to send data: {response.text}')
-            
-    #         if response.status_code == 200:
-    #             print('Data sent successfully')
-
-    #             if os.path.exists(output_file_path):
-    #                 os.remove(output_file_path)
-    #             else:
-    #                 print(f'File "{output_file_path}" does not exist.')
-

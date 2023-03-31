@@ -1,3 +1,13 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+#--------------------------------------------------------------------------
+# Your variables from .env file
+PORT_NUMBER = os.getenv("PORT_NUMBER")
+#--------------------------------------------------------------------------
+
 BOT_NAME = "newsscrapper"
 
 SPIDER_MODULES = ["newsscrapper.spiders"]
@@ -18,5 +28,5 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 FEED_EXPORT_ENCODING = "utf-8"
-FEED_EXPORT_FIELDS = ["name", "author", "date", "body", "category", "source_url", "cover_url"]
+FEED_EXPORT_FIELDS = ["name", "author", "publication_date", "body", "category", "source_url", "cover_url", ]
 FEED_FORMAT = "json"

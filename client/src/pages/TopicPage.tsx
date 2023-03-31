@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import StoryCard from "../components/page-components/StoryCard";
 import { getData } from "../utils/axios";
-import ParamsDropDown from "../components/tools/ParamDropDown";
+import SortDropDown from "../components/tools/SortDropDown";
 import { useSearchParams } from "react-router-dom";
 
 const domain = import.meta.env.VITE_SERVER_DOMAIN
@@ -12,8 +12,6 @@ type Props = {
   topic: string,
   color: string
 };
-
-console.log(document.location.search);
 
 const TopicPage = ({ topic, color }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams({});
@@ -42,12 +40,13 @@ const TopicPage = ({ topic, color }: Props) => {
           className="h-px bg-gray-200 border-0 dark:bg-gray-700"
         ></hr>
         <div className="flex w-full justify-end">
-          <ParamsDropDown />
+          <SortDropDown />
         </div>
         {data.length ? (
           <div className="flex justify-between flex-wrap gap-y-10 mt-10">
             {data?.map((story) => (
               <StoryCard
+                key={story.id}
                 id={story.id}
                 image={story.cover_url}
                 title={story.name}

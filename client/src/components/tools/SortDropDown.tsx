@@ -8,7 +8,7 @@ type Params = {
 }
 
 const sortOptions: string[] = ["name", "author", "publication_date"];
-const byOptions: string[]  = ["asc","desc"]
+const byOptions: string[]  = ["ascending","descending"]
 
 const SortDropDown = () => {
     const [searchParams, setSearchParams] = useSearchParams({});
@@ -19,7 +19,7 @@ const SortDropDown = () => {
     }
 
     const setOrder = (value: string) => {
-      setParams({ ...params, order: value });
+      setParams({ ...params, order: value === "ascending" ? "asc" : "desc" });
     };
 
     useEffect(() => {

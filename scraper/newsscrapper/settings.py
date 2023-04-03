@@ -16,6 +16,9 @@ ITEM_PIPELINES = {
    "newsscrapper.pipelines.NewsscrapperPipeline": 300,
 }
 
+# Only displays errors in terminal
+LOG_LEVEL = 'ERROR'  
+
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)

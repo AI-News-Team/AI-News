@@ -11,7 +11,8 @@
 %APPDATA%
 ```  
 * Find **_Python_** in this directory and open it
-* Copy an **absolute** path and paste it in your new `Environmet Variable` that we opened before
+* Copy an **absolute** path of `Python311\Scripts` + `Python311\site-packages` and paste it in your new `Environmet Variable` that we opened before
+**NOTE: `Python311\Scripts` + `Python311\site-packages` should be two different environmet variables**
 * Click `OK` on the previously opened tabs
 * Make sure that **_Python_** is installed. Run this(those) command(s) in the terminal:
 ``` shell

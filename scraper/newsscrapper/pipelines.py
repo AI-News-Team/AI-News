@@ -14,7 +14,6 @@ class NewsscrapperPipeline:
     
     def process_item(self, item, spider):
         self.json.append(item)
-        print(item)
         return item
      
     def close_spider(self, spider):

@@ -14,7 +14,6 @@ class BbcSpider(scrapy.Spider):
     name = "bbc"
     allowed_domains = ['bbc.com']
     start_urls = ['https://www.bbc.com/news']
-    output_file = 'data/bbc_output.json'
 
     def parse(self, response):
         for href in response.xpath('//a[contains(@class, "gs-c-promo-heading")]/@href'): 

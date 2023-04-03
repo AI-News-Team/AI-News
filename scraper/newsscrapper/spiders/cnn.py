@@ -17,7 +17,6 @@ class CNNSpider(scrapy.Spider):
     name = "cnn"
     allowed_domains = ['edition.cnn.com']
     start_urls = ['https://edition.cnn.com/world']
-    output_file = 'data/cnn_output.json'
 
     def parse(self, response):
         for href in response.xpath('//div[@class="stack"]//a/@href'):

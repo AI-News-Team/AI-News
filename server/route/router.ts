@@ -1,16 +1,15 @@
 import { Router, Request, Response } from 'express';
-import { Method, Result, Table } from '@shared';
+import { Method, Result, Table, timestamp, ResultError } from '../../shared';
 import { Code, OK, INTERNAL_SERVER_ERROR } from '../constant/code';
-import { ResultError } from '../../shared/api';
-import { timestamp } from '../../shared/time';
 
 import Core from 'express';
 type ExpressInstance = Core.Express;
 
 type Operation = {
-	method: Method;
-	handler: (req: Request, res: Response) => void;
-	params?: string[]
+  method: Method;
+  handler: (req: Request, res: Response) => void;
+  pathParams?: string[];
+  queryParams?: string[];
 };
 type Operations = Record<string, Operation>;
 
@@ -21,27 +20,27 @@ type Operations = Record<string, Operation>;
  * @returns an express router
  */
 export default function createRouter(namespace: string = '', operations: Operations) {
-	return Object.entries(operations).reduce((router, [operation, { method, handler, params }]) => {
-		router[method](`/${namespace}.${operation}${params ? "/:" + params.join('/:') : ''}`, (req, res) => {
-			try {
-				handler(req, res);
-			} catch (error) {
-				// handle the unhandled errors
-				return Error(res, INTERNAL_SERVER_ERROR, {
-					message: (error as any).message || 'An unknown error occurred',
-					type: 'UnhandledError',
-				});
-			}
-		});
-		return router;
-	}, Router());
+  return Object.entries(operations).reduce((router, [operation, { method, handler, pathParams }]) => {
+    router[method](`/${namespace}.${operation}${pathParams ? '/:' + pathParams.join('/:') : ''}`, (req, res) => {
+      try {
+        handler(req, res);
+      } catch (error) {
+        // handle the unhandled errors
+        return Error(res, INTERNAL_SERVER_ERROR, {
+          message: (error as any).message || 'An unknown error occurred',
+          type: 'UnhandledError',
+        });
+      }
+    });
+    return router;
+  }, Router());
 }
 export function useRouter(instance: ExpressInstance, namespace: string = '/', router: Router) {
-	instance.use('/', router);
+  instance.use('/', router);
 }
 
 function createResponse<T>(res: Response, code: Code, result: Result<T>) {
-	res.status(code).json(result);
+  res.status(code).json(result);
 }
 
 /**
@@ -50,12 +49,12 @@ function createResponse<T>(res: Response, code: Code, result: Result<T>) {
  * @param data data to respond with
  */
 export function Success<T>(res: Response, data: T | null = null) {
-	const result: Result<T> = {
-		data,
-		error: null,
-		success: true,
-	};
-	createResponse(res, OK, result);
+  const result: Result<T> = {
+    data,
+    error: null,
+    success: true,
+  };
+  createResponse(res, OK, result);
 }
 
 /**
@@ -65,11 +64,11 @@ export function Success<T>(res: Response, data: T | null = null) {
  * @param error error to respond with
  */
 export function Error(res: Response, code: Code, error: ResultError) {
-	console.error(`[${timestamp()}] ${error.message}`);
-	const result: Result<unknown> = {
-		data: null,
-		error,
-		success: false,
-	};
-	createResponse(res, code, result);
+  console.error(`[${timestamp()}] ${error.message}`);
+  const result: Result<unknown> = {
+    data: null,
+    error,
+    success: false,
+  };
+  createResponse(res, code, result);
 }

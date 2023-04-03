@@ -7,27 +7,45 @@ import { getData } from "../utils/axios";
 const domain = import.meta.env.VITE_SERVER_DOMAIN
 
 type Props = {
-    topic: string,
-    color: string
-  };
+  topic: string,
+  color: string
+};
 
 const TopicPage = ({ topic, color }: Props) => {
+  
+  const articleData=`${domain}article.list/${topic}`
 
     const [data, setData] = useState<any[]>([])
 
     useEffect(() => {
-        getData(domain, setData)
-    },[])
+      setData([])
+      getData(articleData, setData)
+    },[topic])
 
     return (
-         <>
-        <h2 className="pt-10"style={{color: color}}>{topic.toUpperCase()}</h2>
-        <hr style={{background: color}} className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-        <div className="flex justify-between">
-            {data?.map((story) => <StoryCard image={story.cover_url} title={story.name} body={story.body}/>)}
+      <>
+        <h2 className="pt-10 font-bold" style={{ color: color }}>
+          {topic.toUpperCase()}
+        </h2>
+        <hr
+          style={{ background: color }}
+          className="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-12"
+        ></hr>
+        { data.length
+        ?<div className="flex justify-between flex-wrap gap-y-10">
+          {data?.map((story) => (
+            <StoryCard
+              id={story.id}
+              image={story.cover_url}
+              title={story.name}
+              body={story.body}
+            />
+          ))}
         </div>
-        </>
-    )
+        :<div>No {topic} stories currently available</div>
+        }
+      </>
+    );
 }
 
 export default TopicPage

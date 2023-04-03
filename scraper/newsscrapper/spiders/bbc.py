@@ -28,6 +28,7 @@ class BbcSpider(scrapy.Spider):
         item['name'] = response.xpath('//h1/text()').get()
         item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get()
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
+        item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p[1]/text()').getall()
         item['category'] = 'news'
         item['source_url'] = response.url
@@ -39,6 +40,7 @@ class BbcSpider(scrapy.Spider):
             
         if response.xpath('//div[@class="article__body-content"]'):
             item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get()
+            item['publication_date'] = response.xpath('//div[@class="author-unit"]/div/span/text()').get()
             item['publication_date'] = response.xpath('//div[@class="author-unit"]/div/span/text()').get()
             item['body'] = response.xpath('//div[@class="body-text-card b-reith-sans-font"]/div[2]/div/p/text()').getall()
             

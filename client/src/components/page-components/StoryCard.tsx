@@ -1,20 +1,32 @@
 import { Link } from "react-router-dom";
+import { noImage } from "../../images/commonImages";
 
 type Props = {
-    title: string,
-    image: string,
-    body: string
-  };
+  id: number;
+  title: string;
+  image?: string;
+  body: string[];
+};
 
-const StoryCard = ({ image, title, body }: Props) => {
-    return (
-        <div className="w-[31%] mt-5 h-80">
-            <Link to="/news" ><img src={image} alt="" className='object-cover h-72 w-full' /></Link>
-            <div className="bg-white p-2 border-l-2 border-r-2 border-b-2 h-14">
-                <h3 className='font-bold'>{title}</h3>
-            </div>
-        </div>
-    )
-}
+const StoryCard = ({ image, title, body, id }: Props) => {
+  return (
+    <div className="w-[31%] border">
+      {image 
+        ?<Link to={`/article/${id}`}>
+        <img src={image} alt="" className="object-cover h-72 w-full" />
+      </Link>
+        :<Link to={`/article/${id}`}>
+        <img src={noImage} alt="" className="object-cover h-72 w-full" />
+      </Link>
+      }
+      <div className="bg-white p-4 h-26 border-t">
+        <Link to={`/article/${id}`}>
+          <h3 className="font-bold leading-5">{title}</h3>
+        </Link>
+        <p className="line-clamp-2 text-gray-500 leading-5 mt-2">{body}</p>
+      </div>
+    </div>
+  );
+};
 
-export default StoryCard
+export default StoryCard;

@@ -1,40 +1,26 @@
 create table Category (
-        category varchar(32) primary key
+        category varchar(32) primary key,
+        description varchar(128) not null
 );
+
+insert into Category (category, description)
+values  ('news', 'generic news articles'),
+        ('gardening', 'gardening, landscaping, or botanical articles'),
+        ('motoring', 'cars or motor sports related articles'),
+        ('politics', 'current political events and debate articles'),
+        ('business', 'business, fintech, or economic articles'),
+        ('culture', 'culturally significant articles'),
+        ('world', 'world news and event articles'),
+        ('sport', 'generic sports articles');
 
 create table Article (
         id serial primary key,
-        name varchar(150) not null,
-        author varchar(60) not null,
+        name varchar(96) not null,
+        author varchar(128),
         category varchar(32) not null references Category(category),
+        fake_category varchar(32) not null references Category(category),
         body json not null,
         source_url varchar(256) not null,
         cover_url varchar(256) null,
         publication_date varchar(24) null -- bad, make not null!
-);
-
-insert into Category (category) values ('news');
-
-insert into Article (name, author, category, body, source_url, cover_url)
-values (
-        'British bus driver stops to give loose sheep a lift',
-        'Ben Hooper',
-        'news',
-        '["''The sheep was running all over the road'', Martine said in a news release. ''It was difficult to catch, but then it slipped just in front of me and I was able to get hold of it and to use my handbag strap like a lasso. Two other motorists had stopped to help and together we were able to hold onto it until the police arrived''"]',
-        'https://www.upi.com/Odd_News/2023/03/03/Brighton-Hove-Buses-loose-sheep/3311677870361/',
-        'https://cdnph.upi.com/svc/sv/i/3311677870361/2023/1/16778704733821/British-bus-driver-stops-to-give-loose-sheep-a-lift.jpg'
-),(
-        'Minnesota officer removes jar from raccoon''s head',
-        'Ben Hooper',
-        'news',
-        '["The officer engaged in a foot chase with the raccoon, which led to the officer traveling ''a quarter mile in steps within 10 square feet'' as the animal attempted to evade capture", "The officer was eventually able to grab the raccoon and remove the jar."]',
-        'https://www.upi.com/Odd_News/2023/03/02/Oak-Grove-police-raccoon-jar-video/5671677787328/',
-        null
-),(
-        'World''s Ugliest Dog contest seeking unalluring canines for 2023 competition',
-        'Ben Hooper',
-        'news',
-        '["The contest, held each June at the Sonoma-Marin Fair, said it is seeking dogs with ''too little hair, too many wrinkles, an unusual nose or a funny waddle'' to compete in this year''s competition. "]',
-        'https://www.upi.com/Odd_News/2023/02/28/Worlds-Ugliest-Dog-contest-accepting-applications/9171677609998/',
-        'https://cdnph.upi.com/svc/sv/i/9171677609998/2023/1/16776103117700/Worlds-Ugliest-Dog-contest-seeking-unalluring-canines-for-2023-competition.jpg'
 );

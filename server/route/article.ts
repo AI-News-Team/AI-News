@@ -47,7 +47,8 @@ export const articleRouter = createRouter('article', {
           });
 
         // todo: remove fake category and use real category
-        const projection = 'select id, name, author, publication_date, fake_category, source_url, cover_url from Article';
+        const projection =
+          'select id, name, author, publication_date, retrieved_date, fake_category category, source_url, cover_url from Article';
         let where = ` where fake_category = $1`; // todo: filter by real category
 
         const parameters = [category];
@@ -86,17 +87,21 @@ export const articleRouter = createRouter('article', {
         });
       }
 
-      client.query<Article>('select * from Article where id = $1', [id], (err, result) => {
-        if (err) {
-          Error(res, INTERNAL_SERVER_ERROR, {
-            message: err.message || 'An unknown error occurred',
-            type: 'DatabaseError',
-          });
-        } else {
-          const data = result.rows ?? null;
-          Success(res, data[0]);
-        }
-      });
+      client.query<Article>(
+        'select name, author, fake_category category, source_url, cover_url, retrieved_date, publication_date from Article where id = $1',
+        [id],
+        (err, result) => {
+          if (err) {
+            Error(res, INTERNAL_SERVER_ERROR, {
+              message: err.message || 'An unknown error occurred',
+              type: 'DatabaseError',
+            });
+          } else {
+            const data = result.rows ?? null;
+            Success(res, data[0]);
+          }
+        },
+      );
     },
   },
   create: {
@@ -189,7 +194,8 @@ export const articleRouter = createRouter('article', {
             };
           }, baseSummary);
 
-        return Success(res, categorizeArticles(result.rows as Article[]));
+        const summary = categorizeArticles(result.rows);
+        Success(res, summary);
       });
     },
   },

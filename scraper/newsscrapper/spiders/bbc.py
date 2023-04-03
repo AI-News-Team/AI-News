@@ -48,10 +48,6 @@ class BbcSpider(scrapy.Spider):
             item['publication_date'] = response.xpath('//span[@class="qa-status-date-output"]/text()').get()
             item['body'] = response.xpath('//div[@data-reactid=".19qwbyoyauw.0.0.0.1"]/descendant-or-self::*[not(self::script)][normalize-space()]/text()').getall()
 
-        for key in ['name', 'author', 'publication_date', 'cover_url']:
-            if not item[key]:
-                item[key] = "Not Found"
-
         yield item
         
 

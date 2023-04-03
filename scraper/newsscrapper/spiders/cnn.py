@@ -47,8 +47,4 @@ class CNNSpider(scrapy.Spider):
             item['body'] = response.xpath('//span[@class="inline-placeholder"]/text()').getall()
             # item['cover_url'] = response.xpath('//picture[@class="image_gallery-image__picture"]/img/@src').getall()
 
-        for key in ['name', 'author', 'publication_date', 'cover_url']:
-            if not item[key]:
-                item[key] = "Not Found"
-
         yield item

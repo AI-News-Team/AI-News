@@ -3,7 +3,7 @@ import { Result } from "./api";
 export type Table = Document | Category;
 
 /**
- * Defines a full article returned from the API
+ * Defines a full article
  */
 export type Article = {
   id: number;
@@ -18,19 +18,24 @@ export type Article = {
 export type ArticleResult = Result<Article>;
 
 /**
+ * Defines an article returned in a list query
+ */
+export type ListedArticle = Omit<Article, "body">;
+export type ListedArticleResult = Result<ListedArticle>;
+
+/**
  * Defines a raw article returned in a list of articles
  */
 export type ArticleThumbnail = Omit<Article, "body">;
 export type ArticleThumbnailResult = Result<Article>;
 
 export type ArticleSummary = {
-  top_stories: Article[];
   [category: string]: Article[]; // some collection of arbitrary categories in the database
 };
 export type ArticleSummaryResult = Result<ArticleSummary>;
 
 /**
- * A user account for the application
+ * A Category of article
  */
 export type Category = {
   category: string;

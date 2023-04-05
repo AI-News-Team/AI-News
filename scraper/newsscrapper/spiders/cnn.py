@@ -29,7 +29,7 @@ class CNNSpider(scrapy.Spider):
         
         item['name'] = response.xpath('//h1[@id="maincontent"]/text()').get().strip()
 
-        item['author'] = response.xpath('//span[@class="byline__name"]/text()').get()
+        item['author'] = response.xpath('//span[@class="byline__name"]/text()').get() or 'cnn'
 
         item['publication_date'] = response.xpath('//div[@class="timestamp"]/text()').get()
         item['publication_date'] = item['publication_date'].split(',', 1)[1].strip() if item['publication_date'] else "Not Found"

@@ -6,8 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-articles_output.json
+bbc_output.json
+cnn_output.json
 __pycache__
+data
 
 # build and packages
 node_modules

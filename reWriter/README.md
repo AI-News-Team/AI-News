@@ -1,3 +1,5 @@
+### NOTES
+
 Must be run using python anaconda
 
 Open VS code via anaconda navigator

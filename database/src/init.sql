@@ -17,7 +17,7 @@ values  ('news', 'generic news articles'),
 
 create table Article (
         id serial primary key,
-        name varchar(96) null,
+        name varchar(128) null,
         author varchar(128) not null,
         category varchar(32) not null references Category(category),
         fake_category varchar(32) not null references Category(category),

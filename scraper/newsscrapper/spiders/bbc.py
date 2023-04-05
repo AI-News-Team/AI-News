@@ -26,7 +26,7 @@ class BbcSpider(scrapy.Spider):
     def getArticle(self, response):
         item = Article()
         item['name'] = response.xpath('//h1/text()').get()
-        item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get()
+        item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get() or 'bbc'
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p[1]/text()').getall()

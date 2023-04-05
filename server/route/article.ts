@@ -3,8 +3,7 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR, OK } from '../constant/code';
 import createRouter, { Error, Success } from './router';
 import format from 'pg-format';
 import { AssertKeySchema, getListParams } from '../util/schema';
-import { Article, ArticleSummary } from '../../shared';
-import { Category } from '../../shared/table';
+import { Article, ArticleSummary, Category, ListedArticle } from '@shared';
 
 export const insertionKeySchema = [
   'name',
@@ -33,7 +32,12 @@ export const articleRouter = createRouter('article', {
       const { category } = req.params;
 
       // check for valid category
-      client.query<Category>('select category from Category where category = $1', [category], (error, result) => {
+      const getCategory = `
+        select category
+        from Category
+        where category = $1
+      `;
+      client.query<Category>(getCategory, [category], (error, result) => {
         if (error)
           return Error(res, INTERNAL_SERVER_ERROR, {
             message: error.message || 'An unknown error occurred',
@@ -47,8 +51,10 @@ export const articleRouter = createRouter('article', {
           });
 
         // todo: remove fake category and use real category
-        const projection =
-          'select id, name, author, publication_date, retrieved_date, fake_category category, source_url, cover_url from Article';
+        const projection = `
+          select id, name, author, publication_date, retrieved_date, fake_category category, source_url, cover_url 
+          from Article
+        `;
         let where = ` where fake_category = $1`; // todo: filter by real category
 
         const parameters = [category];
@@ -63,7 +69,7 @@ export const articleRouter = createRouter('article', {
           where += ` order by ${sort} ${order}`; // pre-validation of `sort` & `order` prevents SQL injection without parameterization
         }
 
-        client.query<Article>(projection + where, parameters, (err, result) => {
+        client.query<ListedArticle>(projection + where, parameters, (err, result) => {
           if (err)
             Error(res, INTERNAL_SERVER_ERROR, {
               message: err.message || 'An unknown error occurred',
@@ -79,7 +85,6 @@ export const articleRouter = createRouter('article', {
     pathParams: ['id'],
     handler: (req, res) => {
       const { id } = req.params;
-
       if (!id) {
         return Error(res, BAD_REQUEST, {
           message: 'Document id is required',
@@ -88,7 +93,11 @@ export const articleRouter = createRouter('article', {
       }
 
       client.query<Article>(
-        'select name, author, fake_category category, source_url, cover_url, retrieved_date, publication_date from Article where id = $1',
+        `
+          select id, name, author, fake_category category, source_url, cover_url, retrieved_date, publication_date
+          from Article 
+          where id = $1
+        `,
         [id],
         (err, result) => {
           if (err) {
@@ -139,9 +148,13 @@ export const articleRouter = createRouter('article', {
         });
 
         const insertion = format(
-          'insert into Article (name, author, publication_date, body, category, source_url, cover_url, fake_category) values %L', // todo: remove fake category
+          `
+            insert into Article (name, author, publication_date, body, category, source_url, cover_url, fake_category) 
+            values %L
+          `,
           formattedArticles,
         );
+        // todo: remove fake category`
 
         client.query<Article>(insertion, [], (err, results) => {
           if (err)
@@ -182,20 +195,20 @@ export const articleRouter = createRouter('article', {
             type: 'DatabaseError',
           });
 
-        const baseSummary: ArticleSummary = {
-          top_stories: [],
-        };
+        const baseSummary: ArticleSummary = {};
 
+        // reduce articles to categories
         const categorizeArticles = (articles: Article[]) =>
-          articles.reduce((summaryAcc, article) => {
-            return {
+          articles.reduce(
+            (summaryAcc, article) => ({
               ...summaryAcc,
               [article.category]: [...(summaryAcc[article.category] ?? []), article],
-            };
-          }, baseSummary);
+            }),
+            baseSummary,
+          );
 
         const summary = categorizeArticles(result.rows);
-        Success(res, summary);
+        return Success(res, summary);
       });
     },
   },

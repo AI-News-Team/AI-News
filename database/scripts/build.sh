@@ -31,6 +31,14 @@ if [ "$(docker ps -aq -f name=$IMAGE_TAG)" ]; then
   fi
 fi
 
+# courtesy old volume cleanup
+echo 'delete unused docker volumes? [Y/N]'
+read -r response
+if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]] ; then
+  docker volume prune -f
+  echo 
+fi
+
 # Build image
 docker build \
   --rm \

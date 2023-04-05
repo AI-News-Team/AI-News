@@ -1,34 +1,32 @@
 import { Result } from "./api";
 
-export type Table = Document | Category;
+export type Table = Article | Category;
 
 /**
- * Defines a full article
+ * A full article scrapped from the web
  */
 export type Article = {
   id: number;
-  name: string;
+  name: string | null;
   author: string;
   category: string;
   body: string[];
   source_url: string;
-  cover_url?: string;
-  publication_date?: string | null;
+  cover_url: string | null;
+  retrieved_date: string;
+  publication_date: string | null;
 };
 export type ArticleResult = Result<Article>;
 
 /**
- * Defines an article returned in a list query
+ * An article returned in a list query
  */
 export type ListedArticle = Omit<Article, "body">;
 export type ListedArticleResult = Result<ListedArticle>;
 
 /**
- * Defines a raw article returned in a list of articles
+ * Summary of the latest articles in each category
  */
-export type ArticleThumbnail = Omit<Article, "body">;
-export type ArticleThumbnailResult = Result<Article>;
-
 export type ArticleSummary = {
   [category: string]: Article[]; // some collection of arbitrary categories in the database
 };

@@ -46,8 +46,8 @@ docker build \
   --build-arg username=$USERNAME \
   --build-arg database=$DATABASE \
   -q \
-  -t \
-  $CONTAINER_NAME . \
+  -t $CONTAINER_NAME \
+  . \
   1> /dev/null;
 
 if [[ $1 == '-d' || $1 == '--development' ]] ; then

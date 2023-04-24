@@ -94,7 +94,7 @@ export const articleRouter = createRouter('article', {
 
       client.query<Article>(
         `
-          select id, name, author, fake_category category, source_url, cover_url, retrieved_date, publication_date
+          select id, name, author, body, fake_category category, source_url, cover_url, retrieved_date, publication_date
           from Article 
           where id = $1
         `,

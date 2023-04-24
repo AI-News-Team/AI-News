@@ -1,6 +1,10 @@
 from sentence_transformers import SentenceTransformer, util
 import requests
+from flask import Flask, request
+from flask_restful import Resource, Api
 from typing import Generator 
+
+TRANSFORMER =  'all-MiniLM-L6-v2'
 
 CATEGORY = 'gardening'
 URL = f'http://localhost:3001/article.list/{CATEGORY}'
@@ -14,7 +18,7 @@ class Articles():
     self.url = url
     self.searcher = None
 
-  def fetch(self) -> [int, dict]:
+  def fetch(self) -> dict:
     response = requests.get(self.url)
     code = response.status_code
     if code == NOT_FOUND:
@@ -47,7 +51,7 @@ class Articles():
 
 class SemanticSearch():
   def __init__(self, corpus: list[str]):
-    self.embedder = SentenceTransformer('all-MiniLM-L6-v2')
+    self.embedder = SentenceTransformer(TRANSFORMER)
     self.corpus_embeddings = self.encodeAsTensor(corpus)
     self.corpus = corpus
 
@@ -62,16 +66,29 @@ class SemanticSearch():
       result = self.corpus[scoredResult["corpus_id"]]
       yield result
 
-def main() -> None:
-  articles = Articles(URL)
-  error = articles.fetch()
-  if error:
-    raise Exception(f'Error fetching articles: [{error["type"]}] {error["message"]}')
+# initialize flask
+app = Flask(__name__)
+api = Api(app)
 
-  while True: 
-    query = input('search: ') # i.e. "climate change"
-    for result in articles.search(query):
-      print('- ', result)
+# initialize articles
+articles = Articles(URL)
+error = articles.fetch()
+if error:
+  raise Exception(f'Error fetching articles: [{error["type"]}] {error["message"]}')
+
+# Define resource
+class SearchEngine(Resource):
+  def get(self, query: str) -> list[str]: # todo: replace with `post`
+    results = [r for r in articles.search(query)] # todo: stream results from generator?
+    return results
+
+api.add_resource(SearchEngine, "/search/<query>")
+
+def main() -> None:
+  while True:
+    query = input('Enter a query: ')
+    results = [r for r in articles.search(query)]
+    print(results)
 
 if __name__ == '__main__':
   main()

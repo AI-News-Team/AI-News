@@ -11,7 +11,7 @@ const Headlines = ( props: Props ) => {
 
     return (<>
         {console.log(props.stories)}
-        <div className="w-full flex justify-between px-10">
+        <div className="w-full md:flex justify-between md:px-10">
             {firstFourStories?.map(story => <HeadlineCard key={story.id} id={story.id} img={story.cover_url} headline={story.name}/>)}
         </div>
         </>

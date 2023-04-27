@@ -15,22 +15,28 @@ const Footer = ({ topics }: Props) => {
 
   return (
     <div className="flex justify-center align-center bg-black mt-auto">
-      <div className="w-[80em]">
-        <div className="py-8">
-          <SearchBox />
-        </div>
-          <FooterNav topics={topics}/>
-        <div className="mt-5 flex">
-          <HomeLogo size={3}/>
-        <div className="text-white ml-auto flex items-center">
-          <FontAwesomeIcon className="mr-5" icon={faFacebook} size={"xl"} />
-          <FontAwesomeIcon className="mr-5" icon={faTwitter} size={"xl"} />
-          <FontAwesomeIcon className="mr-5" icon={faInstagram} size={"xl"} />
-          <FontAwesomeIcon icon={faTiktok} size={"xl"} />
+      <div className="w-screen md:w-[80em]">
+        <div className="hidden md:block">
+          <div className="py-8">
+            <SearchBox />
+          </div>
+          <FooterNav topics={topics} />
+          <div className="mt-5 flex">
+            <HomeLogo size={3} />
+            <div className="text-white ml-auto flex items-center">
+              <FontAwesomeIcon className="mr-5" icon={faFacebook} size={"xl"} />
+              <FontAwesomeIcon className="mr-5" icon={faTwitter} size={"xl"} />
+              <FontAwesomeIcon
+                className="mr-5"
+                icon={faInstagram}
+                size={"xl"}
+              />
+              <FontAwesomeIcon icon={faTiktok} size={"xl"} />
+            </div>
           </div>
         </div>
-        <hr className="h-px my-8 bg-gray-600 border-0 dark:bg-gray-700"></hr>
-        <p className="text-slate-400 text-sm mb-5">
+        {/* <hr className="h-px my-8 bg-gray-600 border-0 dark:bg-gray-700"></hr> */}
+        <p className="px-5 pt-5 text-center text-slate-400 text-sm mb-5 md:p-0 md:text-left">
           © {year} Artificial Intelligence Daily News. Produced by AI-News-Team.
           All Rights Reserved.
         </p>

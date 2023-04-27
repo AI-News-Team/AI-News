@@ -13,7 +13,7 @@ const NavBar = ({ topics }: Props) => {
 
     return (
         <>
-        <div className="bg-black flex justify-center">
+        <div className="bg-black justify-center hidden md:flex">
             <nav className="w-[80em] text-white flex h-16">
                 <div className="my-auto pr-4">
                     <HomeLogo size={4} />

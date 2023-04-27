@@ -25,7 +25,7 @@ function App() {
   return (
     <div className='flex flex-col min-h-screen'>
       <NavBar topics={topics} />
-      <div className="w-[80em] mx-auto py-10">
+      <div className="md:w-[80em] mx-auto py-10">
         <Routes>
           <Route path="/" element={<Home topics={topicDetails} />} />
           {topicDetails.map((x) => (

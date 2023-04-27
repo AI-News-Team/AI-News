@@ -8,12 +8,23 @@ type Props = {
 
 const HeadlineCard = ({ id, headline, img }: Props) => {
  return (
-      <Link to={`/article/${id}`} className='h-[600px] md:h-[400px] w-1/5 rounded-lg shadow-[#5e5e5e] shadow-lg relative overflow-hidden'>
-        <img src={img} alt="image" className="object-cover h-[400px] rounded-lg hover:scale-110 ease-in-out duration-300" />
-        <h2 className="bg-black bg-opacity-50 rounded-b-lg text-white p-3 text-center absolute w-full bottom-0">{headline}</h2>
-      </Link>
-
-  )
+   <>
+     <Link
+       to={`/article/${id}`}
+       className="md:h-[400px] h-[300px] w-1/5 rounded-lg shadow-[#5e5e5e] shadow-lg relative overflow-hidden"
+     >
+       <img
+         src={img}
+         alt="image"
+         className="w-full md:h-[400px] h-[300px] object-cover md:h-[400px] rounded-lg hover:scale-110 ease-in-out duration-300"
+       />
+       <h2 className="bg-black bg-opacity-50 rounded-b-lg text-white p-3 text-center absolute w-full bottom-0">
+         {headline}
+       </h2>
+     </Link>
+     <div className="h-5 md:hidden"></div>
+   </>
+ );
 }
 
 export default HeadlineCard

@@ -35,7 +35,6 @@ const ArticlePage = () => {
 return (
   <>
     <h2 className="pt-10 font-bold" style={{ color: color }}>
-      
       {data?.category.toUpperCase()}
     </h2>
     <hr
@@ -45,12 +44,13 @@ return (
     <div className="flex">
       <div className="w-8/12 pr-6 border-gray-300 border-r">
         <h1 className="pb-8">{data?.name}</h1>
-        {data?.cover_url 
-        ?<img className="object-cover h-96 w-full" src={data?.cover_url} />
-        :<img className="object-cover h-96 w-full" src={noImage} />
-      }
+        {data?.cover_url ? (
+          <img className="object-cover h-96 w-full" src={data?.cover_url} />
+        ) : (
+          <img className="object-cover h-96 w-full" src={noImage} />
+        )}
         <h3 className="py-6">{data?.author}</h3>
-        {data?.body.map(text => <p className="py-2">{text}</p>)}
+        {data?.body.map((text) => <p className="py-2">{text}</p>)}
       </div>
       <div className="w-4/12 pl-20">
         <LeadingSidebar color={color!} />

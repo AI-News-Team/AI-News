@@ -12,8 +12,7 @@ const NavBar = ({ topics }: Props) => {
     console.log(useResolvedPath("/topic1"))
 
     return (
-        <>
-        <div className="bg-black justify-center hidden md:flex">
+        <div className="bg-black flex justify-center">
             <nav className="w-[80em] text-white flex h-16">
                 <div className="my-auto pr-4">
                     <HomeLogo size={4} />
@@ -29,7 +28,6 @@ const NavBar = ({ topics }: Props) => {
                 </div>
             </nav>
         </div>
-        </>
     )
 }
 

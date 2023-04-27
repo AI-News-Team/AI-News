@@ -19,7 +19,7 @@ No environment variables need set. Change the port if needed in `/Dockerfile`
 
 ### Docker
 
-Then run
+Run
 
 ```shell
 ./init.sh

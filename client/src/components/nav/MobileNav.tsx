@@ -21,11 +21,11 @@ const MobileNav = ({ topics }: Props) => {
   console.log(useResolvedPath("/topic1"));
 
   return (
-    <nav className="w-full text-white h-12 md:h-16 bg-black fixed z-20">
+    <nav className="w-full text-white h-16 bg-black fixed z-20">
       <div className="h-full flex justify-between border-b border-slate-700">
         <div className="w-8 h-full"></div>
         <div className="my-auto">
-          <HomeLogo size={2} />
+          <HomeLogo size={4} />
         </div>
         <button onClick={setMenuDisplay} className="w-8 text-center">
           <FontAwesomeIcon icon={faEllipsisVertical} />

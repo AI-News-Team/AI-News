@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
 const Footer = ({ topics }: Props) => {
 
   return (
-    <div className="flex justify-center align-center bg-black mt-auto">
+    <div className="flex justify-center align-center bg-black mt-auto lg:px-5">
       <div className="w-screen md:w-[80em]">
         <div className="hidden lg:block">
           <div className="py-8">

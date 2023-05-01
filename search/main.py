@@ -1,19 +1,24 @@
 from sentence_transformers import SentenceTransformer, util
-import requests
 from flask import Flask, request
 from flask_restful import Resource, Api
 from typing import Generator 
+from dotenv import load_dotenv
+import requests
+import os
+
+load_dotenv()
+
+SERVER_PORT = os.getenv('SERVER_PORT')
+if not SERVER_PORT: 
+  raise Exception('SERVER_PORT environment variable not found')
 
 TRANSFORMER =  'all-MiniLM-L6-v2'
-
-CATEGORY = 'gardening'
-URL = f'http://localhost:3001/article.list/{CATEGORY}'
-
+SEARCH_DOMAIN = f'http://localhost:{SERVER_PORT}/article.search.domain'
 SUCCESS = 200
 NOT_FOUND = 404
 BAD_REQUEST = 400
 
-class Articles():
+class Domain():
   def __init__(self, url: str):
     self.url = url
     self.searcher = None
@@ -71,15 +76,15 @@ app = Flask(__name__)
 api = Api(app)
 
 # initialize articles
-articles = Articles(URL)
-error = articles.fetch()
+domain = Domain(SEARCH_DOMAIN)
+error = domain.fetch()
 if error:
   raise Exception(f'Error fetching articles: [{error["type"]}] {error["message"]}')
 
 # Define resource
 class SearchEngine(Resource):
   def get(self, query: str) -> list[str]: # todo: replace with `post`
-    results = [r for r in articles.search(query)] # todo: stream results from generator?
+    results = [r for r in domain.search(query)] # todo: stream results from generator?
     return results
 
 api.add_resource(SearchEngine, "/search/<query>")
@@ -87,7 +92,7 @@ api.add_resource(SearchEngine, "/search/<query>")
 def main() -> None:
   while True:
     query = input('Enter a query: ')
-    results = [r for r in articles.search(query)]
+    results = [r for r in domain.search(query)]
     print(results)
 
 if __name__ == '__main__':

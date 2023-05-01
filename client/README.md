@@ -35,3 +35,9 @@ Run front end
 ```shell
 npm run dev
 ```
+
+### 6. Repeat the process
+If you have already set everything up once, you can use the script in the client folder to start the database and server in one go, just go to the client folder and enter:
+```shell
+./init-client.sh
+```

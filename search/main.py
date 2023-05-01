@@ -24,8 +24,14 @@ class Domain():
     self.searcher = None
 
   def fetch(self) -> dict:
-    response = requests.get(self.url)
-    code = response.status_code
+    try:
+      response = requests.get(self.url)
+      code = response.status_code
+    except requests.exceptions.ConnectionError:
+      raise Exception('Could not connect to the server')
+    except Exception as e:
+      raise Exception(f'An unexpected error occurred: {e}')
+    
     if code == NOT_FOUND:
       raise Exception('The requested resource was not found')
 
@@ -51,8 +57,9 @@ class Domain():
       raise Exception('No search domain has been constructed')
 
     results = self.searcher.search(query)
-    for result in results:
-      yield result
+    for idx in results:
+      article = self.articles[idx]
+      yield article
 
 class SemanticSearch():
   def __init__(self, corpus: list[str]):
@@ -64,12 +71,12 @@ class SemanticSearch():
     embedding = self.embedder.encode(query, convert_to_tensor=True)
     return embedding
 
-  def search(self, query) -> Generator[str, None, None]:
+  def search(self, query) -> Generator[int, None, None]:
     query_embedding = self.encodeAsTensor(query)
     scoredResults = util.semantic_search(query_embedding, self.corpus_embeddings)[0]
     for scoredResult in scoredResults:
-      result = self.corpus[scoredResult["corpus_id"]]
-      yield result
+      cid = scoredResult["corpus_id"]
+      yield cid
 
 # initialize flask
 app = Flask(__name__)

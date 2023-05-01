@@ -17,24 +17,34 @@ class newYorkTimesSpider(scrapy.Spider):
     name = "newYorkTimes"
     allowed_domains = ['nytimes.com']
     start_urls = ['https://www.nytimes.com/international/']
+    category = None
 
     def parse(self, response):
-        item = Article()
-
-        for categories in response.xpath('//li[@data-testid="mini-nav-item"]//a/@href'):
+        for categories in response.xpath('//li[@data-testid="mini-nav-item"]//a/@href').getall():
             url = response.urljoin(str(categories))
-            item["category"] = categories.split('/')[-1]
-            for href in response.xpath('//div[@class="css-4svvz1 eb97p610"]//a[contains(@data-rref, "")]/@href').getall():
-                url = response.urljoin(href.extract())
-                yield scrapy.Request(url, callback = self.getArticle)
-        
+            yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
+            
+
+    def getCategory(self, response):
+        for href in response.xpath('//div[@class="css-4svvz1 eb97p610"]//a[contains(@data-rref, "")]/@href').getall():
+            url = response.urljoin(href)
+            yield scrapy.Request(url, callback = self.getArticle)
     
     def getArticle(self, response):
         item = Article()
 
+        slug = response.url.split('/')[-3]
+        if slug.isdigit():
+            item["category"] = response.url.split('/')[-2]
+        else:
+            item["category"] = slug
+
+        if item["category"] == "www.nytimes.com":
+            return
+
         item['name'] = response.xpath('//h1[@data-testid="headline"]/text()').get()
 
-        item['author'] = response.xpath('//span[@itemprop="name"]/a/text()').get()
+        item['author'] = response.xpath('//span[@itemprop="name"]/a/text()').get() or "New York Times"
 
         item['publication_date'] = response.xpath('//time/@datetime').get()
 

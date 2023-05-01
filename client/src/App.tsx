@@ -25,13 +25,13 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <NavBar topics={topics} />
       </div>
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <MobileNav topics={topics}/>
       </div>
-      <div className="md:w-[80em] mx-auto py-10">
+      <div className="xl:w-[80em] mx-auto py-10">
         <Routes>
           <Route path="/" element={<Home topics={topicDetails} />} />
           {topicDetails.map((x) => (

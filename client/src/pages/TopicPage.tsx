@@ -30,8 +30,7 @@ const TopicPage = ({ topic, color }: Props) => {
     }, [document.location.search]);
 
     return (
-      <>
-      
+      <div className="px-3 lg:p-0 mt-5 md:mt-0">
         <h2 className="pt-10 font-bold" style={{ color: color }}>
           {topic.toUpperCase()}
         </h2>
@@ -57,7 +56,7 @@ const TopicPage = ({ topic, color }: Props) => {
         ) : (
           <div>No {topic} stories currently available</div>
         )}
-      </>
+      </div>
     );
 }
 

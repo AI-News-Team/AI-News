@@ -10,7 +10,7 @@ type Props = {
 
 const StoryCard = ({ image, title, body, id }: Props) => {
   return (
-    <div className="pt-3 md:m-0 md:w-[31%]">
+    <div className="pt-3 md:m-0 md:w-[31%] sm:w-[48%]">
       <div className="border ">
         {image ? (
           <Link to={`/article/${id}`}>

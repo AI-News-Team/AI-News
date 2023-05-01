@@ -16,7 +16,7 @@ const Footer = ({ topics }: Props) => {
   return (
     <div className="flex justify-center align-center bg-black mt-auto">
       <div className="w-screen md:w-[80em]">
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <div className="py-8">
             <SearchBox />
           </div>

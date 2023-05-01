@@ -37,7 +37,7 @@ const Home = (props: Props) => {
         },[])
         
     return (
-    <div className="px-3 md:p-0 mt-12 md:mt-0">
+    <div className="px-3 mt-12 md:mt-12">
         <Headlines stories={data?.news}/>
         {props.topics.map(topic =>  <TopicSection key={topic.topic} topic={topic.topic} color={topic.color} stories={data?.[topic.topic]}/>)}
     </div>

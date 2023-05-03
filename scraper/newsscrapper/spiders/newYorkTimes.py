@@ -56,8 +56,8 @@ class newYorkTimesSpider(scrapy.Spider):
 
         if response.xpath('//p[@class="g-body "]'):
             item['body'] = response.xpath('//p[@class="g-body "]/text()').getall()
-
-        if response.xpath('//div[@data-testid="document-block-body"]'):
+        
+        if response.xpath('//div[@data-testid="document-block-body"]/p'):
             item['body'] = response.xpath('//div[@data-testid="document-block-body"]/p[position() < last()]//text()').getall()
 
         item['body'] = response.xpath('//section[@name="articleBody"]/div/div//p/text()').getall()

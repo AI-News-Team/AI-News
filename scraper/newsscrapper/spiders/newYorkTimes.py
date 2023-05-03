@@ -44,13 +44,31 @@ class newYorkTimesSpider(scrapy.Spider):
 
         item['name'] = response.xpath('//h1[@data-testid="headline"]/text()').get()
 
+        if response.xpath('//span[@class="g-name"]'):
+            item['author'] = response.xpath('//span[@class="g-name"]/text()').get()
+
         item['author'] = response.xpath('//span[@itemprop="name"]/a/text()').get() or "New York Times"
 
+        if response.xpath('//div[@class="g-date"]'):
+            item['publication_date'] = response.xpath('//div[@class="g-date"]/text()').get()
+        
         item['publication_date'] = response.xpath('//time/@datetime').get()
+
+        if response.xpath('//p[@class="g-body "]'):
+            item['body'] = response.xpath('//p[@class="g-body "]/text()').getall()
+
+        if response.xpath('//div[@data-testid="document-block-body"]'):
+            item['body'] = response.xpath('//div[@data-testid="document-block-body"]/p[position() < last()]//text()').getall()
 
         item['body'] = response.xpath('//section[@name="articleBody"]/div/div//p/text()').getall()
 
         item['source_url'] = response.url
+
+        if response.xpath('//div[@class="g-asset_inner"]/picture/img'):
+            item['cover_url'] = response.xpath('//div[@class="g-asset_inner"]/picture/img/@src').get()
+
+        if response.xpath('//header[@data-testid="title-byline"]/figure/div/div/picture[@class=""]'):
+            item['cover_url'] = response.xpath('//header[@data-testid="title-byline"]/figure/div[@data-testid="image-holder"]/div/picture/img/@src').get()
 
         item['cover_url'] = response.xpath('//picture/img/@srcset').get()
         

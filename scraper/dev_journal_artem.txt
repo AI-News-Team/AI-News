@@ -1,0 +1,22 @@
+DATE:   03.05.23
+Could not scrape the data for some of the fields in newYorkTimes spider
+Tried to use if statements so they would check for different layouts 
+and scrape the data for those fields. Didn't work even though the xpath command 
+extracted whatever I wanted to get. Will ask for help tomorrow in class
+
+Another thing that was literally was driving me crazy was extracting images
+for one layout. I could see the element img in the inspect element but I couldn't 
+get it with xpath and it was returning svg that I couldn't find on the page. Some 
+magic outside of Hogwarts, idk.
+
+DATE:   04.05.23
+Aardhyn helped me to fix it. It was easier than I thought.... 
+just a syntax error
+Made a decent progress for the newYorkTimes spider. Reduced the amount of null fields
+from 37 to 20. The rest of the layouts were irrelevant to our website, so we decided
+to leave them as it is.
+
+
+
+
+

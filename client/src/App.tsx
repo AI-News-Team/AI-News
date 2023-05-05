@@ -1,5 +1,6 @@
 import './App.css'
 import NavBar from './components/nav/NavBar'
+import MobileNav from "./components/nav/MobileNav";
 import Footer from './components/footer/Footer'
 import { Route, Routes } from "react-router-dom"
 import Home from './pages/Home'
@@ -23,9 +24,14 @@ function App() {
   };
 
   return (
-    <div className='flex flex-col min-h-screen'>
-      <NavBar topics={topics} />
-      <div className="w-[80em] mx-auto py-10">
+    <div className="flex flex-col min-h-screen">
+      <div className="hidden lg:block">
+        <NavBar topics={topics} />
+      </div>
+      <div className="lg:hidden">
+        <MobileNav topics={topics}/>
+      </div>
+      <div className="xl:w-[80em] mx-auto py-10">
         <Routes>
           <Route path="/" element={<Home topics={topicDetails} />} />
           {topicDetails.map((x) => (

@@ -33,30 +33,33 @@ const ArticlePage = () => {
     console.log(data)
 
 return (
-  <>
+  <div className="px-3 xl:p-0">
     <h2 className="pt-10 font-bold" style={{ color: color }}>
-      
-      {data?.category.toUpperCase()}
+      <Link to={`/${data?.category}`}>{data?.category.toUpperCase()}</Link>
     </h2>
     <hr
       style={{ background: color }}
       className="h-px bg-gray-200 border-0 dark:bg-gray-700 mb-10"
     ></hr>
     <div className="flex">
-      <div className="w-8/12 pr-6 border-gray-300 border-r">
+      <div className="md:w-8/12 md:pr-6 border-gray-300 md:border-r">
         <h1 className="pb-8">{data?.name}</h1>
-        {data?.cover_url 
-        ?<img className="object-cover h-96 w-full" src={data?.cover_url} />
-        :<img className="object-cover h-96 w-full" src={noImage} />
-      }
+
+        {data?.cover_url ? (
+          <img className="object-cover h-96 w-full" src={data?.cover_url} />
+        ) : (
+          <img className="object-cover h-96 w-full" src={noImage} />
+        )}
         <h3 className="py-6">{data?.author}</h3>
-        {data?.body.map(text => <p className="py-2">{text}</p>)}
+        {data?.body.map((text) => (
+          <p className="py-2 lg:text-xl">{text}</p>
+        ))}
       </div>
-      <div className="w-4/12 pl-20">
+      <div className="w-4/12 md:pl-5 xl:pl-20 hidden md:block">
         <LeadingSidebar color={color!} />
       </div>
     </div>
-  </>
+  </div>
 );
 }
 

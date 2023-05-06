@@ -33,6 +33,8 @@ class newYorkTimesSpider(scrapy.Spider):
     def getArticle(self, response):
         item = Article()
 
+        item['category'] = response.xpath('//head/meta[@name="CG"]/@content').get()
+
         slug = response.url.split('/')[-3]
         if slug.isdigit():
             item["category"] = response.url.split('/')[-2]
@@ -44,12 +46,16 @@ class newYorkTimesSpider(scrapy.Spider):
 
         item['name'] = response.xpath('//h1[@data-testid="headline"]/text()').get()
 
-        if response.xpath('//span[@class="g-name"]'):
+        if response.xpath('//head/meta[@name="byl"]'):
+            item['author'] = response.xpath('//head/meta[@name="byl"]/@content').get()
+        elif response.xpath('//span[@class="g-name"]'):
             item['author'] = response.xpath('//span[@class="g-name"]/text()').get()
         else:
             item['author'] = response.xpath('//span[@itemprop="name"]/a/text()').get() or "New York Times"
 
-        if response.xpath('//div[@class="g-date"]'):
+        if response.xpath('//head/meta[@property="article:published_time"]'):
+            item['publication_date'] = response.xpath('//head/meta[@property="article:published_time"]/@content').get()
+        elif response.xpath('//div[@class="g-date"]'):
             item['publication_date'] = response.xpath('//div[@class="g-date"]/text()').get()
         elif response.xpath('//time[@class="rad-datetime"]'):
             item['publication_date'] = response.xpath('//time[@class="rad-datetime"]/text()').get()
@@ -69,7 +75,9 @@ class newYorkTimesSpider(scrapy.Spider):
 
         item['source_url'] = response.url
 
-        if response.xpath('//div[@class="g-asset_inner"]/picture/img'):
+        if response.xpath('//head/meta[@name="image"]'):
+            item ['cover_url'] = response.xpath('//head/meta[@name="image"]/@content').get()
+        elif response.xpath('//div[@class="g-asset_inner"]/picture/img'):
             item['cover_url'] = response.xpath('//div[@class="g-asset_inner"]/picture/img/@src').get()
         elif response.xpath('//header[@data-testid="title-byline"]/figure/div/div/picture[@class=""]'):
             item['cover_url'] = response.xpath('//header[@data-testid="title-byline"]/figure/div[@data-testid="image-holder"]/div/picture/img/@src').get()

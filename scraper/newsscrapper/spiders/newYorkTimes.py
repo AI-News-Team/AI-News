@@ -32,18 +32,7 @@ class newYorkTimesSpider(scrapy.Spider):
     
     def getArticle(self, response):
         item = Article()
-
-        item['category'] = response.xpath('//head/meta[@name="CG"]/@content').get()
-
-        slug = response.url.split('/')[-3]
-        if slug.isdigit():
-            item["category"] = response.url.split('/')[-2]
-        else:
-            item["category"] = slug
-
-        if item["category"] == "www.nytimes.com":
-            return
-
+        
         item['name'] = response.xpath('//h1[@data-testid="headline"]/text()').get()
 
         if response.xpath('//head/meta[@name="byl"]'):
@@ -72,6 +61,17 @@ class newYorkTimesSpider(scrapy.Spider):
             item['body'] = response.xpath('//div[@class="intro-wrapper"]/p//text()').getall()
         else:
             item['body'] = response.xpath('//section[@name="articleBody"]/div/div//p/text()').getall()
+
+        item['category'] = response.xpath('//head/meta[@name="CG"]/@content').get()
+
+        slug = response.url.split('/')[-3]
+        if slug.isdigit():
+            item["category"] = response.url.split('/')[-2]
+        else:
+            item["category"] = slug
+
+        if item["category"] == "www.nytimes.com":
+            return
 
         item['source_url'] = response.url
 

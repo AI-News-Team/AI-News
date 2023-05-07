@@ -16,6 +16,14 @@ Made a decent progress for the newYorkTimes spider. Reduced the amount of null f
 from 37 to 20. The rest of the layouts were irrelevant to our website, so we decided
 to leave them as it is.
 
+DATE:   07.05.23
+Finished polishing New York Times spider and finished doing Fox News spider
+Took me some time to figure out why some of the conditions were not triggered 
+in my if statement. Was a bit painful to run spider after every change so
+I could check if it functions as intended.
+Need to sort out categories for BBC and CNN spiders 
+
+
 
 
 

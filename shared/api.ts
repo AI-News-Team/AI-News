@@ -6,6 +6,7 @@ export type Method = "get" | "post" | "put" | "delete";
  */
 export type ErrorType =
   | "QueryError" // Your query is malformed or invalid
+  | "ServerError" // Something went wrong on the server
   | "DatabaseError" // Not your fault
   | "UnhandledError"; // An unknown error occurred
 
@@ -25,7 +26,7 @@ export const orders = ["asc", "desc"] as const;
 /**
  * Defines an order
  */
-export type Order = typeof orders[number];
+export type Order = (typeof orders)[number];
 
 /**
  * Defines the parameters of some list|get query

@@ -4,6 +4,7 @@ import createRouter, { Error, Success } from './router';
 import format from 'pg-format';
 import { AssertKeySchema, getListParams } from '../util/schema';
 import { Article, ArticleSummary, Category, ListedArticle } from '@shared';
+import axios, { AxiosError } from 'axios';
 
 export const insertionKeySchema = [
   'name',
@@ -15,7 +16,7 @@ export const insertionKeySchema = [
   'cover_url',
 ] as const;
 
-type FakeCategory = { fake_category: string }; // todo: delete me!
+const STD_PREFIX = 'http://';
 
 export const articleRouter = createRouter('article', {
   list: {
@@ -170,6 +171,64 @@ export const articleRouter = createRouter('article', {
           }
         });
       });
+    },
+  },
+  'search.domain': {
+    method: 'get',
+    handler: (_, res) => {
+      const query = `
+        select id, name
+        from Article
+      `;
+
+      client.query<Article>(query, [], (err, result) => {
+        if (err)
+          return Error(res, INTERNAL_SERVER_ERROR, {
+            message: err.message || 'An unknown error occurred',
+            type: 'DatabaseError',
+          });
+
+        const data = result.rows ?? null;
+        return Success(res, data);
+      });
+    },
+  },
+  search: {
+    method: 'get',
+    queryParams: ['query'],
+    handler: async (req, res) => {
+      try {
+        const { SEARCH_ENGINE_PORT: port, SEARCH_ENGINE_HOST: host } = process.env;
+        if (!port || !host)
+          return Error(res, INTERNAL_SERVER_ERROR, {
+            type: 'ServerError',
+            message: 'Server is unable to communicate with the Search Engine',
+          });
+
+        const { query } = req.query;
+        if (!query)
+          return Error(res, BAD_REQUEST, {
+            message: 'A `query` parameter  is required to fulfil the request',
+            type: 'QueryError',
+          });
+
+        const url = `${STD_PREFIX}${host}:${port}/search/${query}`;
+        const { data } = await axios.get(url);
+
+        return Success(res, data);
+      } catch (err) {
+        if (err instanceof AxiosError)
+          return Error(res, (err.response?.status as any) ?? INTERNAL_SERVER_ERROR, {
+            message: err.message || 'An unknown error occurred',
+            type: 'ServerError',
+          });
+
+        console.error(err);
+        return Error(res, INTERNAL_SERVER_ERROR, {
+          message: 'An unknown error occurred',
+          type: 'ServerError',
+        });
+      }
     },
   },
   summary: {

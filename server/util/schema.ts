@@ -1,10 +1,18 @@
 import { ListQueryParams, Order, orders } from '../../shared';
 
+/**
+ * Assert object keys have been provided in an expected order
+ * @param keys keys that the user has provided to the server
+ * @param schema ordered keys the server expects to process
+ */
 export function AssertKeySchema(keys: string[] | null | undefined, schema: readonly string[]) {
   const error = new Error(`provided keys '${keys?.join(' ')}' do not match the required '${schema.join(' ')}' schema!`);
   if (!keys || keys.join() !== schema.join()) throw error;
 }
 
+/**
+ * Error thrown when a value is not of the expected type
+ */
 export class InvalidType extends Error {
   constructor(field: string, value: unknown, typename: string) {
     super(`Invalid \`${field}\`; \`${value}\` is not of type \`${typename}\``);

@@ -5,9 +5,11 @@ import { Code, OK, INTERNAL_SERVER_ERROR } from '../constant/code';
 import Core from 'express';
 type ExpressInstance = Core.Express;
 
+export type Route = (req: Request, res: Response) => void;
+
 type Operation = {
   method: Method;
-  handler: (req: Request, res: Response) => void;
+  handler: Route;
   pathParams?: string[];
   queryParams?: string[];
 };

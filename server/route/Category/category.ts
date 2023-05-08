@@ -1,10 +1,10 @@
 import { Category } from '@shared';
-import { INTERNAL_SERVER_ERROR } from '../constant/code';
-import { client } from '../database';
-import createRouter, { Success } from './router';
-import { Error } from './router';
+import { INTERNAL_SERVER_ERROR } from '../../constant/code';
+import { client } from '../../database';
+import createRouter, { Success } from '../router';
+import { Error } from '../router';
 
-export const categoryRouter = createRouter('category', {
+const categoryRouter = createRouter('category', {
   list: {
     method: 'get',
     handler: (req, res) => {
@@ -20,3 +20,5 @@ export const categoryRouter = createRouter('category', {
     },
   },
 });
+
+export default categoryRouter;

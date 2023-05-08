@@ -28,11 +28,9 @@ cp template.env .env
 vim .env
 ```
 
-Under the `API` section, set all environment variable to enable database connectivity.
+Under the `API` section, set all environment variable to enable database and Search Engine connectivity
 
-You'll find a set of default credentials in the Dockerfile that match those in the `.env`. Host can be either `0.0.0.0`,`localhost`, or `127.0.0.1` for a local database. `DB_NAME` is `POSTGRES_DB`.
-
-Ignore `DB_CONNECTION_STRING`. Though this _may_ be used for offsite deployments later on.
+Host can be either `0.0.0.0`,`localhost`, or `127.0.0.1` for a local database. `DB_NAME` is the same as `POSTGRES_DB`.
 
 ## Deployment
 

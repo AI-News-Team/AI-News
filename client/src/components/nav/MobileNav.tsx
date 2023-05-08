@@ -1,5 +1,5 @@
 import { Link, useResolvedPath } from "react-router-dom";
-import SearchBox from "../tools/SearchBox";
+import SearchBox from "../search/SearchBox";
 import HomeLogo from "../graphics/HomeLogo";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

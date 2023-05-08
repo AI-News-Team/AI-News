@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import TopicPage from './pages/TopicPage'
 import colors from './styles/colors'
 import ArticlePage from './pages/ArticlePage'
+import Search from './pages/Search';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
             />
           ))}
           <Route path="/article/:id" element={<ArticlePage />} />
+          <Route path="/search/:search" element={<Search />} />
         </Routes>
       </div>
       <Footer topics={topics} />

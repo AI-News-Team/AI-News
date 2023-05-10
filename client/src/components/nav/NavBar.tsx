@@ -24,7 +24,7 @@ const NavBar = ({ topics }: Props) => {
                         </li>)}
                 </ul>
                 <div className="ml-auto h-full flex items-center">
-                <SearchBox />
+                <SearchBox searchPage={false} searchBoxContent={""}  />
                 </div>
             </nav>
         </div>

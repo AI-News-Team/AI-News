@@ -12,11 +12,12 @@ const SearchBox = ({ searchPage, searchBoxContent }: Props) => {
   const [searchQuery, setSearchQuery] = useState<string>();
   const navigate = useNavigate();
 
-      useEffect(() => {
-        if (searchBoxContent?.length !== 0) {
-          setSearchQuery(searchBoxContent);
-        }
-      }, []);
+  // sets contents of search bo
+  useEffect(() => {
+    if (searchBoxContent?.length !== 0) {
+      setSearchQuery(searchBoxContent);
+    }
+  }, [searchBoxContent]);
 
 
   const handleSubmitForm = () => {
@@ -28,7 +29,7 @@ const SearchBox = ({ searchPage, searchBoxContent }: Props) => {
 
   return (
     <>
-      <form className="bg-white flex p-2 text-black">
+      <form className="bg-white flex p-2 text-black border">
         <input
           className="w-full"
           type="text"
@@ -37,11 +38,12 @@ const SearchBox = ({ searchPage, searchBoxContent }: Props) => {
           onChange={(e) => setSearchQuery(e.target.value)}
           value={searchQuery}
         />
-        <Link to={`/search/${searchQuery}`}>
+        <Link to={`/search/${searchQuery}`} style={{pointerEvents: 'none'}}>
           <button
             className="ml-auto px-1"
             type="submit"
             onClick={handleSubmitForm}
+            disabled={!searchQuery ? true : false}
           >
             <i className="fa-solid fa-magnifying-glass" />
           </button>

@@ -1,7 +1,7 @@
 import { Route } from '..';
 import { ListedArticle } from '../../../shared/table';
 import { INTERNAL_SERVER_ERROR, BAD_REQUEST } from '../../constant/code';
-import { client } from '../../database/index';
+import { getClient } from '../../database/index';
 import { getListParams } from '../../util/schema';
 import { Error, Success } from '../router';
 import { Article, Category } from '@shared';
@@ -21,7 +21,7 @@ export const list: Route = (req, res) => {
         from Category
         where category = $1
       `;
-  client.query<Category>(getCategory, [category], (error, result) => {
+  getClient().query<Category>(getCategory, [category], (error, result) => {
     if (error)
       return Error(res, INTERNAL_SERVER_ERROR, {
         message: error.message || 'An unknown error occurred',
@@ -53,7 +53,7 @@ export const list: Route = (req, res) => {
       where += ` order by ${sort} ${order}`; // pre-validation of `sort` & `order` prevents SQL injection without parameterization
     }
 
-    client.query<ListedArticle>(projection + where, parameters, (err, result) => {
+    getClient().query<ListedArticle>(projection + where, parameters, (err, result) => {
       if (err)
         Error(res, INTERNAL_SERVER_ERROR, {
           message: err.message || 'An unknown error occurred',

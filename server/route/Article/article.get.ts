@@ -1,5 +1,5 @@
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../constant/code';
-import { client } from '../../database';
+import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
 import { Article } from '@shared';
 
@@ -18,7 +18,7 @@ export const get: Route = (req, res) => {
     });
   }
 
-  client.query<Article>(query, [id], (err, result) => {
+  getClient().query<Article>(query, [id], (err, result) => {
     if (err) {
       Error(res, INTERNAL_SERVER_ERROR, {
         message: err.message || 'An unknown error occurred',

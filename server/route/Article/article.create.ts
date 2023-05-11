@@ -1,6 +1,6 @@
 import { Route } from '..';
 import { INTERNAL_SERVER_ERROR, BAD_REQUEST } from '../../constant/code';
-import { client } from '../../database/index';
+import { getClient } from '../../database';
 import { Error, Success } from '../router';
 import { Article, Category } from '@shared';
 import format from 'pg-format';
@@ -19,7 +19,7 @@ export const create: Route = (req, res) => {
   if (!articles || !Array.isArray(articles))
     return Error(res, BAD_REQUEST, { message: 'Body must be an array', type: 'QueryError' });
 
-  client.query<Category>('select category from Category', [], (error, result) => {
+  getClient().query<Category>('select category from Category', [], (error, result) => {
     if (error)
       return Error(res, INTERNAL_SERVER_ERROR, {
         message: error.message || 'An unknown error occurred',
@@ -48,7 +48,7 @@ export const create: Route = (req, res) => {
     const insertion = format(insertionTemplate, formattedArticles);
 
     // todo: remove fake category`
-    client.query<Article>(insertion, [], (err, results) => {
+    getClient().query<Article>(insertion, [], (err, results) => {
       if (err)
         return Error(res, INTERNAL_SERVER_ERROR, {
           message: err.message || 'An unknown error occurred',

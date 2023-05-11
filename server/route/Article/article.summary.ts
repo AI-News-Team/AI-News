@@ -1,6 +1,6 @@
 import { ArticleSummary } from '../../../shared/table';
 import { INTERNAL_SERVER_ERROR } from '../../constant/code';
-import { client } from '../../database';
+import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
 import { Article } from '@shared';
 
@@ -30,7 +30,7 @@ const categorizeArticles = (articles: Article[]) =>
 
 export const summary: Route = (_, res) => {
   // todo: remove fake category and use real category
-  client.query<Article>(groupCategoriesInThrees, (err, result) => {
+  getClient().query<Article>(groupCategoriesInThrees, (err, result) => {
     if (err)
       return Error(res, INTERNAL_SERVER_ERROR, {
         message: err.message || 'An unknown error occurred',

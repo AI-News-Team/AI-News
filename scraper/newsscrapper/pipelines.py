@@ -3,6 +3,7 @@ import requests
 from itemadapter import ItemAdapter
 from dotenv import load_dotenv
 import os
+from requests.exceptions import RequestException
 
 load_dotenv()
 PORT_NUMBER = os.getenv("PORT_NUMBER")
@@ -28,14 +29,18 @@ class NewsscrapperPipeline:
         # with open('articles.json', 'w') as f:
         #     json.dump(articles, f, indent=4)
 
-        response = requests.post(
+        try: 
+            response = requests.post(
             self.url, json={"articles": articles}, 
             headers={'Content-Type': 'application/json'}
-        )
+            )
+
+            if response.status_code != 200:
+                raise Exception(f'FAILED TO SEND DATA: {response.text}')
             
-        if response.status_code != 200:
-            raise Exception(f'FAILED TO SEND DATA: {response.text}')
-        
-        if response.status_code == 200:
-            print('DATA SENT SUCCESSFULLY !')
+            if response.status_code == 200:
+                print('DATA SENT SUCCESSFULLY !')
+
+        except RequestException as e:
+            print('Failed to connect to server: ', e)
 

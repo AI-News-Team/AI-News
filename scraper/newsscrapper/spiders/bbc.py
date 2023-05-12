@@ -3,6 +3,8 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from newsscrapper.items import Article
+import json
+from urllib.parse import urlparse
 
 #
 #   cd to spiders
@@ -16,23 +18,34 @@ class BbcSpider(scrapy.Spider):
     start_urls = ['https://www.bbc.com/news']
 
     def parse(self, response):
-        for href in response.xpath('//a[contains(@class, "gs-c-promo-heading")]/@href'): 
-            url = response.urljoin(href.extract())
-            yield scrapy.Request(url, callback = self.getArticle)
+        for categories in response.xpath('//ul[@class="gs-o-list-ui--top-no-border nw-c-nav__wide-sections"]//a/@href').getall():
+            url = response.urljoin(str(categories))
+            yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
 
-        #   MOST READ ARTICLES
-        #for href in response.xpath('//div[@class="gs-o-media__body"]/a/@href').getall() : print(href)
+    def getCategory(self, response):
+        for href in response.xpath('//div[@class="mpu-available"]//a/@href').getall():
+            url = response.urljoin(href)
+            yield scrapy.Request(url, callback = self.getArticle)
     
     def getArticle(self, response):
         item = Article()
-        item['name'] = response.xpath('//h1/text()').get()
-        item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get() or 'bbc'
-        item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
-        item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
+        json_data = response.xpath('//script[contains(text(), "ReportageNewsArticle")]/text()').get()
+        data = json.loads(json_data)
+
+        item['name'] = response.xpath('//head/meta[@property="og:title"]/@content').get()
+
+        author = data['author'][0]['name']
+        item['author'] = author
+
+        publication_date = data['datePublished']
+        item['publication_date'] = publication_date
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p[1]/text()').getall()
-        item['category'] = 'news'
+
+        item['category'] = response.xpath('//a[@class="ssrcss-1mu64ez-StyledLink eis6szr2"]//text()').get()
         item['source_url'] = response.url
-        item['cover_url'] = response.xpath('//div[@data-component="image-block"]/figure/div/span/picture/img/@src').get()
+
+        cover_url = data['image']['url']
+        item['cover_url'] = cover_url
 
         # Checks if element text-block exists
         if response.xpath('//div[contains(@data-component, "text-block")]'):
@@ -49,6 +62,3 @@ class BbcSpider(scrapy.Spider):
             item['body'] = response.xpath('//div[@data-reactid=".19qwbyoyauw.0.0.0.1"]/descendant-or-self::*[not(self::script)][normalize-space()]/text()').getall()
 
         yield item
-        
-
-

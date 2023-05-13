@@ -3,7 +3,6 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from newsscrapper.items import Article
-import json
 from urllib.parse import urlparse
 
 #
@@ -29,23 +28,16 @@ class BbcSpider(scrapy.Spider):
     
     def getArticle(self, response):
         item = Article()
-        json_data = response.xpath('//script[contains(text(), "ReportageNewsArticle")]/text()').get()
-        data = json.loads(json_data)
-
-        item['name'] = response.xpath('//head/meta[@property="og:title"]/@content').get()
-
-        author = data['author'][0]['name']
-        item['author'] = author
-
-        publication_date = data['datePublished']
-        item['publication_date'] = publication_date
+        item['name'] = response.xpath('//h1/text()').get()
+        item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get() or 'bbc'
+        item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
+        item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p[1]/text()').getall()
 
-        item['category'] = response.xpath('//a[@class="ssrcss-1mu64ez-StyledLink eis6szr2"]//text()').get()
-        item['source_url'] = response.url
+        item['category'] = response.xpath('//head/meta[@property="article:section"]/@content').get() or 'News'
 
-        cover_url = data['image']['url']
-        item['cover_url'] = cover_url
+        item['source_url'] = response.url
+        item['cover_url'] = response.xpath('//div[@data-component="image-block"]/figure/div/span/picture/img/@src').get()
 
         # Checks if element text-block exists
         if response.xpath('//div[contains(@data-component, "text-block")]'):
@@ -62,3 +54,4 @@ class BbcSpider(scrapy.Spider):
             item['body'] = response.xpath('//div[@data-reactid=".19qwbyoyauw.0.0.0.1"]/descendant-or-self::*[not(self::script)][normalize-space()]/text()').getall()
 
         yield item
+        

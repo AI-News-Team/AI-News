@@ -1,5 +1,5 @@
 import { Link, useResolvedPath } from "react-router-dom"
-import SearchBox from "../tools/SearchBox";
+import SearchBox from "../search/SearchBox";
 import HomeLogo from "../graphics/HomeLogo";
 
 type Props = {
@@ -24,7 +24,7 @@ const NavBar = ({ topics }: Props) => {
                         </li>)}
                 </ul>
                 <div className="ml-auto h-full flex items-center">
-                <SearchBox />
+                <SearchBox searchPage={false} searchBoxContent={""}  />
                 </div>
             </nav>
         </div>

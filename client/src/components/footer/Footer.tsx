@@ -1,5 +1,5 @@
 import { Link, useResolvedPath } from "react-router-dom";
-import SearchBox from "../tools/SearchBox";
+import SearchBox from "../search/SearchBox";
 import FooterNav from "../nav/FooterNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons";

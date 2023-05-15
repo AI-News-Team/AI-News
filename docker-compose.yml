@@ -1,9 +1,23 @@
 version: "3"
 services:
   database:
+    container_name: database
     env_file:
       - ./database/.env
     build:
       context: ./database
     ports:
-      - "${PORT}:${PORT}"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+  server:
+    container_name: api
+    env_file:
+      - ./server/.env
+    build:
+      context: . # build needs access to /shared
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "${EXPRESS_PORT}:${EXPRESS_PORT}"
+    volumes:
+      - ./shared:/app/shared
+    depends_on:
+      - database

@@ -1,13 +1,13 @@
 {
   "name": "ai-news-outlet-api",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "API for an AI driven news application",
   "main": "app.ts",
   "scripts": {
     "start": "ts-node app.ts",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register app.ts",
     "build": "swc app.ts -d dist",
-    "typecheck": "tsc",
+    "typecheck": "tsc --noEmit --listFiles --pretty",
     "assure": "echo \"No tests configured!\"",
     "pretty": "prettier --write .",
     "lint": "eslint"

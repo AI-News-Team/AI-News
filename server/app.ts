@@ -3,7 +3,10 @@ import { EXIT_ERROR, EXIT_SUCCESS } from './constant/code';
 import { connectClient, disconnectClient } from './database';
 import cors from 'cors';
 import { EXPRESS_PORT } from './environment';
-import { articleRouter, categoryRouter, useRouter } from './route';
+import { useRouter } from './route';
+
+import article from './route/Article';
+import category from './route/Category/category';
 
 connectClient(); // Connect to the database
 
@@ -12,8 +15,8 @@ instance.use(cors());
 instance.use(express.json({ limit: '50mb' }));
 instance.use(express.urlencoded({ extended: true }));
 
-useRouter(instance, '/', articleRouter);
-useRouter(instance, '/', categoryRouter);
+useRouter(instance, '/', article);
+useRouter(instance, '/', category);
 
 const server = instance.listen(EXPRESS_PORT, () => {
   console.log(`${EXPRESS_PORT} 🚀 Online`);

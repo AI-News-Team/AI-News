@@ -9,8 +9,8 @@ lerna-debug.log*
 bbc_output.json
 articles.json
 cnn_output.json
-__pycache__
 data
+
 
 # build and packages
 node_modules

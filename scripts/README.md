@@ -1,0 +1,29 @@
+# Devops Scripts for AI News
+
+> Like `GNU **Make**? Don't use the scripts...
+>
+> ```shell
+> # from `/`
+> make # `start`
+> make clean # `clean`
+> make build # `build`
+> ```
+
+## Execution
+
+Run the scripts from the project root to maintain context
+
+```shell
+./scripts/start.sh
+```
+
+Otherwise the scripts will fail.
+
+## Scripts
+
+| File             | Purpose                                           |
+| :--------------- | :------------------------------------------------ |
+| `start.sh`       | Build and run the application                     |
+| `build.sh`       | Build the application                             |
+| `environment.sh` | Collect all environment variables for the modules |
+| `clean.sh`       | Shutdown running containers, and purge containers |

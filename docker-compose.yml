@@ -1,0 +1,9 @@
+version: "3"
+services:
+  database:
+    env_file:
+      - ./database/.env
+    build:
+      context: ./database
+    ports:
+      - "${PORT}:${PORT}"

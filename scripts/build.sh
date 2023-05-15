@@ -1,3 +1,3 @@
 #!/bin/bash
-make environment
+source ./scripts/environment.sh
 docker-compose build

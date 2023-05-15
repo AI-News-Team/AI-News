@@ -38,20 +38,17 @@ if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]] ; then
   docker volume prune -f
   echo 
 fi
-
 # Build image
 docker build \
   --rm \
-  --build-arg port=$PORT \
-  --build-arg username=$USERNAME \
-  --build-arg database=$DATABASE \
   -q \
   -t $CONTAINER_NAME \
   . \
   1> /dev/null;
 
-if [[ $1 == '-d' || $1 == '--development' ]] ; then
-  # Run container ( attach, and redirect stderr and stdout )
+# run contianer
+function run {
+  local attached=$1; # `1` or `0`
   docker run \
     --rm \
     --name $CONTAINER_NAME \
@@ -60,30 +57,25 @@ if [[ $1 == '-d' || $1 == '--development' ]] ; then
     -e POSTGRES_DB=$DATABASE \
     -p $PORT:$PORT \
     -m $MEMORY_LIMIT \
-    -a STDERR \
-    -a STDERR \
+    `if [[ "$attached" = false ]] ; then echo '-d'; fi` \
+    `if [[ "$attached" = true ]] ; then echo '-a STDERR -a STDERR'; fi` \
     $IMAGE_TAG \
     1> /dev/null;
-else 
-  # Run container ( production deteched mode )
-  docker run \
-    --rm \
-    --name $CONTAINER_NAME \
-    -d \
-    -e POSTGRES_PASSWORD=$PASSWORD \
-    -e POSTGRES_USER=$USERNAME \
-    -e POSTGRES_DB=$DATABASE \
-    -m $MEMORY_LIMIT \
-    -p $PORT:$PORT \
-    $IMAGE_TAG \
-    1> /dev/null;
+}
+function runAttached { run true; }
+function runDetatched { run false; }
 
-  if [[ $? == 0 ]] ; then
-    echo "$PORT Online 🚀 [Detached Mode]";
-  else
-    echo "Whoops! Something went wrong ❌";
-    exit $EXIT_ERROR;
-  fi
+if [[ $1 == '-d' || $1 == '--development' ]] ; then
+  runAttached; # run in development mode
+  exit $EXIT_SUCCESS;
+fi
+
+runDetatched; # run container
+if [[ $? == 0 ]] ; then
+  echo "$PORT Online 🚀 [Detached Mode]";
+else
+  echo "Whoops! Something went wrong ❌";
+  exit $EXIT_ERROR;
 fi
 
 exit $EXIT_SUCCESS;

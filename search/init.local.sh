@@ -5,6 +5,6 @@ if [ -z .env ] ; then
 fi
 source .env;
 
-pip install -r --user requirements.txt
+pip install --user -r requirements.txt
 # python main.py # cmdln version
 python -m flask --app main.py run --debug -h $SEARCH_ENGINE_HOST -p $SEARCH_ENGINE_PORT

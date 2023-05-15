@@ -22,12 +22,12 @@ fi
 cd ../;
 
 # Remove a running container of $TAG
-if [ "$(docker ps -aq -f name=$IMAGE_TAG)" ]; then
-  docker rm -f $IMAGE_TAG &> /dev/null;
+if [ "$(docker ps -aq -f name=$DATABASE_IMAGE_TAG)" ]; then
+  docker rm -f $DATABASE_IMAGE_TAG &> /dev/null;
 
   # Remove the image of $IMAGE_TAG
-  if [[ `docker image inspect  $IMAGE_TAG --format='found' 2> /dev/null` == 'found' ]] ; then
-    docker rmi $IMAGE_TAG;
+  if [[ `docker image inspect  $DATABASE_IMAGE_TAG --format='found' 2> /dev/null` == 'found' ]] ; then
+    docker rmi $DATABASE_IMAGE_TAG;
   fi
 fi
 
@@ -42,7 +42,7 @@ fi
 docker build \
   --rm \
   -q \
-  -t $CONTAINER_NAME \
+  -t $DATABASE_CONTAINER_NAME \
   . \
   1> /dev/null;
 
@@ -51,15 +51,15 @@ function run {
   local attached=$1; # `1` or `0`
   docker run \
     --rm \
-    --name $CONTAINER_NAME \
-    -e POSTGRES_PASSWORD=$PASSWORD \
-    -e POSTGRES_USER=$USERNAME \
-    -e POSTGRES_DB=$DATABASE \
-    -p $PORT:$PORT \
-    -m $MEMORY_LIMIT \
+    --name $DATABASE_CONTAINER_NAME \
+    -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+    -e POSTGRES_USER=$POSTGRES_USER \
+    -e POSTGRES_DB=$POSTGRES_DB \
+    -p $DATABASE_PORT:$DATABASE_PORT \
+    -m $DATABASE_MEMORY_LIMIT \
     `if [[ "$attached" = false ]] ; then echo '-d'; fi` \
     `if [[ "$attached" = true ]] ; then echo '-a STDERR -a STDERR'; fi` \
-    $IMAGE_TAG \
+    $DATABASE_IMAGE_TAG \
     1> /dev/null;
 }
 function runAttached { run true; }
@@ -72,7 +72,7 @@ fi
 
 runDetatched; # run container
 if [[ $? == 0 ]] ; then
-  echo "$PORT Online 🚀 [Detached Mode]";
+  echo "$DATABASE_PORT Online 🚀 [Detached Mode]";
 else
   echo "Whoops! Something went wrong ❌";
   exit $EXIT_ERROR;

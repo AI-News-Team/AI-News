@@ -12,9 +12,9 @@ fi
 source ../.env;
 
 docker exec \
-  -it $CONTAINER_NAME  \
+  -it $DATABASE_CONTAINER_NAME  \
     psql \
-      -U $USERNAME \
-      -d $DATABASE
+      -U $POSTGRES_USER \
+      -d $POSTGRES_DB
 
 exit $EXIT_SUCCESS;

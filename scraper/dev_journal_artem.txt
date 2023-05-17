@@ -30,6 +30,11 @@ I wish it could be a bit more specific so it would be able to
 debug that easier. The list of the errors do not help at all. 
 I love to use scrapy :)
 
+DATE: 17.05.23
+Finished doing the categories for all the spiders in the project. 
+Glad that it is over. That was a terrible experience to debug 
+any error or google how to fix that. Can't wait to start paraphrazing
+
 
 
 

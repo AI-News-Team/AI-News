@@ -16,35 +16,39 @@ from scrapy.loader.processors import TakeFirst, MapCompose
 class CNNSpider(scrapy.Spider):
     name = "cnn"
     allowed_domains = ['edition.cnn.com']
-    start_urls = ['https://edition.cnn.com/world']
+    start_urls = ['https://edition.cnn.com/']
 
     def parse(self, response):
-        for href in response.xpath('//div[@class="stack"]//a/@href'):
+        for href in response.xpath('//div[@class="header__nav-item"]//a/@href'):
             url = response.urljoin(href.extract())
-            yield scrapy.Request(url, callback = self.getArticle)
+            yield scrapy.Request(url, callback = self.getCategory)
         
+    def getCategory(self, response):
+        for href in response.xpath('//a[@class="container__link container_lead-plus-headlines__link"]/@href').getall():
+            url = response.urljoin(href)
+            yield scrapy.Request(url, callback = self.getArticle)
     
     def getArticle(self, response):
         item = Article()
         
-        item['name'] = response.xpath('//h1[@id="maincontent"]/text()').get().strip()
+        item['name'] = response.xpath('//head/meta[@property="og:title"]/@content').get()
 
-        item['author'] = response.xpath('//span[@class="byline__name"]/text()').get() or 'cnn'
+        item['author'] = response.xpath('//head/meta[@name="author"]/@content').get() or 'cnn'
 
-        item['publication_date'] = response.xpath('//div[@class="timestamp"]/text()').get()
-        item['publication_date'] = item['publication_date'].split(',', 1)[1].strip() if item['publication_date'] else "Not Found"
+        item['publication_date'] = response.xpath('//head/meta[@property="article:published_time"]/@content').get()
                 
-        body_text = [text.strip() for text in response.xpath('//div[@class="article__content"]/p//text()').getall()]
-        body_text = ' '.join(body_text)
-        item['body'] = body_text
+        item['body'] = response.xpath('//div[@class="article__content"]/p//text()').getall()
 
-        item['category'] = 'news'
+        item['category'] = response.xpath('//head/meta[@name="meta-section"]/@content').get()
 
         item['source_url'] = response.url
-        item['cover_url'] = response.xpath('//picture[@class="image__picture"]/source/@srcset').get()
+        item['cover_url'] = response.xpath('//head/meta[@property="og:image"]/@content').get()
 
         if response.xpath('//div[@class="gallery-inline__container"]'):
             item['body'] = response.xpath('//span[@class="inline-placeholder"]/text()').getall()
             # item['cover_url'] = response.xpath('//picture[@class="image_gallery-image__picture"]/img/@src').getall()
-
+        
+        if not item['body']:
+            item['body'] = response.xpath('//head/meta[@name="description"]/@content').get()
+        
         yield item

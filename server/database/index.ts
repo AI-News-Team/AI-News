@@ -1,5 +1,5 @@
 import { Client, ClientConfig } from 'pg';
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, EXPRESS_PORT } from '../environment';
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, API_PORT } from '../environment';
 import { EXIT_ERROR } from '../constant/code';
 
 const config: ClientConfig = {
@@ -10,23 +10,23 @@ const config: ClientConfig = {
   password: DB_PASSWORD,
 };
 
-const MAX_CONNECTION_ATTEMPTS = 8;
+const MAX_CONNECTION_ATTEMPTS = 16;
 const CONNECTION_ATTEMPT_INTERVAL_MS = 1024;
 
 export function connectClient() {
   attemptConnection({
     onAttempt(attempt) {
-      console.log(`${EXPRESS_PORT} 📡 Attempting connection...`);
+      console.log(`${API_PORT} 📡 Attempting connection...`);
     },
     onMaxConnections({ name, message, stack }) {
-      console.error(`${EXPRESS_PORT} 📡 Failed to connect after ${MAX_CONNECTION_ATTEMPTS} attempts`);
-      console.error(`${EXPRESS_PORT} 📜 Unhandled '${name}'`);
+      console.error(`${API_PORT} 📡 Failed to connect after ${MAX_CONNECTION_ATTEMPTS} attempts`);
+      console.error(`${API_PORT} 📜 Unhandled '${name}'`);
       console.error(`       Message: '${message}'`);
       console.error(`       Stacktrace: '${stack}'`);
       process.exit(EXIT_ERROR);
     },
     onSuccess() {
-      console.log(`${EXPRESS_PORT} 🔌 Connected to Postgres running on '${DB_HOST}:${DB_PORT}'`);
+      console.log(`${API_PORT} 🔌 Connected to Postgres running on '${DB_HOST}:${DB_PORT}'`);
     },
   });
 }

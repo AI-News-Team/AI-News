@@ -10,7 +10,7 @@ function assertVariable<T extends Primitive = string>(name: string) {
 }
 
 // Express
-export const EXPRESS_PORT = assertVariable<number>('EXPRESS_PORT');
+export const API_PORT = assertVariable<number>('API_PORT');
 
 // Database
 export const DB_USER = assertVariable('DB_USER');

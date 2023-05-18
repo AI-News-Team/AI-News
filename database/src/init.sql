@@ -26,10 +26,14 @@ create table Article (
 insert into Category (category, description)
 values  ('news', 'generic news articles'),
         ('gardening', 'gardening, landscaping, or botanical articles'),
-        ('motoring', 'cars or motor sports related articles'),
         ('politics', 'current political events and debate articles'),
         ('business', 'business, fintech, or economic articles'),
         ('culture', 'culturally significant articles'),
         ('world', 'world news and event articles'),
-        ('sport', 'generic sports articles');
+        ('style', 'world fashion'),
+        ('health', 'deceases, new medicines, medical research articles'),
+        ('weather', 'forecasts, climate'),
+        ('travel', 'cultural learnings of other countries'),
+        ('opinions', 'peoples opinions on current events'),
+        ('sport', 'sport, fitness, and exercise articles');
         

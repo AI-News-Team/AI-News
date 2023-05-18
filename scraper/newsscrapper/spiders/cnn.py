@@ -41,6 +41,11 @@ class CNNSpider(scrapy.Spider):
 
         item['category'] = response.xpath('//head/meta[@name="meta-section"]/@content').get()
 
+        if item['category'] == 'cnn-underscored':
+            # do not return item
+            return None
+        
+
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//head/meta[@property="og:image"]/@content').get()
 

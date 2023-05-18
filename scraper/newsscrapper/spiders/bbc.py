@@ -32,7 +32,7 @@ class BbcSpider(scrapy.Spider):
         item['author'] = response.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get() or 'bbc'
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
-        item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p[1]/text()').getall()
+        item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
 
         item['category'] = response.xpath('//head/meta[@property="article:section"]/@content').get() or 'News'
 
@@ -41,7 +41,7 @@ class BbcSpider(scrapy.Spider):
 
         # Checks if element text-block exists
         if response.xpath('//div[contains(@data-component, "text-block")]'):
-            item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p/text()').getall()
+            item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
             
         if response.xpath('//div[@class="article__body-content"]'):
             item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get()

@@ -39,7 +39,7 @@ class BbcSpider(scrapy.Spider):
             item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div/p/text()').getall()
             
         if response.xpath('//div[@class="article__body-content"]'):
-            item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get()
+            item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get() or 'bbc'
             item['publication_date'] = response.xpath('//div[@class="author-unit"]/div/span/text()').get()
             item['publication_date'] = response.xpath('//div[@class="author-unit"]/div/span/text()').get()
             item['body'] = response.xpath('//div[@class="body-text-card b-reith-sans-font"]/div[2]/div/p/text()').getall()

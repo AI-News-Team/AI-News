@@ -8,6 +8,7 @@ start:
 # Collect environment variables
 environment:
 	cat ./database/.env > ./.env
+	echo \n >> ./.env
 	cat ./server/.env >> ./.env
 
 # Remove all containers and volumes

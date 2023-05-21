@@ -2,11 +2,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
-#--------------------------------------------------------------------------
-# Your variables from .env file
-PORT_NUMBER = os.getenv("PORT_NUMBER")
-#--------------------------------------------------------------------------
+API_PORT = os.getenv("API_PORT")
 
 BOT_NAME = "newsscrapper"
 

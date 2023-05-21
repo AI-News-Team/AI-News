@@ -21,6 +21,14 @@ services:
       - ./shared:/app/shared
     depends_on:
       - database
+  scraper:
+    container_name: scraper
+    env_file:
+      - ./scraper/.env
+    build:
+      context: ./scraper
+    depends_on:
+      - server
   client:
     container_name: client
     env_file:

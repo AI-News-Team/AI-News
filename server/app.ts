@@ -11,7 +11,7 @@ import category from './route/Category/category';
 connectClient(); // Connect to the database
 
 const instance = express();
-instance.use(cors());
+instance.use(cors({ origin: '*', }));
 instance.use(express.json({ limit: '50mb' }));
 instance.use(express.urlencoded({ extended: true }));
 

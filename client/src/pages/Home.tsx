@@ -1,15 +1,8 @@
-import React from "react"
 import Headlines from "../components/page-components/Headlines"
-import { Link } from "react-router-dom"
 import TopicSection from "../components/page-components/TopicSection";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { getData } from "../utils/axios";
 import { Article } from "@shared";
-
-const domain = import.meta.env.VITE_SERVER_DOMAIN
-const currentDomain=`${domain}article.summary`
-const allArticlesDomain=`${domain}article.list`
 
 type Topic = {
     topic: string,
@@ -32,8 +25,8 @@ const Home = (props: Props) => {
     const [headlines, setHeadlines] = useState<any>();
             
         useEffect(() => {
-            getData(currentDomain, setData)
-            getData(allArticlesDomain, setHeadlines)
+            getData('article.summary', setData)
+            getData('article.list', setHeadlines)
         },[])
         
     return (

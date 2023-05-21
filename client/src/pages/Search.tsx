@@ -4,8 +4,6 @@ import { getData } from "../utils/axios";
 import SearchBox from "../components/search/SearchBox";
 import SearchResult from "../components/search/SearchResult";
 
-const domain = import.meta.env.VITE_SERVER_DOMAIN
-
 type Story = {
     id: number,
     name: string
@@ -15,11 +13,11 @@ const Search = () => {
 
     const url = window.location.pathname;
     const params = useParams();
-    const currentDomain=`${domain}article.search?query=${params.search}`
+    const currentDomain=`article.search?query=${params.search}`
     const [data, setData] = useState<Story[]>();
     
     useEffect(()=>{
-        getData(currentDomain, setData)
+        getData('article.search', setData)
         window.scrollTo(0, 0);
     },[url])
 

@@ -3,18 +3,15 @@ import { useParams, Link } from "react-router-dom";
 import { getData } from "../utils/axios";
 import LeadingSidebar from "../components/page-components/LeadingSidebar";
 import colors from "../styles/colors";
-import React from "react";
 import { Article } from "@shared";
 import { noImage } from "../images/commonImages";
-
-const domain = import.meta.env.VITE_SERVER_DOMAIN
 
 const ArticlePage = () => {
 
     const [color, setColor] = useState<string>()
 
     const params = useParams();
-    const currentDomain=`${domain}article.get/${params.id}`
+    const currentDomain=`article/${params.id}`
 
     const [data, setData] = useState<Article>();
     

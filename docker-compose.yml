@@ -21,3 +21,14 @@ services:
       - ./shared:/app/shared
     depends_on:
       - database
+  client:
+    container_name: client
+    env_file:
+      - ./client/.env
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - "${VITE_CLIENT_PORT}:${VITE_CLIENT_PORT}"
+    depends_on:
+      - server

@@ -1,4 +1,4 @@
-.PHONY: start environment clean build
+.PHONY: start environment clean build restart
 
 # build and start the services
 start:
@@ -10,6 +10,8 @@ environment:
 	cat ./database/.env > ./.env
 	echo \n >> ./.env
 	cat ./server/.env >> ./.env
+	echo \n >> ./.env
+	cat ./client/.env >> ./.env
 
 # Remove all containers and volumes
 clean:
@@ -20,3 +22,8 @@ clean:
 build:
 	make environment
 	docker-compose build
+
+# clean then start
+restart:
+	make clean \
+	&& make start

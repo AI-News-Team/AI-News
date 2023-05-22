@@ -8,7 +8,8 @@ services:
       context: ./database
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
-  server:
+
+  api:
     container_name: api
     env_file:
       - ./server/.env
@@ -21,6 +22,7 @@ services:
       - ./shared:/app/shared
     depends_on:
       - database
+
   scraper:
     container_name: scraper
     env_file:
@@ -28,7 +30,8 @@ services:
     build:
       context: ./scraper
     depends_on:
-      - server
+      - api
+
   client:
     container_name: client
     env_file:
@@ -39,14 +42,16 @@ services:
     ports:
       - "${VITE_CLIENT_PORT}:${VITE_CLIENT_PORT}"
     depends_on:
-      - server
+      - api
+      
   search:
     container_name: search
     env_file:
       - ./search/.env
     build:
       context: ./search
+    restart: on-failure
     depends_on:
-      - server
+      - api
     ports:
       - "${SEARCH_ENGINE_PORT}:${SEARCH_ENGINE_PORT}"

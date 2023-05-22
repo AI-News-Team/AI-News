@@ -1,8 +1,8 @@
 #!/bin/bash
 cat ./database/.env > ./.env
-echo \n >> ./.env
+echo >> ./.env
 cat ./server/.env >> ./.env
-echo \n >> ./.env
+echo >> ./.env
 cat ./client/.env >> ./.env
-echo \n >> ./.env
+echo >> ./.env
 cat ./search/.env >> ./.env

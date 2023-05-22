@@ -34,7 +34,13 @@ class BbcSpider(scrapy.Spider):
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
 
-        item['category'] = response.xpath('//head/meta[@property="article:section"]/@content').get() or 'News'
+        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science']
+        
+        category = response.xpath('//head/meta[@property="article:section"]/@content').get() or 'News'
+        
+        if category == 'lifestyle':
+
+        item['category'] = category
 
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//div[@data-component="image-block"]/figure/div/span/picture/img/@src').get()

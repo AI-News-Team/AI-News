@@ -35,5 +35,7 @@ values  ('news', 'generic news articles'),
         ('weather', 'forecasts, climate'),
         ('travel', 'cultural learnings of other countries'),
         ('opinions', 'peoples opinions on current events'),
+        ('entertainment', 'to have fun and smile'),
+        ('science', 'scientific research articles'),
         ('sport', 'sport, fitness, and exercise articles');
         

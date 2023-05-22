@@ -24,7 +24,6 @@ class foxNews(scrapy.Spider):
             url = response.urljoin(str(categories))
             yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
             
-
     def getCategory(self, response):
         for href in response.xpath('//div[@class="m"]/a/@href').getall():
             url = response.urljoin(href)
@@ -39,8 +38,8 @@ class foxNews(scrapy.Spider):
 
         item['publication_date'] = response.xpath('//head/meta[@data-hid="dcterms.created"]/@content').get()
 
-        if response.xpath('//p[@class="dek"]'):
-            item['body'] = response.xpath('//p[@class="dek"]/text()').getall()
+        if response.xpath('//p[@class="speakable"]'):
+            item['body'] = response.xpath('//p[@class="speakable"]//text()').getall()
         else:
             body = response.xpath('//p//text()').getall()
             body = body[10:]
@@ -49,10 +48,20 @@ class foxNews(scrapy.Spider):
             item['body'] = body
             if len(body) == 0:
                 return None
+            
+        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science']
         
         category = response.xpath('//head/meta[@data-hid="prism.section"]/@content').get()
 
-        if category is None:
+        # Reassign category if it's not in the list of categories to fetch
+        if category == 'lifestyle':
+            category = 'entertainment'
+        elif category == 'tech':
+            category = 'science'
+        elif category == 'tv':
+            category = 'entertainment'
+
+        if category is None or category not in toFetchCategories:
             return None
 
         if category == 'fox-news.video':

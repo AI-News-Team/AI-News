@@ -19,7 +19,10 @@ def get_response(input_text,num_return_sequences,num_beams):
   return tgt_text
 
 import openai
-openai.api_key = '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'
+
+load_dotenv()
+
+openai.api_key = os.getenv("API_KEY")
 
 def chatResponse(articleContent):
     print(articleContent)
@@ -29,7 +32,7 @@ def chatResponse(articleContent):
         {"role": "system", "content": "You are a news reporter."}, 
         {"role": "user", "content": "Rewrite the following article for a newspaper: " + articleContent }
     ],
-    temperature=0.5
+    temperature=0.0
     )
     print(completion.choices[0].message.content)
     return completion.choices[0].message.content
@@ -37,7 +40,7 @@ def chatResponse(articleContent):
 num_beams = 1
 num_return_sequences = 1
 
-load_dotenv()
+
 PORT_NUMBER = os.getenv("PORT_NUMBER")
 
 class NewsscrapperPipeline:
@@ -61,19 +64,19 @@ class NewsscrapperPipeline:
         print(self.json[1]["body"])
 
         # GPT------------------------------------------------------
-        # article = "\n".join(self.json[0]["body"])
-        # self.json[0]["body"] = chatResponse(article)
+        article = "\n".join(self.json[0]["body"])
+        self.json[0]["body"] = chatResponse(article)
         # ---------------------------------------------------------
 
         # Pegasus -------------------------------------------------
 
-        newBody = []
+        # newBody = []
 
-        for i in range(len(self.json[0]["body"])):
-            self.json[0]["body"][i] = get_response(self.json[0]["body"][i],num_return_sequences,num_beams)[0]
+        # for i in range(len(self.json[0]["body"])):
+        #     self.json[0]["body"][i] = get_response(self.json[0]["body"][i],num_return_sequences,num_beams)[0]
 
-        for i in range(len(self.json[1]["body"])):
-            self.json[1]["body"][i] = get_response(self.json[1]["body"][i],num_return_sequences,num_beams)[0]    
+        # for i in range(len(self.json[1]["body"])):
+        #     self.json[1]["body"][i] = get_response(self.json[1]["body"][i],num_return_sequences,num_beams)[0]    
         # for article in self.json:
         #     for i in range(len(article['body'])):
         #         article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)

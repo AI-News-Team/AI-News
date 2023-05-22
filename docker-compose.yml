@@ -12,10 +12,10 @@ services:
   api:
     container_name: api
     env_file:
-      - ./server/.env
+      - ./api/.env
     build:
       context: . # build needs access to /shared
-      dockerfile: ./server/Dockerfile
+      dockerfile: ./api/Dockerfile
     ports:
       - "${API_PORT}:${API_PORT}"
     volumes:

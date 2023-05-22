@@ -17,7 +17,7 @@ const Search = () => {
     const [data, setData] = useState<Story[]>();
     
     useEffect(()=>{
-        getData('article.search', setData)
+        getData(currentDomain, setData)
         window.scrollTo(0, 0);
     },[url])
 

@@ -40,3 +40,13 @@ services:
       - "${VITE_CLIENT_PORT}:${VITE_CLIENT_PORT}"
     depends_on:
       - server
+  search:
+    container_name: search
+    env_file:
+      - ./search/.env
+    build:
+      context: ./search
+    depends_on:
+      - server
+    ports:
+      - "${SEARCH_ENGINE_PORT}:${SEARCH_ENGINE_PORT}"

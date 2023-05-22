@@ -11,9 +11,12 @@ load_dotenv()
 SERVER_PORT = os.getenv('SERVER_PORT')
 if not SERVER_PORT: 
   raise Exception('SERVER_PORT environment variable not found')
+SERVER_HOST = os.getenv('SERVER_HOST')
+if not SERVER_HOST:
+  raise Exception('SERVER_HOST environment variable not found')
 
 TRANSFORMER =  'all-MiniLM-L6-v2'
-SEARCH_DOMAIN = f'http://localhost:{SERVER_PORT}/article.search.domain'
+SEARCH_DOMAIN = f'http://{SERVER_HOST}:{SERVER_PORT}/article.search.domain'
 SUCCESS = 200
 NOT_FOUND = 404
 BAD_REQUEST = 400
@@ -64,7 +67,7 @@ class Domain():
 class SemanticSearch():
   def __init__(self, corpus: list[str]):
     self.embedder = SentenceTransformer(TRANSFORMER)
-    self.corpus_embeddings = self.encodeAsTensor(corpus)
+    self.corpus_embeddings = [] if len(corpus) == 0 else self.encodeAsTensor(corpus)
     self.corpus = corpus
 
   def encodeAsTensor(self, query: str) -> any:
@@ -72,6 +75,7 @@ class SemanticSearch():
     return embedding
 
   def search(self, query) -> Generator[int, None, None]:
+    if len(self.corpus) == 0: return [] # no data, no search
     query_embedding = self.encodeAsTensor(query)
     scoredResults = util.semantic_search(query_embedding, self.corpus_embeddings)[0]
     for scoredResult in scoredResults:
@@ -92,7 +96,7 @@ if error:
 class SearchEngine(Resource):
   def get(self, query: str) -> list[str]: # todo: replace with `post`
     results = [r for r in domain.search(query)] # todo: stream results from generator?
-    return results
+    return results#, SUCCESS, {'Access-Control-Allow-Origin': '*'}
 
 api.add_resource(SearchEngine, "/search/<query>")
 

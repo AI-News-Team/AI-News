@@ -1,12 +1,11 @@
 import axios from "axios";
+import { search } from '../../../server/route/Article/article.search';
 
-const port = import.meta.env.VITE_API_PORT;
-const host = import.meta.env.VITE_API_HOST;
+const API_PORT = import.meta.env.VITE_API_PORT;
+const API_HOST = import.meta.env.VITE_API_HOST;
 const api = axios.create({
-    baseURL: `http://${host}:${port}`,
-    headers: {
-        "Content-Type": "application/json",
-    },
+    baseURL: `http://${API_HOST}:${API_PORT}`,
+    headers: { "Content-Type": "application/json", },
 });
 
 export const getData = async (domain:string, setData:Function) => {

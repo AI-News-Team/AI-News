@@ -1,0 +1,23 @@
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../constant/code';
+import { getClient } from '../../database';
+import { Route, Error, Success } from '../router';
+import { Article } from '@shared';
+
+const query = `
+  select id, name, author, body, fake_category category, source_url, cover_url, retrieved_date, publication_date
+  from Article
+`;
+
+export const getAll: Route = (req, res) => {
+  getClient().query<Article>(query, (err, result) => {
+    if (err) {
+      Error(res, INTERNAL_SERVER_ERROR, {
+        message: err.message || 'An unknown error occurred',
+        type: 'DatabaseError',
+      });
+    } else {
+      const data = result.rows ?? null;
+      Success(res, data);
+    }
+  });
+};

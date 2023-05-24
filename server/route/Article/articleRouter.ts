@@ -5,6 +5,8 @@ import { searchDomain } from './article.search.domain';
 import { search } from './article.search';
 import { get } from './article.get';
 import { summary } from './article.summary';
+import { getAll } from './article.getAll';
+
 
 const articleRouter = createRouter('article', {
   list: {
@@ -35,6 +37,10 @@ const articleRouter = createRouter('article', {
     method: 'get',
     handler: summary,
   },
+  getAll: {
+    method: 'get',
+    handler: getAll,
+  }
 });
 
 export default articleRouter;

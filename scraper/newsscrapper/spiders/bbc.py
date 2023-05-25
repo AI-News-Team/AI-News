@@ -40,12 +40,20 @@ class BbcSpider(scrapy.Spider):
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
 
+        # checks if item['body'] is empty and if it is, then return None
+        if not item['body']:
+            return None
+        
         if response.meta['category'] in ['Asia', 'UK', 'War in Ukraine']:
             response.meta['category'] = 'World'
         elif response.meta['category'] == 'Entertainment & Arts':
             response.meta['category'] = 'Entertainment'
         elif response.meta['category'] == 'Coronavirus':
             response.meta['category'] = 'Health'
+        elif response.meta['category'] == 'Technology':
+            response.meta['category'] = 'tech'
+        elif response.meta['category'] == 'Science & Environment' or response.meta['category'] == 'Climate':
+            response.meta['category'] = 'science'
 
         category = response.meta['category']
         category = category.lower()

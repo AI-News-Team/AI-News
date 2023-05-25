@@ -33,6 +33,7 @@ dist-ssr
 
 # environment
 .env
+container.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

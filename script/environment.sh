@@ -1,8 +1,8 @@
 #!/bin/bash
-cat ./database/.env > ./.env
+cat ./database/container.env > ./.env
 echo >> ./.env
-cat ./api/.env >> ./.env
+cat ./api/container.env >> ./.env
 echo >> ./.env
-cat ./client/.env >> ./.env
+cat ./client/container.env >> ./.env
 echo >> ./.env
-cat ./search/.env >> ./.env
+cat ./search/container.env >> ./.env

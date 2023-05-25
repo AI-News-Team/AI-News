@@ -11,7 +11,7 @@ const ArticlePage = () => {
     const [color, setColor] = useState<string>()
 
     const params = useParams();
-    const currentDomain=`article/${params.id}`
+    const currentDomain=`/article.get/${params.id}`
 
     const [data, setData] = useState<Article>();
     

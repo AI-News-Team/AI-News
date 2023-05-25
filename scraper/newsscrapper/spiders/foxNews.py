@@ -64,10 +64,7 @@ class foxNews(scrapy.Spider):
         if category is None or category not in toFetchCategories:
             return None
 
-        if category == 'fox-news.video':
-            item['category'] = 'video'
-        else:
-            item['category'] = category
+        item['category'] = category
 
         item['source_url'] = response.url
 

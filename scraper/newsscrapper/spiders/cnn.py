@@ -24,9 +24,15 @@ class CNNSpider(scrapy.Spider):
             yield scrapy.Request(url, callback = self.getCategory)
         
     def getCategory(self, response):
+        fetched_category = response.xpath('//head/meta[@name="meta-section"]/@content').get()
+
         for href in response.xpath('//a[@class="container__link container_lead-plus-headlines__link"]/@href').getall():
             url = response.urljoin(href)
-            yield scrapy.Request(url, callback = self.getArticle)
+
+            if fetched_category == 'video' or fetched_category == 'cnn-underscored':
+                yield None
+            else:             
+                yield scrapy.Request(url, callback = self.getArticle)
     
     def getArticle(self, response):
         item = Article()
@@ -39,13 +45,16 @@ class CNNSpider(scrapy.Spider):
                 
         item['body'] = response.xpath('//div[@class="article__content"]/p//text()').getall()
 
-        item['category'] = response.xpath('//head/meta[@name="meta-section"]/@content').get()
+        category = response.xpath('//head/meta[@name="meta-section"]/@content').get()
 
-        if item['category'] == 'cnn-underscored':
+        if category == 'us':
+            category = 'world'
+        elif category == 'cnn-underscored':
             # do not return item
-            return None
+            return None 
         
-
+        item['category'] = category
+        
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//head/meta[@property="og:image"]/@content').get()
 

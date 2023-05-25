@@ -22,9 +22,15 @@ class BbcSpider(scrapy.Spider):
             yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
 
     def getCategory(self, response):
+        fetched_category = response.xpath('//head/meta[@property="article:section"]/@content').get()
         for href in response.xpath('//div[@class="mpu-available"]//a/@href').getall():
             url = response.urljoin(href)
-            yield scrapy.Request(url, callback = self.getArticle)
+
+            if fetched_category in ['BBC World News: 24 hour news TV channel', 'Video', 'Stories', 'World News TV', 'In Pictures', 'Reality Check', 'Newsbeat', 'Long Reads']:
+                yield None
+            else:
+                yield scrapy.Request(url, callback=self.getArticle, meta={'category': fetched_category})
+
     
     def getArticle(self, response):
         item = Article()
@@ -34,11 +40,15 @@ class BbcSpider(scrapy.Spider):
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
 
-        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science']
-        
-        category = response.xpath('//head/meta[@property="article:section"]/@content').get() or 'News'
-        
-        if category == 'lifestyle':
+        if response.meta['category'] in ['Asia', 'UK', 'War in Ukraine']:
+            response.meta['category'] = 'World'
+        elif response.meta['category'] == 'Entertainment & Arts':
+            response.meta['category'] = 'Entertainment'
+        elif response.meta['category'] == 'Coronavirus':
+            response.meta['category'] = 'Health'
+
+        category = response.meta['category']
+        category = category.lower()
 
         item['category'] = category
 

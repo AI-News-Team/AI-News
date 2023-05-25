@@ -21,6 +21,19 @@ create table Article (
         retrieved_date timestamptz not null default now()
 );
 
+create table Article_Raw (
+        id serial primary key,
+        name varchar(128) null,
+        author varchar(128) not null,
+        category varchar(32) not null references Category(category),
+        fake_category varchar(32) not null references Category(category),
+        body json not null,
+        source_url varchar(256) not null,
+        cover_url varchar(256) null,
+        publication_date varchar(24) null, -- I don't like this, should be `Date` or `Timestamptz` type
+        retrieved_date timestamptz not null default now()
+);
+
 -- Defaults --
 
 insert into Category (category, description)

@@ -6,6 +6,7 @@ import { search } from './article.search';
 import { get } from './article.get';
 import { summary } from './article.summary';
 import { getAll } from './article.getAll';
+import { create_raw } from './article.create_raw';
 
 
 const articleRouter = createRouter('article', {
@@ -19,6 +20,10 @@ const articleRouter = createRouter('article', {
     method: 'get',
     pathParams: ['id'],
     handler: get,
+  },
+  create_raw: {
+    method: 'post',
+    handler: create_raw,
   },
   create: {
     method: 'post',
@@ -40,7 +45,7 @@ const articleRouter = createRouter('article', {
   getAll: {
     method: 'get',
     handler: getAll,
-  }
+  },
 });
 
 export default articleRouter;

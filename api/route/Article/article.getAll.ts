@@ -5,7 +5,7 @@ import { Article } from '@shared';
 
 const query = `
   select id, name, author, body, fake_category category, source_url, cover_url, retrieved_date, publication_date
-  from Article
+  from Article_Raw
 `;
 
 export const getAll: Route = (req, res) => {

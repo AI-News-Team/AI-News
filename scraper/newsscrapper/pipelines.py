@@ -10,7 +10,7 @@ PORT_NUMBER = os.getenv("PORT_NUMBER")
 
 class NewsscrapperPipeline:
     def __init__(self):
-        self.url = f'http://localhost:{PORT_NUMBER}/article.create'
+        self.url = f'http://localhost:{PORT_NUMBER}/article.create_raw'
         self.json = []
     
     def process_item(self, item, spider):
@@ -28,6 +28,8 @@ class NewsscrapperPipeline:
         # For checking purposes if it formats scraped data correctly
         # with open('articles.json', 'w') as f:
         #     json.dump(articles, f, indent=4)
+
+        print(articles)
 
         try: 
             response = requests.post(

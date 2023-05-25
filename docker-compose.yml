@@ -3,7 +3,7 @@ services:
   database:
     container_name: database
     env_file:
-      - ./database/.env
+      - ./database/container.env
     build:
       context: ./database
     ports:
@@ -12,7 +12,7 @@ services:
   api:
     container_name: api
     env_file:
-      - ./api/.env
+      - ./api/container.env
     build:
       context: . # build needs access to /shared
       dockerfile: ./api/Dockerfile
@@ -26,7 +26,7 @@ services:
   scraper:
     container_name: scraper
     env_file:
-      - ./scraper/.env
+      - ./scraper/container.env
     build:
       context: ./scraper
     depends_on:
@@ -35,7 +35,7 @@ services:
   client:
     container_name: client
     env_file:
-      - ./client/.env
+      - ./client/container.env
     build:
       context: .
       dockerfile: ./client/Dockerfile
@@ -47,7 +47,7 @@ services:
   search:
     container_name: search
     env_file:
-      - ./search/.env
+      - ./search/container.env
     build:
       context: ./search
     restart: on-failure

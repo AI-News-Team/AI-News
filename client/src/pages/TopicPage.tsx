@@ -6,8 +6,6 @@ import { getData } from "../utils/axios";
 import SortDropDown from "../components/tools/SortDropDown";
 import { useSearchParams } from "react-router-dom";
 
-const domain = import.meta.env.VITE_SERVER_DOMAIN
-
 type Props = {
   topic: string,
   color: string
@@ -16,7 +14,7 @@ type Props = {
 const TopicPage = ({ topic, color }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams({});
   
-  const articleData=`${domain}article.list/${topic}`
+  const articleData=`article.list/${topic}`
 
     const [data, setData] = useState<any[]>([])
 

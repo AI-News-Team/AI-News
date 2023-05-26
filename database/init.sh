@@ -1,2 +1,2 @@
 cd scripts
-./build.sh
+./build.sh $1 # build ( forward args )

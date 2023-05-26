@@ -1,23 +1,56 @@
-from sentence_transformers import SentenceTransformer, util
-from flask import Flask, request
-from flask_restful import Resource, Api
-from typing import Generator 
-from dotenv import load_dotenv
-import requests
 import os
+from typing import Generator
+
+import requests
+from dotenv import load_dotenv
+from flask import Flask, request
+from flask_restful import Api, Resource
+from sentence_transformers import SentenceTransformer, util
 
 load_dotenv()
 
-SERVER_PORT = os.getenv('SERVER_PORT')
-if not SERVER_PORT: 
-  raise Exception('SERVER_PORT environment variable not found')
+API_PORT = os.getenv('API_PORT')
+if not API_PORT: 
+  raise Exception('API_PORT environment variable not found')
+API_HOST = os.getenv('API_HOST')
+if not API_HOST:
+  raise Exception('API_HOST environment variable not found')
 
 TRANSFORMER =  'all-MiniLM-L6-v2'
-SEARCH_DOMAIN = f'http://localhost:{SERVER_PORT}/article.search.domain'
+SEARCH_DOMAIN = f'http://{API_HOST}:{API_PORT}/article.search.domain'
 SUCCESS = 200
 NOT_FOUND = 404
 BAD_REQUEST = 400
 
+'''
+Encodes and stores a list of strings as a tensor providing semantic search functionality.
+- SemanticSearch::encodeAsTensor(query) - encodes a query as a tensor
+- SemanticSearch::search(query) - yields the indices of the articles that match the query
+'''
+class SemanticSearch():
+  def __init__(self, corpus: list[str]):
+    self.embedder = SentenceTransformer(TRANSFORMER)
+    self.corpus_embeddings = [] if len(corpus) == 0 else self.encodeAsTensor(corpus)  # Torch throws an error if the corpus is empty, use empty list if so
+    self.corpus = corpus
+
+  def encodeAsTensor(self, query: str) -> any:
+    embedding = self.embedder.encode(query, convert_to_tensor=True)
+    return embedding
+
+  def search(self, query) -> Generator[int, None, None]:
+    if len(self.corpus) == 0: return [] # no data, no search
+    query_embedding = self.encodeAsTensor(query)
+    scoredResults = util.semantic_search(query_embedding, self.corpus_embeddings)[0]
+    for scoredResult in scoredResults:
+      cid = scoredResult["corpus_id"]
+      yield cid
+
+'''
+Fetches and stores collection of articles providing methods to fetch and search
+- Domain::fetch() - fetches the articles from the server
+- Domain::getArticles() - returns the articles
+- Domain::search(query) - yields articles that match the query
+'''
 class Domain():
   def __init__(self, url: str):
     self.url = url
@@ -61,23 +94,6 @@ class Domain():
       article = self.articles[idx]
       yield article
 
-class SemanticSearch():
-  def __init__(self, corpus: list[str]):
-    self.embedder = SentenceTransformer(TRANSFORMER)
-    self.corpus_embeddings = self.encodeAsTensor(corpus)
-    self.corpus = corpus
-
-  def encodeAsTensor(self, query: str) -> any:
-    embedding = self.embedder.encode(query, convert_to_tensor=True)
-    return embedding
-
-  def search(self, query) -> Generator[int, None, None]:
-    query_embedding = self.encodeAsTensor(query)
-    scoredResults = util.semantic_search(query_embedding, self.corpus_embeddings)[0]
-    for scoredResult in scoredResults:
-      cid = scoredResult["corpus_id"]
-      yield cid
-
 # initialize flask
 app = Flask(__name__)
 api = Api(app)
@@ -88,14 +104,22 @@ error = domain.fetch()
 if error:
   raise Exception(f'Error fetching articles: [{error["type"]}] {error["message"]}')
 
-# Define resource
+'''
+Search API resource
+GET `http://<domain>:<port>/search/<query> - returns a list of articles that match the query
+`pip install -r requirements.txt && ./init`
+'''
 class SearchEngine(Resource):
   def get(self, query: str) -> list[str]: # todo: replace with `post`
     results = [r for r in domain.search(query)] # todo: stream results from generator?
-    return results
+    return results#, SUCCESS, {'Access-Control-Allow-Origin': '*'}
 
 api.add_resource(SearchEngine, "/search/<query>")
 
+'''
+Command Line Execution
+`pip install -r requirements.txt && python main.py`
+'''
 def main() -> None:
   while True:
     query = input('Enter a query: ')

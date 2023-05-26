@@ -1,2 +1,7 @@
-docker build -t article_search .
-docker run --rm --network=host -it article_search
+#!/bin/bash
+python -m \
+  flask \
+  --app main.py run \
+  --debug \
+  -h $SEARCH_ENGINE_HOST \
+  -p $SEARCH_ENGINE_PORT

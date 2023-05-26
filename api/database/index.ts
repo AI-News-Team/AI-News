@@ -1,32 +1,32 @@
 import { Client, ClientConfig } from 'pg';
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, EXPRESS_PORT } from '../environment';
+import { DATABASE_HOST, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_USER, API_PORT } from '../environment';
 import { EXIT_ERROR } from '../constant/code';
 
 const config: ClientConfig = {
-  host: DB_HOST,
-  port: DB_PORT,
-  user: DB_USER,
-  database: DB_NAME,
-  password: DB_PASSWORD,
+  host: DATABASE_HOST,
+  port: DATABASE_PORT,
+  user: DATABASE_USER,
+  database: DATABASE_NAME,
+  password: DATABASE_PASSWORD,
 };
 
-const MAX_CONNECTION_ATTEMPTS = 8;
+const MAX_CONNECTION_ATTEMPTS = 16;
 const CONNECTION_ATTEMPT_INTERVAL_MS = 1024;
 
 export function connectClient() {
   attemptConnection({
     onAttempt(attempt) {
-      console.log(`${EXPRESS_PORT} 📡 Attempting connection...`);
+      console.log(`${API_PORT} 📡 Attempting connection...`);
     },
     onMaxConnections({ name, message, stack }) {
-      console.error(`${EXPRESS_PORT} 📡 Failed to connect after ${MAX_CONNECTION_ATTEMPTS} attempts`);
-      console.error(`${EXPRESS_PORT} 📜 Unhandled '${name}'`);
+      console.error(`${API_PORT} 📡 Failed to connect after ${MAX_CONNECTION_ATTEMPTS} attempts`);
+      console.error(`${API_PORT} 📜 Unhandled '${name}'`);
       console.error(`       Message: '${message}'`);
       console.error(`       Stacktrace: '${stack}'`);
       process.exit(EXIT_ERROR);
     },
     onSuccess() {
-      console.log(`${EXPRESS_PORT} 🔌 Connected to Postgres running on '${DB_HOST}:${DB_PORT}'`);
+      console.log(`${API_PORT} 🔌 Connected to Postgres running on '${DATABASE_HOST}:${DATABASE_PORT}'`);
     },
   });
 }
@@ -57,7 +57,7 @@ function attemptConnection(opts: ConnectionAttemptParam) {
 export function getClient() {
   if (attempts.length === 0) throw new Error('No client attempts'); // attempted to get a client before connecting
   const client = attempts.at(-1); // get the last client attempt
-  if (!client) throw new Error('No client'); // no
+  if (!client) throw new Error('No client');
   return client;
 }
 

@@ -6,11 +6,12 @@ import os
 from requests.exceptions import RequestException
 
 load_dotenv()
-PORT_NUMBER = os.getenv("PORT_NUMBER")
+API_PORT = os.getenv("API_PORT")
+API_HOST = os.getenv("API_HOST")
 
 class NewsscrapperPipeline:
     def __init__(self):
-        self.url = f'http://localhost:{PORT_NUMBER}/article.create'
+        self.url = f'http://{API_HOST}:{API_PORT}/article.create'
         self.json = []
     
     def process_item(self, item, spider):

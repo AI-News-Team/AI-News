@@ -1,0 +1,57 @@
+version: "3"
+services:
+  database:
+    container_name: database
+    env_file:
+      - ./database/container.env
+    build:
+      context: ./database
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+
+  api:
+    container_name: api
+    env_file:
+      - ./api/container.env
+    build:
+      context: . # build needs access to /shared
+      dockerfile: ./api/Dockerfile
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    volumes:
+      - ./shared:/app/shared
+    depends_on:
+      - database
+
+  scraper:
+    container_name: scraper
+    env_file:
+      - ./scraper/container.env
+    build:
+      context: ./scraper
+    depends_on:
+      - api
+
+  client:
+    container_name: client
+    env_file:
+      - ./client/container.env
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - "${VITE_CLIENT_PORT}:${VITE_CLIENT_PORT}"
+    depends_on:
+      - api
+      
+  search:
+    container_name: search
+    env_file:
+      - ./search/container.env
+    build:
+      context: ./search
+    restart: on-failure
+    depends_on:
+      - api
+    ports:
+      - "${SEARCH_ENGINE_PORT}:${SEARCH_ENGINE_PORT}"

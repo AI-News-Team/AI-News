@@ -9,8 +9,8 @@ lerna-debug.log*
 bbc_output.json
 articles.json
 cnn_output.json
-__pycache__
 data
+
 
 # build and packages
 node_modules
@@ -33,6 +33,7 @@ dist-ssr
 
 # environment
 .env
+container.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

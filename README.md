@@ -20,6 +20,7 @@ cd ai_driven_news_outlet
 Configure the environment variables required by the modules of this project--check out the `README`s
 
 use `.env` for host builds
+
 use `container.env` for compose builds
 
 ### Docker Compose

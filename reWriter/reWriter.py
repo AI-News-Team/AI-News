@@ -46,19 +46,13 @@ def serialize_item(item):
             return {k: v for k, v in item.items() if not k.startswith('_')}
 
 data = requests.get('http://localhost:3002/article.getAll').text
-# jsonArticle = json.dumps(data)
+jsonArticle = json.dumps(data)
 
-articles = []
-articles.append(data)
-print(articles)
+articles = json.loads(data)
 
-# data = json.dumps(self.json, default=serialize_item)
-#         articles = json.loads(data)
-# parse_json = json.loads(data)
-# articles = parse_json['data']
+firstArticle = articles['data'][0]
 
-# print(data)
-
+print(firstArticle['body'])
 
 # for article in articles:
 #     for i in range(len(article['body'])):
@@ -67,6 +61,7 @@ print(articles)
 #         print(attribute, value)
 
 # first_article = articles[0]
+# print(first_article)
 
 # Pegasus -------------------------------------------------
 
@@ -89,29 +84,16 @@ print(articles)
 #     self.json = []
 
 URL = f'http://localhost:{PORT}/article.create'
-# def process_item(self, item, spider):
-#     self.json.append(item)
-#     return item
- 
-# def close_spider(self, spider):
-#     def serialize_item(item):
-#         # Return a dictionary of the item's non-underscored attributes
-#         return {k: v for k, v in item.items() if not k.startswith('_')}
+
+try: 
+    response = requests.post(
+    URL, json={"article": firstArticle}, 
+    headers={'Content-Type': 'application/json'}
+    )
+    if response.status_code != 200:
+        raise Exception(f'FAILED TO SEND DATA: {response.text}')
     
-#     data = json.dumps(self.json, default=serialize_item)
-#     articles = json.loads(data)
-#     # For checking purposes if it formats scraped data correctly
-#     # with open('articles.json', 'w') as f:
-#     #     json.dump(articles, f, indent=4)
-# try: 
-#     response = requests.post(
-#     URL, json={"articles": articles}, 
-#     headers={'Content-Type': 'application/json'}
-#     )
-#     if response.status_code != 200:
-#         raise Exception(f'FAILED TO SEND DATA: {response.text}')
-    
-#     if response.status_code == 200:
-#         print('DATA SENT SUCCESSFULLY !')
-# except RequestException as e:
-#     print('Failed to connect to server: ', e)
+    if response.status_code == 200:
+        print('DATA SENT SUCCESSFULLY !')
+except RequestException as e:
+    print('Failed to connect to server: ', e)

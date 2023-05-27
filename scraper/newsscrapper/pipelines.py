@@ -26,8 +26,8 @@ class NewsscrapperPipeline:
         articles = json.loads(data)
 
         # For checking purposes if it formats scraped data correctly
-        with open('articles.json', 'w') as f:
-            json.dump(articles, f, indent=4)
+        # with open('articles.json', 'w') as f:
+        #     json.dump(articles, f, indent=4)
 
         try: 
             response = requests.post(

@@ -62,16 +62,28 @@ class newYorkTimesSpider(scrapy.Spider):
         else:
             item['body'] = response.xpath('//section[@name="articleBody"]/div/div//p/text()').getall()
 
-        item['category'] = response.xpath('//head/meta[@name="CG"]/@content').get()
+        category = response.xpath('//head/meta[@name="CG"]/@content').get()
 
-        slug = response.url.split('/')[-3]
-        if slug.isdigit():
-            item["category"] = response.url.split('/')[-2]
-        else:
-            item["category"] = slug
+        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science']
+        entertainmentCategories = ['games', 'books', 'magazine', 'music', 'art']
 
-        if item["category"] == "www.nytimes.com":
-            return
+        # Reassign category if it's not in the list of categories to fetch
+        if category in entertainmentCategories:
+            category = 'entertainment'
+
+        if category == 'dining' or category == 'cooking':
+            category = 'food'
+        elif category == 'tech':
+            category = 'science'
+        elif category == 'sports':
+            category = 'sport'
+        elif category == 'nyregion':
+            category = 'us'
+
+        if category is None or category not in toFetchCategories:
+            return None
+        
+        item["category"] = category
 
         item['source_url'] = response.url
 

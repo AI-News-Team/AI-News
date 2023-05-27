@@ -63,7 +63,8 @@ class foxNews(scrapy.Spider):
 
         if category is None or category not in toFetchCategories:
             return None
-
+        
+        category = category.lower()
         item['category'] = category
 
         item['source_url'] = response.url

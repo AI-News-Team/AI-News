@@ -64,7 +64,7 @@ class newYorkTimesSpider(scrapy.Spider):
 
         category = response.xpath('//head/meta[@name="CG"]/@content').get()
 
-        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science']
+        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science', 'food', 'style', 'health', 'travel']
         entertainmentCategories = ['games', 'books', 'magazine', 'music', 'art']
 
         # Reassign category if it's not in the list of categories to fetch

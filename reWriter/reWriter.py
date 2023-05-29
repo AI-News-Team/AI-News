@@ -19,7 +19,7 @@ def get_response(input_text,num_return_sequences,num_beams):
   tgt_text = tokenizer.batch_decode(translated, skip_special_tokens=True)
   return tgt_text
 
-num_beams = 1
+num_beams = 5
 num_return_sequences = 1
 
 import openai
@@ -68,7 +68,7 @@ for article in articles['data']:
     print("processing ",article['name'])
     print(len(article['body'])," lines")
     for i in range(len(article['body'])):
-        print(i)
+        print(len(article['body']) - i)
         article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
     send_article(article)
 

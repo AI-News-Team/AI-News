@@ -10,14 +10,14 @@ create table Category (
 );
 create table Article (
         id serial primary key,
-        name varchar(128) null,
-        author varchar(128) not null,
+        name varchar(256) null,
+        author varchar(256) not null,
         category varchar(32) not null references Category(category),
         fake_category varchar(32) not null references Category(category),
         body json not null,
         source_url varchar(256) not null,
         cover_url varchar(256) null,
-        publication_date varchar(24) null, -- I don't like this, should be `Date` or `Timestamptz` type
+        publication_date varchar(32) null, -- I don't like this, should be `Date` or `Timestamptz` type
         retrieved_date timestamptz not null default now()
 );
 

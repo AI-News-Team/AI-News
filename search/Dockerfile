@@ -3,4 +3,5 @@ WORKDIR /app
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-ENTRYPOINT [ "./init.sh"]
+RUN tr -d "\r" < init.sh
+ENTRYPOINT [ "./init.sh"] 

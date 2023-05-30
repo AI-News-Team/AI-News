@@ -1,5 +1,5 @@
 FROM postgres
 WORKDIR /db
 COPY ./src /docker-entrypoint-initdb.d/
-RUN tr -d '\015' init. > init.sh
+RUN cat init.sh | tr -d '\015' > init.sh
 EXPOSE $port

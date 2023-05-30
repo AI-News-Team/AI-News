@@ -1,8 +1,9 @@
 FROM node:18-alpine
 WORKDIR /app/api
-COPY ./api/package*.json .
+COPY ./api/package*.json ./
 RUN npm ci
-COPY ./api .
+
+COPY ./api ./
 RUN mkdir -p /app/shared
 COPY ./shared /app/shared
 EXPOSE $API_PORT

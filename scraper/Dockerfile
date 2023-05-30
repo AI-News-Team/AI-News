@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y cron
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY . ./
 RUN chmod +x scrape.cron.sh
 RUN mv scrape.cron.sh /etc/cron.d/scrape.cron.sh
 RUN crontab /etc/cron.d/scrape.cron.sh

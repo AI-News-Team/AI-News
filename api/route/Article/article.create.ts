@@ -3,17 +3,17 @@ import { Error, Success } from '../router';
 import { Article, Category } from '@shared';
 import { string } from 'pg-format';
 import { Client } from 'pg';
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from '../../environment';
+import { DATABASE_HOST, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_PORT, DATABASE_USER } from '../../environment';
 
 export const create: Route = (req, res) => {
   const { article } = req.body as { article: Article };
 
   const client = new Client({
-    host: DB_HOST,
-    user: DB_USER,
-    database: DB_NAME,
-    password: DB_PASSWORD,
-    port: DB_PORT,
+    host: DATABASE_HOST,
+    user: DATABASE_USER,
+    database: DATABASE_NAME,
+    password: DATABASE_PASSWORD,
+    port: DATABASE_PORT,
   });
 
   const insertUser = async (article: Article) => {

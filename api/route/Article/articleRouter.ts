@@ -8,7 +8,6 @@ import { summary } from './article.summary';
 import { getAll } from './article.getAll';
 import { create_raw } from './article.create_raw';
 
-
 const articleRouter = createRouter('article', {
   list: {
     method: 'get',

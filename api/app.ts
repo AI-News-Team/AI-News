@@ -2,7 +2,7 @@ import express from 'express';
 import { EXIT_ERROR, EXIT_SUCCESS } from './constant/code';
 import { connectClient, disconnectClient } from './database';
 import cors from 'cors';
-import { EXPRESS_PORT } from './environment';
+import { API_PORT } from './environment';
 import { useRouter } from './route';
 
 import article from './route/Article';
@@ -11,15 +11,17 @@ import category from './route/Category/category';
 connectClient(); // Connect to the database
 
 const instance = express();
-instance.use(cors());
+
+instance.use(cors({ origin: '*', }));
 instance.use(express.json({ limit: '50mb' }));
 instance.use(express.urlencoded({ extended: true }));
 
 useRouter(instance, '/', article);
 useRouter(instance, '/', category);
 
-const server = instance.listen(EXPRESS_PORT, () => {
-  console.log(`${EXPRESS_PORT} 🚀 Online`);
+
+const server = instance.listen(API_PORT, () => {
+  console.log(`${API_PORT} 🚀 Online`);
 });
 
 process.on('uncaughtException', uncaughtException);
@@ -33,7 +35,7 @@ process.on('SIGTERM', terminate); // on `kill`
 function terminate() {
   server.close(() => {
     disconnectClient();
-    console.log(`${EXPRESS_PORT} Offline!`);
+    console.log(`${API_PORT} Offline!`);
     process.exit(EXIT_SUCCESS);
   });
 }

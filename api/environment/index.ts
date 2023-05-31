@@ -9,16 +9,11 @@ function assertVariable<T extends Primitive = string>(name: string) {
   return variable as T;
 }
 
-// Express
-export const EXPRESS_PORT = assertVariable<number>('EXPRESS_PORT');
-
-// Database
-export const DB_USER = assertVariable('DB_USER');
-export const DB_PORT = assertVariable<number>('DB_PORT');
-export const DB_NAME = assertVariable('DB_NAME');
-export const DB_HOST = assertVariable('DB_HOST');
-export const DB_PASSWORD = assertVariable('DB_PASSWORD');
-
-// Search Engine
+export const API_PORT = assertVariable<number>('API_PORT');
+export const DATABASE_USER = assertVariable('DATABASE_USER');
+export const DATABASE_PORT = assertVariable<number>('DATABASE_PORT');
+export const DATABASE_NAME = assertVariable('DATABASE_NAME');
+export const DATABASE_HOST = assertVariable('DATABASE_HOST');
+export const DATABASE_PASSWORD = assertVariable('DATABASE_PASSWORD');
 export const SEARCH_ENGINE_HOST = assertVariable('SEARCH_ENGINE_HOST');
 export const SEARCH_ENGINE_PORT = assertVariable<number>('SEARCH_ENGINE_PORT');

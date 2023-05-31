@@ -12,8 +12,8 @@ fi
 source ../.env;
 
 BACKUP_DIR=../backups;
-if [ ! -d $BACKUP_DIR ] ; then
-  mkdir $BACKUP_DIR;
+if [ ! -d $DATABASE_BACKUP_DIR ] ; then
+  mkdir $DATABASE_BACKUP_DIR;
 fi
 
 # ref: https://www.postgresql.org/docs/current/app-pg-dumpall.html
@@ -27,7 +27,7 @@ docker exec \
       -a \
       -U $USERNAME \
       $DATABASE \
-    > $BACKUP_DIR/$BACKUP_NAME;
+    > $DATABASE_BACKUP_DIR/$BACKUP_NAME;
 
 echo "Backup successful: $BACKUP_NAME";
 

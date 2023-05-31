@@ -21,12 +21,12 @@ if [ ! -f $1 ] ; then
   exit 1;
 fi
 
-docker cp $1 $CONTAINER_NAME:/tmp/backup.sql;
-docker exec -it $CONTAINER_NAME \
+docker cp $1 $DATABASE_CONTAINER_NAME:/tmp/backup.sql;
+docker exec -it $DATABASE_CONTAINER_NAME \
   bash -c "
     psql \
-      -U $USERNAME \
-      -d $DATABASE\
+      -U $POSTGRES_USER \
+      -d $POSTGRES_DB \
       -f /tmp/backup.sql
   "
   

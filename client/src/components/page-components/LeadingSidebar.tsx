@@ -3,9 +3,6 @@ import { getData } from "../../utils/axios";
 import CompactStoryCard from "./CompactStoryCard";
 import { Article } from "@shared";
 
-const domain = import.meta.env.VITE_SERVER_DOMAIN;
-const summaryArticles = `${domain}article.summary`;
-
 type Props = {
   color: string
   topic: string
@@ -21,7 +18,7 @@ const LeadingSidebar = ({ color, topic }: Props) => {
     const [data, setData] = useState<any>();
 
     useEffect(() => {
-      getData(summaryArticles, setData);
+      getData('article.summary', setData);
     }, []);
 
   return (

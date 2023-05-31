@@ -3,9 +3,11 @@ import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
 import { Article } from '@shared';
 
+
+// This query works for now, but will no longer work if the title is also paraphrased
 const query = `
-  select name, author, body, fake_category category, source_url, cover_url, retrieved_date, publication_date
-  from Article_Raw
+  SELECT name, author, body, fake_category category, source_url, cover_url, retrieved_date, publication_date
+  from Article_Raw WHERE name NOT IN (SELECT name FROM Article)
 `;
 
 export const getAll: Route = (req, res) => {

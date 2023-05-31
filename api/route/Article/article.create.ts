@@ -1,32 +1,22 @@
 import { Route } from '..';
-import { INTERNAL_SERVER_ERROR, BAD_REQUEST } from '../../constant/code';
-import { getClient } from '../../database';
 import { Error, Success } from '../router';
 import { Article, Category } from '@shared';
-import format, { string } from 'pg-format';
-import { AssertKeySchema } from '../../util/schema';
+import { string } from 'pg-format';
 import { Client } from 'pg';
-
-const insertionKeySchema = ['name', 'author', 'publication_date', 'body', 'category', 'source_url', 'cover_url'] as const;
-
-const insertionTemplate = `
-  insert into Article (name, author, publication_date, body, category, source_url, cover_url, fake_category) 
-  values %L
-`;
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from '../../environment';
 
 export const create: Route = (req, res) => {
   const { article } = req.body as { article: Article };
 
   const client = new Client({
-    host: '0.0.0.0',
-    user: 'greg',
-    database: 'news_outlet_dev',
-    password: 'p@ssw0rd',
-    port: 5432,
+    host: DB_HOST,
+    user: DB_USER,
+    database: DB_NAME,
+    password: DB_PASSWORD,
+    port: DB_PORT,
   });
 
   const insertUser = async (article: Article) => {
-    console.log(article)
     try {
         await client.connect();           // gets connection
         await client.query(
@@ -45,7 +35,7 @@ export const create: Route = (req, res) => {
         console.error(error);
         return false;
     } finally {
-        await client.end();               // closes connection
+        await client.end();  // closes connection
     }
   };
 

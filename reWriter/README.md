@@ -5,4 +5,5 @@
 - enter the reWriter folder and begin the process
 
 ` cd reWriter `
+
 ` python reWriter.py `

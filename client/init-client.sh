@@ -2,6 +2,6 @@ cd ..
 cd database
 ./init.sh
 cd ..
-cd server
+cd api
 npm start
 

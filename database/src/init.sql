@@ -13,11 +13,10 @@ create table Article (
         name varchar(256) null,
         author varchar(256) not null,
         category varchar(32) not null references Category(category),
-        fake_category varchar(32) not null references Category(category),
         body json not null,
         source_url varchar(256) not null,
         cover_url varchar(256) null,
-        publication_date varchar(32) null, -- I don't like this, should be `Date` or `Timestamptz` type
+        publication_date timestamptz not null,
         retrieved_date timestamptz not null default now()
 );
 

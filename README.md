@@ -10,6 +10,10 @@
 
 <br/>
 
+*Prototype deployment is underway!*
+
+[` Launch `](https://ai-daily-news.op-bit.nz/) `https://ai-daily-news.op-bit.nz/`
+
 ## Installation and Configuration
 
 ```shell
@@ -63,10 +67,3 @@ B --> D
 E[Web Scraper] -->  B
 F[User] --> D
 ```
-
-## Deployment
-
-> Deployment is underway!
-> Watch this space
-
-[~~` Launch 🚀`~~]()

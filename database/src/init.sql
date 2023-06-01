@@ -38,5 +38,6 @@ values  ('news', 'generic news articles'),
         ('science', 'scientific research articles'),
         ('tech', 'technology, gadgets, and software articles'),
         ('food', 'food, cooking, and recipes articles'),
+        ('us', 'united states news and event articles'),
         ('sport', 'sport, fitness, and exercise articles');
         

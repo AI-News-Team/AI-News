@@ -6,11 +6,11 @@ import { Article } from '@shared';
 
 const ARTICLES_PER_CATEGORY = 4;
 const groupCategoriesInThrees = `
-  select id, name, author, publication_date, fake_category category, source_url, cover_url
+  select id, name, author, publication_date, category, source_url, cover_url
   from (
     select 
       *,
-      row_number() over (partition by fake_category order by publication_date) index_in_category 
+      row_number() over (order by publication_date) index_in_category 
     from Article 
   ) categorized_articles 
   where index_in_category < ${ARTICLES_PER_CATEGORY}
@@ -29,7 +29,6 @@ const categorizeArticles = (articles: Article[]) =>
   );
 
 export const summary: Route = (_, res) => {
-  // todo: remove fake category and use real category
   getClient().query<Article>(groupCategoriesInThrees, (err, result) => {
     if (err)
       return Error(res, INTERNAL_SERVER_ERROR, {

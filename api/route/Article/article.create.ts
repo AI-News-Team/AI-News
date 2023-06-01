@@ -9,7 +9,7 @@ import { AssertKeySchema } from '../../util/schema';
 const insertionKeySchema = ['name', 'author', 'publication_date', 'body', 'category', 'source_url', 'cover_url'] as const;
 
 const insertionTemplate = `
-  insert into Article (name, author, publication_date, body, category, source_url, cover_url, fake_category) 
+  insert into Article (name, author, publication_date, body, category, source_url, cover_url) 
   values %L
 `;
 
@@ -32,22 +32,14 @@ export const create: Route = (req, res) => {
         type: 'QueryError',
       });
 
-    // todo: remove this fake category generation
-    const getFakeCategory = () => {
-      const randomIndex = Math.floor(Math.random() * result.rows.length);
-      const fakeCategory = result.rows[randomIndex].category;
-      return fakeCategory;
-    };
-
     const formattedArticles = articles.map(a => {
       AssertKeySchema(Object.keys(a), insertionKeySchema);
       const tuple = Object.values({ ...a, body: JSON.stringify(a.body) });
-      return [...tuple, getFakeCategory()]; // todo: remove fake category
+      return [...tuple]; 
     });
 
     const insertion = format(insertionTemplate, formattedArticles);
 
-    // todo: remove fake category`
     getClient().query<Article>(insertion, [], (err, results) => {
       if (err)
         return Error(res, INTERNAL_SERVER_ERROR, {

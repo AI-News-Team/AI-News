@@ -10,9 +10,11 @@
 
 <br/>
 
-*Prototype deployment is underway!*
+## Live Prototype
 
-[` Launch `](https://ai-daily-news.op-bit.nz/) `https://ai-daily-news.op-bit.nz/`
+Our prototype site is now live.
+
+[`Launch 🚀`](https://ai-daily-news.op-bit.nz/)
 
 ## Installation and Configuration
 

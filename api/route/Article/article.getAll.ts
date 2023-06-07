@@ -5,7 +5,7 @@ import { Article } from '@shared';
 
 // This query works for now, but will no longer work if the title is also paraphrased
 const query = `
-  SELECT name, author, body, fake_category category, source_url, cover_url, retrieved_date, publication_date
+  SELECT id, body
   FROM Article_Raw 
   WHERE name NOT IN (
     SELECT name FROM Article

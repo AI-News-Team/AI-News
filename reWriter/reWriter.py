@@ -68,7 +68,7 @@ for article in articles['data']:
     if isinstance(article['body'], str):
         article['body'] = article['body'].split(".")
 
-    print("processing ",article['name'])
+    print("processing ",article['id'])
     print(len(article['body'])," lines")
 
     for i in range(len(article['body'])):

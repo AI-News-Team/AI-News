@@ -10,17 +10,11 @@ export const create: Route = (req, res) => {
   const insertUser = async (article: Article) => {
     try {
       await getClient().query(
-        `INSERT INTO Article ("name", "author", "publication_date", "body", "category", "source_url", "cover_url", "fake_category")  
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        `INSERT INTO Article ("id", "body")  
+             VALUES ($1, $2)`,
         [
-          article.name,
-          article.author,
-          article.publication_date,
+          article.id,
           JSON.stringify(article.body),
-          article.category,
-          article.source_url,
-          article.cover_url,
-          article.category,
         ],
       ); // sends queries
       return true;

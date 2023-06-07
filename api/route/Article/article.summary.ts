@@ -6,12 +6,12 @@ import { Article } from '@shared';
 
 const ARTICLES_PER_CATEGORY = 4;
 const groupCategoriesInThrees = `
-  select id, name, author, publication_date, fake_category category, source_url, cover_url
+  select id, name, author, publication_date, category, source_url, cover_url
   from (
-    select 
-      *,
-      row_number() over (partition by fake_category order by publication_date) index_in_category 
-    from Article 
+    select ar.id, ar.name, ar.author, a.body, ar.fake_category category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date,
+      row_number() over (partition by ar.fake_category order by publication_date) index_in_category 
+      from Article_Raw ar
+      join Article a on ar.id = a.id
   ) categorized_articles 
   where index_in_category < ${ARTICLES_PER_CATEGORY}
 `;

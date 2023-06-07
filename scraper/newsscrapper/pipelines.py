@@ -30,8 +30,6 @@ class NewsscrapperPipeline:
         # with open('articles.json', 'w') as f:
         #     json.dump(articles, f, indent=4)
 
-        print(articles)
-
         try: 
             response = requests.post(
             self.url, json={"articles": articles}, 

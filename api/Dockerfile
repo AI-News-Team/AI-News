@@ -7,4 +7,4 @@ COPY ./api ./
 RUN mkdir -p /app/shared
 COPY ./shared /app/shared
 EXPOSE $API_PORT
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]

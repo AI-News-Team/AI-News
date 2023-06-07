@@ -11,7 +11,7 @@ API_HOST = os.getenv("API_HOST")
 
 class NewsscrapperPipeline:
     def __init__(self):
-        self.url = f'http://{API_HOST}:{API_PORT}/article.create'
+        self.url = f'http://{API_HOST}:{API_PORT}/article.create_raw'
         self.json = []
     
     def process_item(self, item, spider):

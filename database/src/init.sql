@@ -23,7 +23,7 @@ create table Article (
 
 create table Article_Raw (
         id serial primary key,
-        name varchar(128) null,
+        name varchar(256) null,
         author varchar(128) not null,
         category varchar(32) not null references Category(category),
         fake_category varchar(32) not null references Category(category),

@@ -32,9 +32,11 @@ num_return_sequences = 1
 
 load_dotenv()
 
-PORT = os.getenv("SERVER_PORT")
+API_PORT = os.getenv("API_PORT")
+API_HOST = os.getenv("API_HOST")
 
-URL = f'http://localhost:{PORT}/article.create'
+URL = f'http://{API_HOST}:{API_PORT}/article.create'
+getAllURL = f'http://{API_HOST}:{API_PORT}/article.getAll'
 
 def send_article(article):
     try: 
@@ -49,7 +51,15 @@ def send_article(article):
     except RequestException as e:
         print('Failed to connect to server: ', e)
 
-data = requests.get('http://localhost:3002/article.getAll').text
+try: 
+    data = requests.get(
+        getAllURL
+        ).text
+
+except RequestException as e:
+    print('Failed to connect to server: ', e)
+
+# data = requests.get('http://{API_HOST}:{API_PORT}/article.getAll').text
 
 articles = json.loads(data)
 

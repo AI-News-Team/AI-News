@@ -63,9 +63,20 @@ class BbcSpider(scrapy.Spider):
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//div[@data-component="image-block"]/figure/div/span/picture/img/@src').get()
 
-        # Checks if element text-block exists
         if response.xpath('//div[contains(@data-component, "text-block")]'):
-            item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
+            main_content = response.xpath('//main[@id="main-content"]')
+
+            elements = main_content.xpath('.//*[self::div[@data-component="unordered-list-block"] or '
+                                        'self::div[@data-component="subheadline-block"] or '
+                                        'self::div[@data-component="text-block"]]')
+
+            scraped_text = []
+
+            for element in elements:
+                text = element.xpath('.//text()').get()
+                scraped_text.append(text)
+
+            item["body"] = scraped_text
             
         if response.xpath('//div[@class="article__body-content"]'):
             item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get()

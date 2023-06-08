@@ -4,9 +4,10 @@ import { Route, Error, Success } from '../router';
 import { Article } from '@shared';
 
 const query = `
-  select id, name, author, body, fake_category category, source_url, cover_url, retrieved_date, publication_date
-  from Article 
-  where id = $1
+  select ar.id, ar.name, ar.author, a.body, ar.fake_category category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date
+  from Article_Raw ar
+  join Article a on ar.id = a.id
+  where ar.id = $1
 `;
 
 export const get: Route = (req, res) => {

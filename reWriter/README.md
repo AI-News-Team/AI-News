@@ -11,6 +11,17 @@
 
 ` cd reWriter `
 
+if using for the first time, install required modules:
+
+` pip install torch `
+
+` pip install transfomers `
+
+` pip install sentencepiece `
+
+Then you can start the re-writing process with the following:
+
 ` python reWriter.py `
 
 Articles will be loaded to the database table 'Article' one at a time.  Frontend will pick up new stories loaded as they appear
+

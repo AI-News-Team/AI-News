@@ -9,6 +9,11 @@ create table Category (
         description varchar(128) not null
 );
 create table Article (
+        id INT primary key not null,
+        body json not null
+);
+
+create table Article_Raw (
         id serial primary key,
         name varchar(256) null,
         author varchar(256) not null,

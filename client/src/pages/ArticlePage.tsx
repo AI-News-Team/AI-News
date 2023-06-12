@@ -48,15 +48,14 @@ return (
           <img className="object-cover h-96 w-full" src={noImage} />
         )}
         <h3 className="py-6">{data?.author}</h3>
-          { Array.isArray(data?.body) ? (data?.body.map((text) => (
-            <p className="py-2 lg:text-xl">{text}</p>
-            ))) : (
-            <p className="py-2 lg:text-xl">{data?.body}</p>
-            )
-          }
+        {Array.isArray(data?.body) ? (
+          data?.body.map((text) => <p className="py-2 lg:text-md">{text}</p>)
+        ) : (
+          <p className="py-2 lg:text-md">{data?.body}</p>
+        )}
       </div>
       <div className="w-4/12 md:pl-5 xl:pl-20 hidden md:block">
-        <LeadingSidebar color={color!} />
+        <LeadingSidebar color={color!} topic={data?.category!} />
       </div>
     </div>
   </div>

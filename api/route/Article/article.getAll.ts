@@ -7,8 +7,8 @@ import { Article } from '@shared';
 const query = `
   SELECT id, body
   FROM Article_Raw 
-  WHERE name NOT IN (
-    SELECT name FROM Article
+  WHERE id NOT IN (
+    SELECT id FROM Article
   )
 `;
 

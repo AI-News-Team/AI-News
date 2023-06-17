@@ -38,6 +38,7 @@ pip install scrapy
 ---
 
 ### 3. Create `.env` file 
+* It should be created inside `newsscrapper` directory
 * That should be it!
 --- 
 

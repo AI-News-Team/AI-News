@@ -43,7 +43,7 @@ pip install scrapy
 ``` shell
 cd scraper/
 ```
-* Run the following to start scraping data with `cnn` and `bbc` spiders:
+* Run the following to start scraping data with `cnn`, `bbc`, `newYorkTimes` and `foxNews` spiders:
 ``` shell
 ./runspiders.sh
 ```

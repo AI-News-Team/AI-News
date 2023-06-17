@@ -19,16 +19,21 @@ class foxNews(scrapy.Spider):
     start_urls = ['https://www.foxnews.com/']
     category = None
 
+    # Extracts all the links for the categories
     def parse(self, response):
         for categories in response.xpath('//h4[@class="nav-title"]/a/@href').getall():
             url = response.urljoin(str(categories))
             yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
-            
+
+    # Extracts all the links for the articles in the categories
     def getCategory(self, response):
+
+        # iterate through all the categories
         for href in response.xpath('//div[@class="m"]/a/@href').getall():
             url = response.urljoin(href)
             yield scrapy.Request(url, callback = self.getArticle)
-    
+
+    # Extracts all the information from the article
     def getArticle(self, response):
         item = Article()
         
@@ -38,6 +43,7 @@ class foxNews(scrapy.Spider):
 
         item['publication_date'] = response.xpath('//head/meta[@data-hid="dcterms.created"]/@content').get()
 
+        # Get rids of the tags in the body
         if response.xpath('//p[@class="speakable"]'):
             item['body'] = response.xpath('//p[@class="speakable"]//text()').getall()
         else:
@@ -61,6 +67,7 @@ class foxNews(scrapy.Spider):
         elif category == 'tv':
             category = 'entertainment'
 
+        # Get rids of the categories that do not exist in the db
         if category is None or category not in toFetchCategories:
             return None
         
@@ -69,6 +76,7 @@ class foxNews(scrapy.Spider):
 
         item['source_url'] = response.url
 
+        # Get rid of the articles that do not have a cover image. Due to weird layouts, doesn't exract image properly
         item['cover_url'] = response.xpath('//head/meta[@data-hid="og:image"]/@content').get()
         if item['cover_url'] == "[object Object]":
             return None

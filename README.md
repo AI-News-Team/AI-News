@@ -23,11 +23,24 @@ git clone https://github.com/RozadoStudioProjectsOP/ai_driven_news_outlet/
 cd ai_driven_news_outlet
 ```
 
-Configure the environment variables required by the modules of this project--check out the `README`s
+### Environment
 
-use `.env` for host builds
+#### Local
 
-use `container.env` for compose builds
+Configure the sections from `template.local.env` in `local.env` for running the modules on your local machine.
+
+```shell
+cp template.local.env local.env # git ignore `local.env`
+vim local.env # set undefined variables
+```
+
+Use whatever credentials you like for the `POSTGRES_USER` and `POSTGRES_PASSWORD` variables. You'll use these if you connect manually to the Database with `/database/scripts/attach.sh`.
+
+The `/database/scripts/backup` script will ensure the the `BACKUP_DIR` directory exists before writing to it. You can set this to any directory you like.
+
+#### Containerized
+
+Configure the sections from `template.virtual.env` in `virtual.env` for running the modules though docker containers.
 
 ### Docker Compose
 

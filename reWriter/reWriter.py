@@ -30,8 +30,8 @@ num_return_sequences = 1
 
 # --------------------------------------------------------------------
 
-load_dotenv()
-
+dot = os.path.dirname(os.path.realpath(__file__))
+load_dotenv(f"{dot}/../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
 API_PORT = os.getenv("API_PORT")
 API_HOST = os.getenv("API_HOST")
 

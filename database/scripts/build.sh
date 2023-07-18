@@ -4,12 +4,12 @@
 #   Usage: ./build.sh
 #
 
-if [ -z ../.env ] ; then
+if [ -z ../../local.env ] ; then
   echo "Unable to initalize database!"
-  echo "Missing `../.env` file ❌";
+  echo "Missing `../../local.env` file ❌";
   exit 1;
 fi
-source ../.env;
+source ../../local.env;
 
 # check for Docker Daemon
 if (! docker stats --no-stream &> /dev/null) ; then

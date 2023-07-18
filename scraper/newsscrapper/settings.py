@@ -1,7 +1,8 @@
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+dot = os.path.dirname(os.path.realpath(__file__))
+load_dotenv(dotenv_path=f"{dot}/../../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
 API_PORT = os.getenv("API_PORT")
 
 BOT_NAME = "newsscrapper"

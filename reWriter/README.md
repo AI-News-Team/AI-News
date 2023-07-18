@@ -1,27 +1,19 @@
-### Running the re-Writer Module locally
+# ReWriter
 
-- Maker sure the database and server are running by opening docker desktop, then performing the following in the terminal
+Paraphrases articles
 
-` cd client `
+## Environment
 
-` ./init-client.sh `
+This module relies on the environment configured for the `api` module. Make sure the `api` module is running before starting the reWriter module.
 
-- Scrape Data as instructed here: https://github.com/AI-News-Team/AI-News/blob/gseal-56-reWriter-module/scraper/README.md.  Scraped data is now added to a table titled 'Article_Raw' and will NOT populate the front end.
-- enter the reWriter folder and begin the process
+Configure and run the `scraper` module to populate the database with articles to be rewritten.
 
-` cd reWriter `
+## Dependencies
 
-if using for the first time, install required modules:
+`pip install -r requirements.txt`
 
-` pip install torch `
+## Execution
 
-` pip install transfomers `
+`python reWriter.py`
 
-` pip install sentencepiece `
-
-Then you can start the re-writing process with the following:
-
-` python reWriter.py `
-
-Articles will be loaded to the database table 'Article' one at a time.  Frontend will pick up new stories loaded as they appear
-
+Fetch raw articles from the `api` with `article.getAll` and paraphrased articles with `article.list/:category`.

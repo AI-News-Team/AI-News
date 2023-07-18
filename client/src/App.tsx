@@ -8,21 +8,49 @@ import TopicPage from './pages/TopicPage'
 import colors from './styles/colors'
 import ArticlePage from './pages/ArticlePage'
 import Search from './pages/Search';
+import { useState, useEffect } from 'react';
+import { getData } from './utils/axios';
 
 function App() {
 
-  const topics = ["news", "gardening", "motoring", "politics", "business", "culture" ,"world", "sport"]
+  const [categories, setCategories] = useState<any>();
 
-  const topicDetails: Topic[] = colors.filter(color => {
-    if (topics.includes(color.topic)) {
-      return color
+  const topics = [
+    "news",
+    "gardening",
+    "politics",
+    "business",
+    "culture",
+    "world",
+    "style",
+    "health",
+    "weather",
+    "opinions",
+    "entertainment",
+    "tech",
+    "food",
+    "sport",
+  ];
+
+  useEffect(() => {
+    getData("category.list", setCategories);
+  }, []);
+
+  // const test = categories.map((x: any) => )
+
+  const topicDetails: Topic[] = categories?.filter((category: any) => {
+    if (topics.includes(category.category)) {
+      return category;
     }
   })
 
   type Topic = {
-    topic: string,
-    color: string
+    category: string;
+    description: string;
+    color: string;
   };
+
+  console.log(topicDetails)
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -30,16 +58,16 @@ function App() {
         <NavBar topics={topics} />
       </div>
       <div className="lg:hidden">
-        <MobileNav topics={topics}/>
+        <MobileNav topics={topics} />
       </div>
       <div className="xl:w-[80em] mx-auto py-10">
         <Routes>
           <Route path="/" element={<Home topics={topicDetails} />} />
-          {topicDetails.map((x) => (
+          {topicDetails?.map((x) => (
             <Route
-              key={x.topic}
-              path={`/${x.topic}`}
-              element={<TopicPage topic={x.topic} color={x.color} />}
+              key={x.category}
+              path={`/${x.category}`}
+              element={<TopicPage topic={x.category} color={x.color} />}
             />
           ))}
           <Route path="/article/:id" element={<ArticlePage />} />

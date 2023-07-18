@@ -6,7 +6,8 @@ set time zone 'Pacific/Auckland';
 
 create table Category (
         category varchar(32) primary key,
-        description varchar(128) not null
+        description varchar(128) not null,
+        color varchar(32) not null
 );
 create table Article (
         id INT primary key not null,
@@ -28,21 +29,21 @@ create table Article_Raw (
 
 -- Defaults --
 
-insert into Category (category, description)
-values  ('news', 'generic news articles'),
-        ('gardening', 'gardening, landscaping, or botanical articles'),
-        ('politics', 'current political events and debate articles'),
-        ('business', 'business, fintech, or economic articles'),
-        ('culture', 'culturally significant articles'),
-        ('world', 'world news and event articles'),
-        ('style', 'world fashion'),
-        ('health', 'deceases, new medicines, medical research articles'),
-        ('weather', 'forecasts, climate'),
-        ('travel', 'cultural learnings of other countries'),
-        ('opinions', 'peoples opinions on current events'),
-        ('entertainment', 'to have fun and smile'),
-        ('science', 'scientific research articles'),
-        ('tech', 'technology, gadgets, and software articles'),
-        ('food', 'food, cooking, and recipes articles'),
-        ('sport', 'sport, fitness, and exercise articles');
+insert into Category (category, description, color)
+values  ('news', 'generic news articles', '#cc0099'),
+        ('gardening', 'gardening, landscaping, or botanical articles', '#2596be'),
+        ('politics', 'current political events and debate articles', '#ea6d2d'),
+        ('business', 'business, fintech, or economic articles', '#f403fc'),
+        ('culture', 'culturally significant articles', '#0aa834'),
+        ('world', 'world news and event articles', '#ffcc66'),
+        ('style', 'world fashion', '#009999'),
+        ('health', 'deceases, new medicines, medical research articles', '#ff9933'),
+        ('weather', 'forecasts, climate', '#71a832'),
+        ('travel', 'cultural learnings of other countries', '#8d32a8'),
+        ('opinions', 'peoples opinions on current events', '#3271a8'),
+        ('entertainment', 'to have fun and smile', '#a87532'),
+        ('science', 'scientific research articles', '#a83232'),
+        ('tech', 'technology, gadgets, and software articles', '#1cba9d'),
+        ('food', 'food, cooking, and recipes articles', '#5039a3'),
+        ('sport', 'sport, fitness, and exercise articles', '#39a375');
         

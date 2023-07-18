@@ -2,8 +2,7 @@ version: "3"
 services:
   database:
     container_name: database
-    env_file:
-      - ./database/container.env
+    env_file: ./virtual.env
     build:
       context: ./database
     ports:
@@ -11,8 +10,7 @@ services:
 
   api:
     container_name: api
-    env_file:
-      - ./api/container.env
+    env_file: ./virtual.env
     build:
       context: . # build needs access to /shared
       dockerfile: ./api/Dockerfile
@@ -25,8 +23,7 @@ services:
 
   scraper:
     container_name: scraper
-    env_file:
-      - ./scraper/container.env
+    env_file: ./virtual.env
     build:
       context: ./scraper
     depends_on:
@@ -34,24 +31,30 @@ services:
 
   client:
     container_name: client
-    env_file:
-      - ./client/container.env
+    env_file: ./virtual.env
     build:
       context: .
       dockerfile: ./client/Dockerfile
-    ports:
-      - "${VITE_CLIENT_PORT}:${VITE_CLIENT_PORT}"
     depends_on:
       - api
+    ports:
+      - "${VITE_CLIENT_PORT}:${VITE_CLIENT_PORT}"
       
   search:
     container_name: search
-    env_file:
-      - ./search/container.env
+    env_file: ./virtual.env
     build:
       context: ./search
     restart: on-failure
     depends_on:
       - api
     ports:
-      - "${SEARCH_ENGINE_PORT}:${SEARCH_ENGINE_PORT}"
+      - "${SEARCH_PORT}:${SEARCH_PORT}"
+
+  paraphraser:
+    container_name: paraphraser
+    env_file: ./virtual.env
+    build:
+      context: ./reWriter
+    depends_on:
+      - api

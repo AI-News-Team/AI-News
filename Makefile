@@ -2,24 +2,25 @@
 
 # build and start the services
 start:
-	make environment
-	docker-compose up
-
-# Collect environment variables
-environment:
-	./script/environment.sh
+	docker-compose \
+		--env-file virtual.env \
+		up
 
 # Remove all containers and volumes
 clean:
-	docker-compose down --volumes --rmi all
-	rm ./.env
+	docker-compose \
+		--env-file virtual.env \
+		down \
+		--volumes \
+		--rmi all \
 
 # Build the images
 build:
-	make environment
-	docker-compose build
+	docker-compose \
+  	--env-file virtual.env \
+		build
 
 # clean then start
 restart:
-	make clean \
-	&& make start
+	make clean && \
+		make start

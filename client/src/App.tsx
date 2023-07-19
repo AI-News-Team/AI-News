@@ -14,56 +14,61 @@ import { getData } from './utils/axios';
 function App() {
 
   const [categories, setCategories] = useState<any>();
+  const [topics, setTopics] = useState<any>()
 
-  const topics = [
+  const customTopics = [
     "news",
-    "gardening",
     "politics",
     "business",
     "culture",
     "world",
-    "style",
-    "health",
-    "weather",
-    "opinions",
     "entertainment",
-    "tech",
-    "food",
-    "sport",
   ];
 
   useEffect(() => {
-    getData("category.list", setCategories);
+    getData("/category.list", setCategories);
   }, []);
 
-  // const test = categories.map((x: any) => )
+  console.log(categories)
 
-  const topicDetails: Topic[] = categories?.filter((category: any) => {
-    if (topics.includes(category.category)) {
-      return category;
+  
+  useEffect(() => {
+    if (categories) {
+      const categoryOnly = categories?.map((cat: any) => cat.category)
+      setTopics(categoryOnly)
+      console.log(categoryOnly)
     }
-  })
 
-  type Topic = {
-    category: string;
-    description: string;
-    color: string;
-  };
+  }, [categories])
+  
 
-  console.log(topicDetails)
+
+  // const topicDetails: Topic[] = categories?.filter((category: any) => {
+  //   if (topics.includes(category.category)) {
+  //     return category;
+  //   }
+  // })
+
+  // type Topic = {
+  //   category: string;
+  //   description: string;
+  //   color: string;
+  // };
+
+  // console.log(topicDetails)
 
   return (
     <div className="flex flex-col min-h-screen">
       <div className="hidden lg:block">
-        <NavBar topics={topics} />
+        <NavBar topics={topics} customTopics={customTopics} />
       </div>
       <div className="lg:hidden">
         <MobileNav topics={topics} />
       </div>
       <div className="xl:w-[80em] mx-auto py-10">
         <Routes>
-          <Route path="/" element={<Home topics={topicDetails} />} />
-          {topicDetails?.map((x) => (
+          <Route path="/" element={<Home topics={categories} />} />
+          {categories?.map((x: any) => (
             <Route
               key={x.category}
               path={`/${x.category}`}

@@ -38,7 +38,7 @@ const MobileNav = ({ topics }: Props) => {
             : "hidden"
         }
       >
-        {topics.map((topic) => (
+        {topics?.map((topic) => (
           <div key={topic} className="flex sm:w-1/2">
             <Link
               onClick={setMenuDisplay}

@@ -1,3 +1,4 @@
 #!/bin/bash
-source ./script/environment.sh
-docker-compose build
+docker-compose \
+  --env-file virtual.env \
+  build

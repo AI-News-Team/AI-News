@@ -16,7 +16,11 @@ const CONNECTION_ATTEMPT_INTERVAL_MS = 1024;
 export function connectClient() {
   attemptConnection({
     onAttempt(attempt) {
-      console.log(`${API_PORT} 📡 Attempting connection...`);
+      console.log(
+        `${API_PORT} 📡 Attempting connection to ${DATABASE_HOST}:${DATABASE_PORT} ${
+          attempt !== 1 ? `(${attempt}/${MAX_CONNECTION_ATTEMPTS}) ` : ''
+        }`,
+      );
     },
     onMaxConnections({ name, message, stack }) {
       console.error(`${API_PORT} 📡 Failed to connect after ${MAX_CONNECTION_ATTEMPTS} attempts`);

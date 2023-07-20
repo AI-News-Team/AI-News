@@ -23,17 +23,4 @@ view the [`Postgres Database 📦`](../database/README.md) instructions to confi
 
 ### Environment
 
-```shell
-cp template.env .env
-vim .env
-```
-
-Under the `API` section, set all environment variable to enable database and Search Engine connectivity
-
-Host can be either `0.0.0.0`,`localhost`, or `127.0.0.1` for a local database. `DB_NAME` is the same as `POSTGRES_DB`.
-
-## Deployment
-
-```
-
-```
+See [`Environment 🌐`](../README.md#environment) for more information.

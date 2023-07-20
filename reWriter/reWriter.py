@@ -1,11 +1,11 @@
+import json
+import os
+import sys
 
 import requests
-import json
-from dotenv import load_dotenv
-import os
-from requests.exceptions import RequestException
-import sys
 import torch
+from dotenv import load_dotenv
+from requests.exceptions import RequestException
 from transformers import PegasusForConditionalGeneration, PegasusTokenizer
 
 # Pegasus ReWriter-------------------------------------------------
@@ -30,8 +30,8 @@ num_return_sequences = 1
 
 # --------------------------------------------------------------------
 
-load_dotenv()
-
+dot = os.path.dirname(os.path.realpath(__file__))
+load_dotenv(f"{dot}/../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
 API_PORT = os.getenv("API_PORT")
 API_HOST = os.getenv("API_HOST")
 
@@ -61,15 +61,17 @@ except RequestException as e:
 
 # data = requests.get('http://{API_HOST}:{API_PORT}/article.getAll').text
 
+print("loading data...")
 articles = json.loads(data)
 
+print("paraphrasing...")
 for article in articles['data']:
     # formatting body if it isn't a list
     if isinstance(article['body'], str):
         article['body'] = article['body'].split(".")
 
-    print("processing ",article['id'])
-    print(len(article['body'])," lines")
+    print(f"processing {article['id']}")
+    print(f"{len(article['body'])} lines")
 
     for i in range(len(article['body'])):
         print(len(article['body']) - i)

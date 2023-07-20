@@ -35,8 +35,9 @@ export const list: Route = (req, res) => {
       });
 
     const projection = `
-          select id, name, author, publication_date, retrieved_date, category, source_url, cover_url 
-          from Article
+          select a.id, name, author, publication_date, retrieved_date, category, source_url, cover_url 
+          from Article a
+          join Article_Raw ar on a.id = ar.id
         `;
     let where = ` where category = $1`;
 

@@ -4,12 +4,12 @@
 #   Usage: ./restore.sh -f <filename>
 #
 
-if [ -z ../.env ] ; then
+if [ -z ../../local.env ] ; then
   echo "Unable to restore database!"
-  echo "Missing `../.env` file ❌";
+  echo "Missing `../../.env` file ❌";
   exit 1;
 fi
-source ../.env;
+source ../../local.env;
 
 if [ ! $1 ] ; then
   echo "Error: Restore requires 1 argument ❌";

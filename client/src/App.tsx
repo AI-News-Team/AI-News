@@ -49,7 +49,7 @@ function App() {
         <NavBar topics={topics} customTopics={customTopics} />
       </div>
       <div className="lg:hidden">
-        <MobileNav topics={topics} />
+        <MobileNav topics={footerTopics} />
       </div>
       <div className="xl:w-[80em] mx-auto py-10">
         <Routes>

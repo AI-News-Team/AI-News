@@ -34,15 +34,15 @@ const MobileNav = ({ topics }: Props) => {
       <div
         className={
           menuVisibile
-            ? "transition ease-in-out delay-150 z-10 w-full absolute bg-black pb-5 flex flex-col sm:flex-row sm:flex-wrap items-center"
+            ? "transition ease-in-out delay-150 z-10 w-screen absolute bg-black flex flex-wrap items-center"
             : "hidden"
         }
       >
         {topics?.map((topic) => (
-          <div key={topic} className="flex sm:w-1/2">
+          <div key={topic} className="flex w-1/2 sm:w-2/6">
             <Link
               onClick={setMenuDisplay}
-              className={`bg-black w-screen p-2 text-sm md:text-base text-center border-b border-slate-700 ${
+              className={`p-2 text-sm w-full md:text-base text-center border-b border-slate-700 ${
                 window.location.pathname == `/${topic}`
                   ? "bg-slate-500"
                   : "bg-black"
@@ -53,7 +53,7 @@ const MobileNav = ({ topics }: Props) => {
             </Link>
           </div>
         ))}
-        <div className="items-center w-11/12 pt-5 sm:mx-auto">
+        <div className="items-center w-full p-3 sm:mx-auto">
           <SearchBox />
         </div>
       </div>

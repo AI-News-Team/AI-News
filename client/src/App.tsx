@@ -5,7 +5,6 @@ import Footer from './components/footer/Footer'
 import { Route, Routes } from "react-router-dom"
 import Home from './pages/Home'
 import TopicPage from './pages/TopicPage'
-import colors from './styles/colors'
 import ArticlePage from './pages/ArticlePage'
 import Search from './pages/Search';
 import { useState, useEffect } from 'react';
@@ -14,7 +13,8 @@ import { getData } from './utils/axios';
 function App() {
 
   const [categories, setCategories] = useState<any>();
-  const [topics, setTopics] = useState<any>()
+  const [topics, setTopics] = useState<any>();
+  const [footerTopics, setFooterTopics] = useState<any>();
 
   const customTopics = [
     "news",
@@ -28,34 +28,20 @@ function App() {
   useEffect(() => {
     getData("/category.list", setCategories);
   }, []);
-
-  console.log(categories)
-
   
   useEffect(() => {
     if (categories) {
-      const categoryOnly = categories?.map((cat: any) => cat.category)
+      
+      // creating array of categories for footer navigation
+      const footerCategories = categories?.map((cat: any) => cat.category)
+      setFooterTopics(footerCategories)
+      
+      // filtering custom topics from navigation drop down menu items and creating array to display menu items
+      const filteredCat = categories?.filter((cat: any) => !customTopics.includes(cat.category))
+      const categoryOnly = filteredCat?.map((cat: any) => cat.category)
       setTopics(categoryOnly)
-      console.log(categoryOnly)
     }
-
   }, [categories])
-  
-
-
-  // const topicDetails: Topic[] = categories?.filter((category: any) => {
-  //   if (topics.includes(category.category)) {
-  //     return category;
-  //   }
-  // })
-
-  // type Topic = {
-  //   category: string;
-  //   description: string;
-  //   color: string;
-  // };
-
-  // console.log(topicDetails)
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -79,7 +65,7 @@ function App() {
           <Route path="/search/:search" element={<Search />} />
         </Routes>
       </div>
-      <Footer topics={topics} />
+      <Footer topics={footerTopics} />
     </div>
   );
 }

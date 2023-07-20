@@ -15,14 +15,13 @@ create table Article (
 
 create table Article_Raw (
         id serial primary key,
-        name varchar(128) null,
-        author varchar(128) not null,
+        name varchar(256) null,
+        author varchar(256) not null,
         category varchar(32) not null references Category(category),
-        fake_category varchar(32) not null references Category(category),
         body json not null,
         source_url varchar(256) not null,
         cover_url varchar(256) null,
-        publication_date varchar(24) null, -- I don't like this, should be `Date` or `Timestamptz` type
+        publication_date timestamptz not null,
         retrieved_date timestamptz not null default now()
 );
 
@@ -44,5 +43,6 @@ values  ('news', 'generic news articles'),
         ('science', 'scientific research articles'),
         ('tech', 'technology, gadgets, and software articles'),
         ('food', 'food, cooking, and recipes articles'),
+        ('us', 'united states news and event articles'),
         ('sport', 'sport, fitness, and exercise articles');
         

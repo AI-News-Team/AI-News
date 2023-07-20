@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
   searchPage: boolean,
-  searchBoxContent: string
+  searchBoxContent: string,
+  setMenuVisibile: Function
 }
 
-const SearchBox = ({ searchPage, searchBoxContent }: Props) => {
+const SearchBox = ({ searchPage, searchBoxContent, setMenuVisibile }: Props) => {
   const [searchQuery, setSearchQuery] = useState<string>();
   const navigate = useNavigate();
 
@@ -24,12 +25,15 @@ const SearchBox = ({ searchPage, searchBoxContent }: Props) => {
     if (!searchPage) {
       setSearchQuery("");
     }
+    if (setMenuVisibile) {
+      setMenuVisibile(false)
+    }
     navigate(`/search/${searchQuery}`);
   };
 
   return (
     <>
-      <form className="bg-white flex p-2 text-black border">
+      <form className="bg-white flex p-1 text-black border">
         <input
           className="w-full"
           type="text"

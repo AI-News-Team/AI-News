@@ -22,7 +22,7 @@ const Search = () => {
     },[url])
 
     return (
-      <>
+      <div className="pt-12 lg:pt-0">
         <SearchBox searchPage={true} searchBoxContent={params.search!} />
         <p className="text-2xl pt-10">Showing Search Results for: <span className="font-bold">{params.search}</span></p>
         {data && (
@@ -32,7 +32,7 @@ const Search = () => {
             ))}
           </div>
         )}
-      </>
+      </div>
     );
 }
 

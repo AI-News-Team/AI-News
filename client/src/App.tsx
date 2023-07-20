@@ -13,17 +13,7 @@ import { getData } from './utils/axios';
 function App() {
 
   const [categories, setCategories] = useState<any>();
-  const [topics, setTopics] = useState<any>();
-  const [footerTopics, setFooterTopics] = useState<any>();
-
-  const customTopics = [
-    "news",
-    "politics",
-    "business",
-    "culture",
-    "world",
-    "entertainment",
-  ];
+  const [menuTopics, setMenuTopics] = useState<any>();
 
   useEffect(() => {
     getData("/category.list", setCategories);
@@ -31,25 +21,19 @@ function App() {
   
   useEffect(() => {
     if (categories) {
-      
-      // creating array of categories for footer navigation
-      const footerCategories = categories?.map((cat: any) => cat.category)
-      setFooterTopics(footerCategories)
-      
-      // filtering custom topics from navigation drop down menu items and creating array to display menu items
-      const filteredCat = categories?.filter((cat: any) => !customTopics.includes(cat.category))
-      const categoryOnly = filteredCat?.map((cat: any) => cat.category)
-      setTopics(categoryOnly)
+      // creating array of categories for navigation
+      const allCategories = categories?.map((cat: any) => cat.category)
+      setMenuTopics(allCategories)
     }
   }, [categories])
 
   return (
     <div className="flex flex-col min-h-screen">
       <div className="hidden lg:block">
-        <NavBar topics={topics} customTopics={customTopics} />
+        <NavBar topics={menuTopics} />
       </div>
       <div className="lg:hidden">
-        <MobileNav topics={footerTopics} />
+        <MobileNav topics={menuTopics} />
       </div>
       <div className="xl:w-[80em] mx-auto py-10">
         <Routes>
@@ -65,7 +49,7 @@ function App() {
           <Route path="/search/:search" element={<Search />} />
         </Routes>
       </div>
-      <Footer topics={footerTopics} />
+      <Footer topics={menuTopics} />
     </div>
   );
 }

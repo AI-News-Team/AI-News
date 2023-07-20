@@ -25,7 +25,7 @@ const MobileNav = ({ topics }: Props) => {
       <div className="h-full flex justify-between border-b border-slate-700">
         <div className="w-8 h-full"></div>
         <div className="my-auto">
-          <HomeLogo size={4} />
+          <HomeLogo size={3} />
         </div>
         <button onClick={setMenuDisplay} className="w-8 text-center">
           <FontAwesomeIcon icon={faEllipsisVertical} />
@@ -38,11 +38,14 @@ const MobileNav = ({ topics }: Props) => {
             : "hidden"
         }
       >
+        <div className="items-center w-full p-3 sm:mx-auto">
+          <SearchBox searchPage={false} searchBoxContent={""} setMenuVisibile={setMenuVisibile}/>
+        </div>
         {topics?.map((topic) => (
           <div key={topic} className="flex w-1/2 sm:w-2/6">
             <Link
               onClick={setMenuDisplay}
-              className={`p-2 text-sm w-full md:text-base text-center border-b border-slate-700 ${
+              className={`p-2 text-sm w-full md:text-base text-center border-r border-slate-700 ${
                 window.location.pathname == `/${topic}`
                   ? "bg-slate-500"
                   : "bg-black"
@@ -53,9 +56,6 @@ const MobileNav = ({ topics }: Props) => {
             </Link>
           </div>
         ))}
-        <div className="items-center w-full p-3 sm:mx-auto">
-          <SearchBox />
-        </div>
       </div>
     </nav>
   );

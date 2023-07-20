@@ -16,25 +16,22 @@ class BbcSpider(scrapy.Spider):
     allowed_domains = ['bbc.com']
     start_urls = ['https://www.bbc.com/news']
 
-    # Extracts all the links for the categories
     def parse(self, response):
         for categories in response.xpath('//ul[@class="gs-o-list-ui--top-no-border nw-c-nav__wide-sections"]//a/@href').getall():
             url = response.urljoin(str(categories))
             yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
 
-    # Extracts all the links for the articles in the categories
     def getCategory(self, response):
         fetched_category = response.xpath('//head/meta[@property="article:section"]/@content').get()
         for href in response.xpath('//div[@class="mpu-available"]//a/@href').getall():
             url = response.urljoin(href)
 
-            # Checks if the category is in not in DB and if it is not, then returns None
             if fetched_category in ['BBC World News: 24 hour news TV channel', 'Video', 'Stories', 'World News TV', 'In Pictures', 'Reality Check', 'Newsbeat', 'Long Reads']:
                 yield None
             else:
                 yield scrapy.Request(url, callback=self.getArticle, meta={'category': fetched_category})
 
-    # Extracts all the information from the article
+    
     def getArticle(self, response):
         item = Article()
         item['name'] = response.xpath('//h1/text()').get()
@@ -47,7 +44,6 @@ class BbcSpider(scrapy.Spider):
         if not item['body']:
             return None
         
-        # Reassigns the category to the ones from DB
         if response.meta['category'] in ['Asia', 'UK', 'War in Ukraine']:
             response.meta['category'] = 'World'
         elif response.meta['category'] == 'Entertainment & Arts':
@@ -67,9 +63,20 @@ class BbcSpider(scrapy.Spider):
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//div[@data-component="image-block"]/figure/div/span/picture/img/@src').get()
 
-        # Checks for different layouts
         if response.xpath('//div[contains(@data-component, "text-block")]'):
-            item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
+            main_content = response.xpath('//main[@id="main-content"]')
+
+            elements = main_content.xpath('.//*[self::div[@data-component="unordered-list-block"] or '
+                                        'self::div[@data-component="subheadline-block"] or '
+                                        'self::div[@data-component="text-block"]]')
+
+            scraped_text = []
+
+            for element in elements:
+                text = element.xpath('.//text()').get()
+                scraped_text.append(text)
+
+            item["body"] = scraped_text
             
         if response.xpath('//div[@class="article__body-content"]'):
             item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get()

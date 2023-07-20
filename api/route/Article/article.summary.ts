@@ -8,8 +8,8 @@ const ARTICLES_PER_CATEGORY = 4;
 const groupCategoriesInThrees = `
   select id, name, author, publication_date, category, source_url, cover_url
   from (
-    select ar.id, ar.name, ar.author, a.body, ar.fake_category category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date,
-      row_number() over (partition by ar.fake_category order by publication_date) index_in_category 
+    select ar.id, ar.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date,
+      row_number() over (order by publication_date) index_in_category 
       from Article_Raw ar
       join Article a on ar.id = a.id
   ) categorized_articles 
@@ -29,7 +29,6 @@ const categorizeArticles = (articles: Article[]) =>
   );
 
 export const summary: Route = (_, res) => {
-  // todo: remove fake category and use real category
   getClient().query<Article>(groupCategoriesInThrees, (err, result) => {
     if (err)
       return Error(res, INTERNAL_SERVER_ERROR, {

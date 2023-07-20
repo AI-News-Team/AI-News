@@ -6,7 +6,7 @@
 [`Search 🔍`](/search/README.md)
 [`Database 📦`](/database/README.md)
 
-> 2023 BIT Studio 5/6 Project by **Artem Kechemaev**, **Greg Seal**, **Georgette Watkins** and **Aardhyn Lavender**
+> 2023 BIT Studio 5/6 Project by **Artem Kechemaev**, **Greg Seal**, **Georgette Watkins**, and **Aardhyn Lavender**
 
 <br/>
 

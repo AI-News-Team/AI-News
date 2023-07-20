@@ -19,22 +19,27 @@ class newYorkTimesSpider(scrapy.Spider):
     start_urls = ['https://www.nytimes.com/international/']
     category = None
 
+    # Extracts all the links for the categories
     def parse(self, response):
         for categories in response.xpath('//li[@data-testid="mini-nav-item"]//a/@href').getall():
             url = response.urljoin(str(categories))
             yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
             
-
+    # Extracts all the links for the articles in the categories
     def getCategory(self, response):
+
+        # iterate through all the categories
         for href in response.xpath('//div[@class="css-4svvz1 eb97p610"]//a[contains(@data-rref, "")]/@href').getall():
             url = response.urljoin(href)
             yield scrapy.Request(url, callback = self.getArticle)
-    
+
+    # Extracts all the information from the article
     def getArticle(self, response):
         item = Article()
         
         item['name'] = response.xpath('//h1[@data-testid="headline"]/text()').get()
 
+        # Extracts the author of the article depending on the layout of the article
         if response.xpath('//head/meta[@name="byl"]'):
             item['author'] = response.xpath('//head/meta[@name="byl"]/@content').get()
         elif response.xpath('//span[@class="g-name"]'):
@@ -42,6 +47,7 @@ class newYorkTimesSpider(scrapy.Spider):
         else:
             item['author'] = response.xpath('//span[@itemprop="name"]/a/text()').get() or "New York Times"
 
+        # Extracts the publication date of the article depending on the layout of the article
         if response.xpath('//head/meta[@property="article:published_time"]'):
             item['publication_date'] = response.xpath('//head/meta[@property="article:published_time"]/@content').get()
         elif response.xpath('//div[@class="g-date"]'):
@@ -51,6 +57,7 @@ class newYorkTimesSpider(scrapy.Spider):
         else:
             item['publication_date'] = response.xpath('//time/@datetime').get()
 
+        # Extracts the body of the article depending on the layout of the article
         if response.xpath('//p[@class="g-body "]'):
             item['body'] = response.xpath('//p[@class="g-body "]/text()').getall()
         elif response.xpath('//div[@data-testid="document-block-body"]/p'):
@@ -80,6 +87,7 @@ class newYorkTimesSpider(scrapy.Spider):
         elif category == 'nyregion':
             category = 'us'
 
+        # Returns noting if category is not in the db
         if category is None or category not in toFetchCategories:
             return None
         
@@ -87,6 +95,7 @@ class newYorkTimesSpider(scrapy.Spider):
 
         item['source_url'] = response.url
 
+        # Extracts the cover image url depending on the layout of the article
         if response.xpath('//head/meta[@name="image"]'):
             item ['cover_url'] = response.xpath('//head/meta[@name="image"]/@content').get()
         elif response.xpath('//div[@class="g-asset_inner"]/picture/img'):

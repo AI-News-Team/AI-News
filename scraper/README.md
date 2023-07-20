@@ -34,16 +34,21 @@ NOTE: If you use **_VS CODE_**, I would suggest to install **_Python_** through 
 ``` shell
 pip install scrapy
 ```
-* That should be it!
 
 ---
+
+### 3. Create `.env` file 
+* It should be created inside `newsscrapper` directory
+* That should be it!
+--- 
+
 ### How to run Spyders with a script?
 * Add `.env` to `/newsscrapper` directory. There is a `template.env` in `/scraper` that will help you with other sub-setup
 * Then go to `scraper` directory
 ``` shell
 cd scraper/
 ```
-* Run the following to start scraping data with `cnn` and `bbc` spiders:
+* Run the following to start scraping data with `cnn`, `bbc`, `newYorkTimes` and `foxNews` spiders:
 ``` shell
 ./runspiders.sh
 ```

@@ -17,9 +17,7 @@ class NewsscrapperPipeline:
     
     def process_item(self, item, spider):
         self.json.append(item)
-        return item
-     
-    def close_spider(self, spider):
+
         def serialize_item(item):
             # Return a dictionary of the item's non-underscored attributes
             # Get rids of the "data" tag at the start of the array what fails sending data to the API
@@ -32,7 +30,8 @@ class NewsscrapperPipeline:
         # Outputs extracted data to a json file in spiders directory.
         # with open('articles.json', 'w') as f:
         #     json.dump(articles, f, indent=4)
-
+        print("")
+        print(f'Sending data for: {item["name"]}')
         try: 
             response = requests.post(
             self.url, json={"articles": articles}, 
@@ -48,3 +47,5 @@ class NewsscrapperPipeline:
         except RequestException as e:
             print('Failed to connect to server: ', e)
 
+
+        return item

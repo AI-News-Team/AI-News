@@ -16,7 +16,7 @@ class NewsscrapperPipeline:
         self.json = []
     
     def process_item(self, item, spider):
-        self.json.append(item)
+        self.json = [item]
 
         def serialize_item(item):
             # Return a dictionary of the item's non-underscored attributes

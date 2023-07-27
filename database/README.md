@@ -15,7 +15,7 @@ cd ai_driven_news_outlet/Database
 
 Ensure you have docker installed and the docker daemon is running.
 
-No environment variables need set. Change the port if needed in `/Dockerfile`
+Configure the environment as described in [`Environment 🌐`](../README.md#environment).
 
 ### Docker
 
@@ -39,10 +39,4 @@ Run with `-d` or `--development` to run in `attached` mode
 ./init.sh --development
 ```
 
-`Stdout` and `stderr` are redirected to your terminal session in this mode as well.
-
-## Deployment
-
-```
-
-```
+`stdout` and `stderr` are redirected to your terminal session in this mode as well.

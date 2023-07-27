@@ -1,3 +1,4 @@
 #!/bin/bash
-source ./script/environment.sh
-docker-compose up
+docker-compose up \
+  --env-file virtual.env \
+  up

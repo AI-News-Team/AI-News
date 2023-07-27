@@ -7,7 +7,8 @@ from flask import Flask, request
 from flask_restful import Api, Resource
 from sentence_transformers import SentenceTransformer, util
 
-load_dotenv()
+dot = os.path.dirname(os.path.realpath(__file__))
+load_dotenv(f"{dot}/../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
 
 API_PORT = os.getenv('API_PORT')
 if not API_PORT: 
@@ -15,6 +16,7 @@ if not API_PORT:
 API_HOST = os.getenv('API_HOST')
 if not API_HOST:
   raise Exception('API_HOST environment variable not found')
+
 
 TRANSFORMER =  'all-MiniLM-L6-v2'
 SEARCH_DOMAIN = f'http://{API_HOST}:{API_PORT}/article.search.domain'
@@ -58,6 +60,7 @@ class Domain():
 
   def fetch(self) -> dict:
     try:
+      print(f'attempting to fetch data from {SEARCH_DOMAIN}...')
       response = requests.get(self.url)
       code = response.status_code
     except requests.exceptions.ConnectionError:

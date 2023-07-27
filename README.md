@@ -6,7 +6,7 @@
 [`Search 🔍`](/search/README.md)
 [`Database 📦`](/database/README.md)
 
-> 2023 BIT Studio 5/6 Project by **Artem Kechemaev**, **Greg Seal**, and **Aardhyn Lavender**
+> 2023 BIT Studio 5/6 Project by **Artem Kechemaev**, **Greg Seal**, **Georgette Watkins**, and **Aardhyn Lavender**
 
 <br/>
 
@@ -23,35 +23,68 @@ git clone https://github.com/RozadoStudioProjectsOP/ai_driven_news_outlet/
 cd ai_driven_news_outlet
 ```
 
-Configure the environment variables required by the modules of this project--check out the `README`s
+### Environment
 
-use `.env` for host builds
+#### Containerized Development
 
-use `container.env` for compose builds
+Configure the sections from `template.virtual.env` in `virtual.env` for running the modules though docker containers.
 
-### Docker Compose
+The only difference is the `_HOST` variables. As each module is running on its own container, **localhost** does not work. instead, their configured to the name of the container their trying to connect to (except the `client` connecting to the `api`, something weird going on there...).
+
+This works because `docker-compose` creates a network with domain names for each container based on the name of the service in the `docker-compose.yml` file.
+
+Copy and configure the `template.virtual.env` file
+
+```shell
+# in project root
+cp template.virtual.env virtual.env # git ignore `virtual.env`
+vim virtual.env # set undefined variables
+```
+
+#### Local
+
+Configure the sections from `template.local.env` in `local.env` for running the modules on your local machine.
+
+```shell
+# in project root
+cp template.local.env local.env # git ignore `local.env`
+vim local.env # set undefined variables
+```
+
+Use whatever credentials you like for the `POSTGRES_USER` and `POSTGRES_PASSWORD` variables. You'll use these if you connect manually to the Database with `/database/scripts/attach.sh`.
+
+The `/database/scripts/backup` script will ensure the the `BACKUP_DIR` directory exists before writing to it. You can set this to any directory you like.
+
+
+## Execution
+
+### Containerized
 
 If you use `GNU Make`, you can use
 
 ```shell
 make
-# or, for verbosity
+# shorthand for 
 make start
 ```
 
-> Check out /scripts for non-make versions
+Or, use the scripts in `/scripts` (see `/scripts/README.md` for more information)
 
-This builds the modules, and runs each service in respective containers
-
-Use this command to delete everything when your done.
-
+```shell
+./script/start.sh
 ```
-make clean
-```
+
+This builds the modules, runs each service in respective containers. The `scraper` module starts scraping, the `paraphraser` starts paraphrasing.
+
+You might need to wait a bit before paraphrased articles start appearing in the client application.
+
+Use `make clean` (`./script/clean.sh`) to delete everything. use `ctrl+c` (`SIGTERM`) to stop the containers forcefully.
 
 > This deletes all containers, volumes, and images created by the `make start` task
 
-### Local Development
+use  `make restart` (`./script/clean.sh && ./script/start.sh`) to clean then start. This does not rebuild unchanged image layers.
+
+### Local
 
 You can run each service on your host machine too.
 

@@ -12,16 +12,13 @@ export const create: Route = (req, res) => {
       await getClient().query(
         `INSERT INTO Article ("id", "body")  
              VALUES ($1, $2)`,
-        [
-          article.id,
-          JSON.stringify(article.body),
-        ],
+        [article.id, JSON.stringify(article.body)],
       ); // sends queries
       return true;
     } catch (error) {
       console.error(error);
       return false;
-    } 
+    }
   };
 
   insertUser(article).then(result => {

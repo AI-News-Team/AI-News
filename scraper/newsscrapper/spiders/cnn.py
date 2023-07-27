@@ -48,7 +48,22 @@ class CNNSpider(scrapy.Spider):
 
         item['publication_date'] = response.xpath('//head/meta[@property="article:published_time"]/@content').get()
                 
-        item['body'] = response.xpath('//div[@class="article__content"]/p//text()').getall()
+        main_content = response.xpath('//div[@class="article__content"]')
+
+        elements = main_content.xpath('.//*[self::p[@data-component-name="paragraph"] or '
+                                    'self::div[@class="list "] or '
+                                    'self::li[@class="list__item"]]')
+
+        response.xpath('//p[@data-component-name="paragraph"]').getall()
+
+        scraped_text = []
+
+        for element in elements:
+            text = element.xpath('.//text()').get()
+            scraped_text.append(text)
+
+        item["body"] = scraped_text
+
 
         category = response.xpath('//head/meta[@name="meta-section"]/@content').get()
 

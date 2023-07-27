@@ -34,12 +34,12 @@ export const list: Route = (req, res) => {
         type: 'QueryError',
       });
 
-    // todo: remove fake category and use real category
     const projection = `
-          select id, name, author, publication_date, retrieved_date, fake_category category, source_url, cover_url 
-          from Article
+          select a.id, name, author, publication_date, retrieved_date, category, source_url, cover_url 
+          from Article a
+          join Article_Raw ar on a.id = ar.id
         `;
-    let where = ` where fake_category = $1`; // todo: filter by real category
+    let where = ` where category = $1`;
 
     const parameters = [category];
 

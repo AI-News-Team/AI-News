@@ -1,5 +1,5 @@
 import { Route } from '..';
-import { INTERNAL_SERVER_ERROR, BAD_REQUEST } from '../../constant/code';
+import { INTERNAL_SERVER_ERROR, BAD_REQUEST, CONFLICT, Code } from '../../constant/code';
 import { getClient } from '../../database';
 import { Error, Success } from '../router';
 import { Article, Category } from '@shared';
@@ -35,13 +35,14 @@ export const create_raw: Route = (req, res) => {
     const formattedArticles = articles.map(a => {
       AssertKeySchema(Object.keys(a), insertionKeySchema);
       const tuple = Object.values({ ...a, body: JSON.stringify(a.body) });
-      return [...tuple]; 
+      return [...tuple];
     });
 
     const insertion = format(insertionTemplate, formattedArticles);
     getClient().query<Article>(insertion, [], (err, results) => {
+      console.log(err);
       if (err)
-        return Error(res, INTERNAL_SERVER_ERROR, {
+        return Error(res, (err as any).code === "23505" ? CONFLICT : INTERNAL_SERVER_ERROR, {
           message: err.message || 'An unknown error occurred',
           type: 'DatabaseError',
         });

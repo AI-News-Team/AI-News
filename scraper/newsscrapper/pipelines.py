@@ -31,18 +31,22 @@ class NewsscrapperPipeline:
         # with open('articles.json', 'w') as f:
         #     json.dump(articles, f, indent=4)
         print("")
-        print(f'Sending data for: {item["name"]}')
+        print(f'Sending data for: {item["source_url"]}')
         try: 
             response = requests.post(
             self.url, json={"articles": articles}, 
             headers={'Content-Type': 'application/json'}
             )
 
-            if response.status_code != 200:
+            if response.status_code == 409:
+                print('DATA ALREADY EXISTS !')
+
+            elif response.status_code == 200:
+                print('DATA SENT SUCCESSFULLY !')
+    
+            else:
                 raise Exception(f'FAILED TO SEND DATA: {response.text}')
             
-            if response.status_code == 200:
-                print('DATA SENT SUCCESSFULLY !')
 
         except RequestException as e:
             print('Failed to connect to server: ', e)

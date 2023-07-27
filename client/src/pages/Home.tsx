@@ -5,9 +5,10 @@ import { getData } from "../utils/axios";
 import { Article } from "@shared";
 
 type Topic = {
-    topic: string,
-    color: string
-  };
+  category: string;
+  description: string;
+  color: string;
+};
 
 type Props = {
     topics: Topic[]
@@ -30,11 +31,18 @@ const Home = (props: Props) => {
         },[])
         
     return (
-    <div className="px-3 mt-12 md:mt-12">
-        <Headlines stories={data?.news}/>
-        {props.topics.map(topic =>  <TopicSection key={topic.topic} topic={topic.topic} color={topic.color} stories={data?.[topic.topic]}/>)}
-    </div>
-    )
+      <div className="px-3 mt-12 md:mt-12">
+        <Headlines stories={data?.news} />
+        {props.topics?.map((topic) => (
+          <TopicSection
+            key={topic.category}
+            topic={topic.category}
+            color={topic.color}
+            stories={data?.[topic.category]}
+          />
+        ))}
+      </div>
+    );
 }
 
 export default Home

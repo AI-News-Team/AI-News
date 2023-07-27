@@ -7,21 +7,21 @@ type Props = {
 
   const Logo = ({ size }: Props): JSX.Element => {
     
-    if (size === 3) {
+    if (size === 4) {
+      return(
+        <Link to="/" className={`text-white text-4xl font-black`}>
+        D<span className="text-pink-700">AI</span>LY
+        </Link>)
+    }
+    else if (size === 3) {
       return(
         <Link to="/" className={`text-white text-3xl font-black`}>
         D<span className="text-pink-700">AI</span>LY
         </Link>)
     }
-    else if (size === 2) {
-      return(
-        <Link to="/" className={`text-white text-2xl font-black`}>
-        D<span className="text-pink-700">AI</span>LY
-        </Link>)
-    }
     else 
       return(
-        <Link to="/" className={`text-white text-4xl font-black`}>
+        <Link to="/" className={`text-white text-5xl font-black`}>
         D<span className="text-pink-700">AI</span>LY
         </Link>)
   }

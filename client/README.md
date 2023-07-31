@@ -25,11 +25,7 @@ Follow guidelines here: https://github.com/AI-News-Team/AI-News/blob/main/scrape
 
 ### 5. Run the front end app
 
-Set up environmental variables, making sure this matches what you have set in scraper and server .env's
-```shell
-cd client
-cp template.env .env
-```
+Set up environmental variables in the project root.
 
 Run front end
 ```shell

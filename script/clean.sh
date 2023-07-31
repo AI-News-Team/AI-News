@@ -1,3 +1,6 @@
 #!/bin/bash
-docker-compose down --volumes --rmi all
-rm ./.env
+docker-compose \
+  --volumes \
+  --rmi all \
+  --env-file virtual.env \
+  down

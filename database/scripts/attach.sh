@@ -4,12 +4,12 @@
 #   Usage: ./attach.sh
 #
 
-if [ -z ../.env ] ; then
+if [ -z ../../local.env ] ; then
   echo "Unable to attatch to Postgres!"
-  echo "Missing `../.env` file ❌";
+  echo "Missing `../../local.env` file ❌";
   exit 1;
 fi
-source ../.env;
+source ../../local.env;
 
 docker exec \
   -it $DATABASE_CONTAINER_NAME  \

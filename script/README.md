@@ -25,5 +25,4 @@ Otherwise the scripts _will_ fail.
 | :--------------- | :------------------------------------------------ |
 | `start.sh`       | Build and run the application                     |
 | `build.sh`       | Build the application                             |
-| `environment.sh` | Collect all environment variables for the modules |
 | `clean.sh`       | Shutdown running containers, and purge containers |

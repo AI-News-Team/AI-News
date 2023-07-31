@@ -5,8 +5,9 @@ import { Route, Error, Success } from '../router';
 
 export const searchDomain: Route = (_, res) => {
   const query = `
-        select id, name
-        from Article
+        select a.id, ar.name
+        from Article a
+        join Article_Raw ar on a.id = ar.id;
       `;
 
   getClient().query<Article>(query, [], (err, result) => {

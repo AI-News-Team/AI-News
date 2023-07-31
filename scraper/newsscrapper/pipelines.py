@@ -1,13 +1,18 @@
 import json
-import requests
-from itemadapter import ItemAdapter
-from dotenv import load_dotenv
 import os
+import sys
+
+import requests
+from dotenv import load_dotenv
+from itemadapter import ItemAdapter
 from requests.exceptions import RequestException
 
-load_dotenv()
+dot = os.path.dirname(os.path.realpath(__file__))
+load_dotenv(dotenv_path=f"{dot}/../../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
 API_PORT = os.getenv("API_PORT")
 API_HOST = os.getenv("API_HOST")
+
+print(f"Scraping articles to send to {API_HOST}:{API_PORT}...")
 
 class NewsscrapperPipeline:
     def __init__(self):
@@ -46,7 +51,6 @@ class NewsscrapperPipeline:
     
             else:
                 raise Exception(f'FAILED TO SEND DATA: {response.text}')
-            
 
         except RequestException as e:
             print('Failed to connect to server: ', e)

@@ -4,12 +4,12 @@
 #   Usage: ./backup.sh
 #
 
-if [ -z ../.env ] ; then
+if [ -z ../../local.env ] ; then
   echo "Unable to backup database!"
-  echo "Missing `../.env` file ❌";
+  echo "Missing `../../local.env` file ❌";
   exit 1;
 fi
-source ../.env;
+source ../../local.env;
 
 BACKUP_DIR=../backups;
 if [ ! -d $DATABASE_BACKUP_DIR ] ; then

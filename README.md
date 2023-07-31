@@ -25,7 +25,10 @@ cd ai_driven_news_outlet
 
 ### Environment
 
+
 #### Containerized Development
+
+For Windows OS users, make sure the line endings for any scripts are configured as `LF`. Unix based machines ( i.e. the Docker containers ) cant find files with the Windows `CRLF`. Your IDE may have a setting to do this, I'ts found in the bottom status bar in Visual Studio Code.
 
 Configure the sections from `template.virtual.env` in `virtual.env` for running the modules though docker containers.
 

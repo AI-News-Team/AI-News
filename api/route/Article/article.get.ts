@@ -4,7 +4,7 @@ import { Route, Error, Success } from '../router';
 import { Article } from '@shared';
 
 const query = `
-  select ar.id, ar.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date
+  select ar.id, a.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date
   from Article_Raw ar
   join Article a on ar.id = a.id
   where ar.id = $1

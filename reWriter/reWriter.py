@@ -65,23 +65,29 @@ print("loading data...")
 articles = json.loads(data)
 
 print("paraphrasing...")
-for article in articles['data']:
-    # formatting body if it isn't a list
-    if isinstance(article['body'], str):
-        article['body'] = article['body'].split(".")
+try:
+    for article in articles['data']:
+        # formatting body if it isn't a list
+        if isinstance(article['body'], str):
+            article['body'] = article['body'].split(".")
 
-    print(f"processing {article['id']}")
-    print(f"{len(article['body'])} lines")
+        print(f"processing article {article['id']}")
+        print(f"{len(article['body'])} lines")
 
-    for i in range(len(article['body'])):
-        print(len(article['body']) - i)
-        # removing empty sentences
-        if article['body'][i] == '':
-            del article['body'][i]
-        else:
-            #re-writing article sentence
-            article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
+        for i in range(len(article['body'])):
+            print(len(article['body']) - i)
+            # removing empty sentences
+            if article['body'][i] == '':
+                del article['body'][i]
+            else:
+                #re-writing article sentence
+                article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
+        
+        print(f"ReWriting article {article['id']} title")
+        article['name'] = get_response(article['name'],num_return_sequences,num_beams)[0]
 
-    send_article(article)
+        send_article(article)
+except RequestException as e:
+        print('Error reWriting articles: ', e)
 
 sys.exit("exiting")

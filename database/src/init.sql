@@ -11,6 +11,7 @@ create table Category (
 );
 create table Article (
         id INT primary key not null,
+        name varchar(256) not null,
         body json not null
 );
 

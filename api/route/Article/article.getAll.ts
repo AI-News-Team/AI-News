@@ -5,7 +5,7 @@ import { Article } from '@shared';
 
 // This query works for now, but will no longer work if the title is also paraphrased
 const query = `
-  SELECT id, body
+  SELECT id, name, body
   FROM Article_Raw 
   WHERE id NOT IN (
     SELECT id FROM Article

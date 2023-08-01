@@ -5,14 +5,23 @@ RUN apt update \
   && apt install -y cron;
 RUN crontab;
 
-COPY requirements.txt .
+COPY reWriter/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt;
 
-COPY . .
+COPY virtual.env /.env
+
+COPY reWriter .
 
 RUN \
   chmod u+x reWriter.cron.sh; \
-  mv reWriter.cron.sh /etc/cron.d; \
-  crontab /etc/cron.d/reWriter.cron.sh;
+  cat /.env > .temp; \
+  cat reWriter.cron.sh >> .temp; \
+  mv .temp reWriter.cron.sh; \
+  mv reWriter.cron.sh /etc/cron.d/reWriter.cron.sh; \
+  crontab /etc/cron.d/reWriter.cron.sh; \
+  touch /var/log/cron.log;
 
-ENTRYPOINT ["./init.sh"]
+CMD \
+  ./init.sh && \
+  cron && \
+  tail -f /var/log/cron.log;

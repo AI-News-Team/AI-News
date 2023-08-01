@@ -25,7 +25,8 @@ services:
     container_name: scraper
     env_file: ./virtual.env
     build:
-      context: ./scraper
+      context: .
+      dockerfile: ./scraper/Dockerfile
     depends_on:
       - api
 
@@ -39,7 +40,7 @@ services:
       - api
     ports:
       - "${VITE_CLIENT_PORT}:${VITE_CLIENT_PORT}"
-      
+
   search:
     container_name: search
     env_file: ./virtual.env
@@ -55,6 +56,8 @@ services:
     container_name: paraphraser
     env_file: ./virtual.env
     build:
-      context: ./reWriter
+      context: .
+      dockerfile: ./reWriter/Dockerfile
     depends_on:
       - api
+      - scraper

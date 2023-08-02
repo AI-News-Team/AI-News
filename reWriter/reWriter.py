@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-
+import math
 import requests
 import torch
 from dotenv import load_dotenv
@@ -85,21 +85,25 @@ articles = json.loads(data)
 print("paraphrasing...")
 for article in articles['data']:
 
-    print(article)
-
     input_text = f"rewrite the following text:\n\n{' '.join(article['body'])}"
+    # get min length of returned article
+    wordCount = len(input_text.split()) 
+    # round down to nearest hundred
+    wordCount = math.floor(wordCount / 100) * 100
     input_ids = tokenizer(input_text, return_tensors="pt").input_ids
 
 # --------------------------------------------------------------------
 
-    print(f"processing {article['id']}......")
+    print(f"processing article {article['id']}......")
     outputs = model.generate(input_ids, 
-                         min_length=500,
+                         min_length=wordCount,
                          max_length=5000,
                          length_penalty=2,
-                         num_beams=2,
+                         num_beams=5,
                          no_repeat_ngram_size=2)
-    article['body'] = tokenizer.decode(outputs[0])
+    reWrittenArticle = tokenizer.decode(outputs[0])
+    article['body'] = reWrittenArticle.split(".")
+    print(article['body'])
 
     # formatting body if it isn't a list
     # if isinstance(article['body'], str):

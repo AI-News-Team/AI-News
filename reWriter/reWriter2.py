@@ -10,6 +10,6 @@ outputs = model.generate(input_ids,
                          min_length=300,
                          max_length=5000,
                          length_penalty=2,
-                         num_beams=2,
+                         num_beams=5,
                          no_repeat_ngram_size=2)
 print(tokenizer.decode(outputs[0]))

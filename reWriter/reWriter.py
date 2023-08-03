@@ -85,7 +85,9 @@ articles = json.loads(data)
 print("paraphrasing...")
 for article in articles['data']:
 
-    input_text = f"rewrite the following text:\n\n{' '.join(article['body'])}"
+    jointArticle = ' '.join(article['body'])
+    print(jointArticle)
+    input_text = f"rewrite the following text:\n\n{jointArticle}"
     # get min length of returned article
     wordCount = len(input_text.split()) 
     # round down to nearest hundred
@@ -96,11 +98,11 @@ for article in articles['data']:
 
     print(f"processing article {article['id']}......")
     outputs = model.generate(input_ids, 
-                         min_length=wordCount,
-                         max_length=5000,
+                         min_length=wordCount+100,
+                         max_length=wordCount*2,
                          length_penalty=2,
-                         num_beams=5,
-                         no_repeat_ngram_size=2)
+                         num_beams=4,
+                         no_repeat_ngram_size=3)
     reWrittenArticle = tokenizer.decode(outputs[0])
     article['body'] = reWrittenArticle.split(".")
     print(article['body'])

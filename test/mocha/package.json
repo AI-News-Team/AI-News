@@ -1,18 +1,24 @@
 {
+  "type": "module",
   "name": "mocha",
   "version": "1.0.0",
-  "description": "",
   "main": "apiRoutes.test.js",
   "scripts": {
     "test": "mocha"
   },
-  "author": "",
+  "author": "gw",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "chai": "^4.3.7",
     "mocha": "^10.2.0"
-  }
+  },
+  "description": "basic mocha chai",
+  "keywords": [
+    "mocha",
+    "chai"
+  ]
 }

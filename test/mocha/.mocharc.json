@@ -1,7 +1,8 @@
 {
+    "type": "module",
     "diff": true,
     "extension": ["js", "cjs", "mjs"],
-    "package": "./package.json",
+    "package": "./test/mocha/package.json",
     "reporter": "spec",
     "slow": "75",
     "timeout": "2000",

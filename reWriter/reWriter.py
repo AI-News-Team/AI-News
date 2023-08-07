@@ -9,13 +9,13 @@ from requests.exceptions import RequestException
 from transformers import PegasusForConditionalGeneration, PegasusTokenizer
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 
-'''
-Select reWriter model by updating REWRITER_MODEL variable to one of the following:
-    "pegasus" = tuner007/pegasus_paraphrase
-    "t5_base" = google/flan-t5-base
-''' 
 
-REWRITER_MODEL="pegasus"
+# Select reWriter model by updating REWRITER_MODEL variable to one of the following:
+#     "pegasus" = tuner007/pegasus_paraphrase
+#     "t5_base" = google/flan-t5-base
+
+
+REWRITER_MODEL="t5_base"
 
 if REWRITER_MODEL != "pegasus" and REWRITER_MODEL != "t5_base":
     print("Please select a valid reWriter model")
@@ -41,11 +41,9 @@ def get_response(input_text,num_return_sequences,num_beams):
 
   translated = model.generate(**batch,
                             max_length=60,
-                            do_sample=True,
-                            top_k=50,
-                            top_p=0.95,
-                            early_stopping=True,
-                            num_return_sequences=1)
+                            num_beams=num_beams,
+                            temperature=1.5,
+                            num_return_sequences=num_return_sequences)
   
   tgt_text = tokenizer.batch_decode(translated, skip_special_tokens=True)
   return tgt_text
@@ -85,6 +83,39 @@ def pegasus_reWriter(article):
     
     except RequestException as e:
         print(f"Error rewriting article {article['id']}", e)    
+
+
+def t5_single_sentence_reWriter(article):
+    try:
+        print(f"processing {article['id']}")
+        print(f"{len(article['body'])} lines")
+
+        print(f"processing article {article['id']}......")
+
+        for i in range(len(article['body'])):
+            print(len(article['body']) - i)
+            # removing empty sentences
+            if article['body'][i] == '':
+                del article['body'][i]
+            else:
+                input_text=article['body'][i]
+                #re-writing article sentence
+                input_ids = tokenizer(input_text, return_tensors="pt").input_ids
+            
+                outputs = model.generate(input_ids, 
+                                max_new_tokens=40,
+                                do_sample=True,
+                                top_k=50,
+                                top_p=0.95,
+                                num_return_sequences=1)
+                article['body'][i] = tokenizer.decode(outputs[0], skip_special_tokens=True,clean_up_tokenization_spaces=True)
+
+        print(article)
+        return article
+    
+    except RequestException as e:
+        print(f"Error rewriting article {article['id']}", e)
+
 
 # ------------T5-BASE REWRITER FUNCTION-----------------
 
@@ -197,7 +228,7 @@ for article in articles['data']:
     if REWRITER_MODEL == "pegasus":
         article = pegasus_reWriter(article)
     elif REWRITER_MODEL == "t5_base":
-        article = t5_base_reWriter(article)
+        article = t5_single_sentence_reWriter(article)
 
     print (article)
     print(f"sending {article['id']}")

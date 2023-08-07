@@ -15,7 +15,6 @@ describe("api tests status", () => {
         done();
       });
   });
-
 });
 
 describe("api tests content", () => {
@@ -31,7 +30,6 @@ describe("api tests content", () => {
         done();
       });
   });
-
 });
 
 describe("api tests status", () => {
@@ -48,6 +46,5 @@ describe("api tests status", () => {
         done();
       });
   });
-
 });
 

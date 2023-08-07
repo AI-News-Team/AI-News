@@ -15,7 +15,7 @@ Select reWriter model by updating REWRITER_MODEL variable to one of the followin
     "t5_base" = google/flan-t5-base
 ''' 
 
-REWRITER_MODEL="t5_base"
+REWRITER_MODEL="pegasus"
 
 if REWRITER_MODEL != "pegasus" and REWRITER_MODEL != "t5_base":
     print("Please select a valid reWriter model")
@@ -38,7 +38,15 @@ model = PegasusForConditionalGeneration.from_pretrained(model_name).to(torch_dev
 
 def get_response(input_text,num_return_sequences,num_beams):
   batch = tokenizer([input_text],truncation=True,padding='longest',max_length=60, return_tensors="pt").to(torch_device)
-  translated = model.generate(**batch,max_length=60,num_beams=num_beams, num_return_sequences=num_return_sequences, temperature=1.5)
+
+  translated = model.generate(**batch,
+                            max_length=60,
+                            do_sample=True,
+                            top_k=50,
+                            top_p=0.95,
+                            early_stopping=True,
+                            num_return_sequences=1)
+  
   tgt_text = tokenizer.batch_decode(translated, skip_special_tokens=True)
   return tgt_text
 
@@ -69,8 +77,9 @@ def pegasus_reWriter(article):
             if article['body'][i] == '':
                 del article['body'][i]
             else:
+                input_text="paraphrase: " + article['body'][i] + " </s>"
                 #re-writing article sentence
-                article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
+                article['body'][i] = get_response(input_text,num_return_sequences,num_beams)[0]
 
         return article
     
@@ -84,8 +93,45 @@ def t5_base_reWriter(article):
         print(f"processing {article['id']}")
         print(f"{len(article['body'])} lines")
 
+        # Split article into smaller chunks for rewriting
+        # split_article = [article['body'][i:i + 10] for i in range(0, len(article['body']), 10)]
+
+        # print(split_article)
+
+        # reWrittenArticle = []
+
+        # print(f"processing article {article['id']}......")
+
+        # for article_portion in split_article:
+        #     joint_article_portion = ' '.join(article_portion)
+        #     input_text = f"rewrite the following text:\n\n{joint_article_portion}"
+        #     # get min length of returned article
+        #     wordCount = len(input_text.split()) 
+        #     # round down to nearest hundred
+        #     wordCount = math.floor(wordCount / 100) * 100
+        #     input_ids = tokenizer(input_text, return_tensors="pt").input_ids
+            
+        #     outputs = model.generate(input_ids, 
+        #                         min_length=wordCount,
+        #                         max_length=wordCount+100,
+        #                         length_penalty=2,
+        #                         num_beams=4,
+        #                         no_repeat_ngram_size=3)
+        #     reWritten_portion = tokenizer.decode(outputs[0])
+
+        #     split_article_portion = [x+"." for x in reWritten_portion.split(".") if x]
+        #     print("rewritten article portion")
+        #     print(split_article_portion)
+        #     reWrittenArticle.extend(split_article_portion)
+
+        # print(reWrittenArticle)
+        # article['body'] = reWrittenArticle
+
+
+
         jointArticle = ' '.join(article['body'])
         input_text = f"rewrite the following text:\n\n{jointArticle}"
+        # input_text = f"paraphrase: {jointArticle} </s>"
         # get min length of returned article
         wordCount = len(input_text.split()) 
         # round down to nearest hundred
@@ -99,13 +145,18 @@ def t5_base_reWriter(article):
                             min_length=wordCount+100,
                             max_length=wordCount*2,
                             length_penalty=2,
-                            num_beams=4,
+                            # do_sample=True,
+                            # top_k=120,
+                            # top_p=0.95,
+                            temperature=0.6,
+                            early_stopping=True,
+                            num_beams=5,
                             no_repeat_ngram_size=3)
-        reWrittenArticle = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        reWrittenArticle = tokenizer.decode(outputs[0])
         article['body'] = reWrittenArticle.split(".")
         print(article['body'])
 
-        return article
+    #     return article
     
     except RequestException as e:
         print(f"Error rewriting article {article['id']}", e)
@@ -150,6 +201,6 @@ for article in articles['data']:
 
     print (article)
     print(f"sending {article['id']}")
-    send_article(article)
+    # send_article(article)
 
 sys.exit("exiting")

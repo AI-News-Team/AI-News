@@ -16,7 +16,8 @@ create table Article (
 
 create table Article_Raw (
         id serial primary key,
-        name varchar(256) not null UNIQUE,
+        name varchar(256) not null unique,
+        embbeded_name varchar(16276) not null,
         author varchar(256) not null,
         category varchar(32) not null references Category(category),
         body json not null,

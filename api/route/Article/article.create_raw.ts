@@ -6,10 +6,19 @@ import { Article, Category } from '@shared';
 import format from 'pg-format';
 import { AssertKeySchema } from '../../util/schema';
 
-const insertionKeySchema = ['name', 'author', 'publication_date', 'body', 'category', 'source_url', 'cover_url'] as const;
+const insertionKeySchema = [
+  'name',
+  'author',
+  'publication_date',
+  'body',
+  'category',
+  'source_url',
+  'cover_url',
+  'embbeded_name',
+] as const;
 
 const insertionTemplate = `
-  insert into Article_Raw (name, author, publication_date, body, category, source_url, cover_url) 
+  insert into Article_Raw (name, author, publication_date, body, category, source_url, cover_url, embbeded_name) 
   values %L
 `;
 
@@ -42,7 +51,7 @@ export const create_raw: Route = (req, res) => {
     getClient().query<Article>(insertion, [], (err, results) => {
       console.log(err);
       if (err)
-        return Error(res, (err as any).code === "23505" ? CONFLICT : INTERNAL_SERVER_ERROR, {
+        return Error(res, (err as any).code === '23505' ? CONFLICT : INTERNAL_SERVER_ERROR, {
           message: err.message || 'An unknown error occurred',
           type: 'DatabaseError',
         });

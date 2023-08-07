@@ -6,6 +6,8 @@ import requests
 from dotenv import load_dotenv
 from itemadapter import ItemAdapter
 from requests.exceptions import RequestException
+from sentence_transformers import SentenceTransformer
+
 
 dot = os.path.dirname(os.path.realpath(__file__))
 load_dotenv(dotenv_path=f"{dot}/../../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
@@ -19,6 +21,8 @@ class NewsscrapperPipeline:
         # Link that sends the data to the API
         self.url = f'http://{API_HOST}:{API_PORT}/article.create_raw'
         self.json = []
+
+        self.embedder = Embbeding()
     
     def process_item(self, item, spider):
         self.json = [item]
@@ -30,6 +34,10 @@ class NewsscrapperPipeline:
         
         data = json.dumps(self.json, default=serialize_item)
         articles = json.loads(data)
+
+        embbeded_article_name = self.embedder.encode_as_tensor(articles[0]['name'])
+        output = json.dumps(embbeded_article_name.tolist())
+        articles[0]['embbeded_name'] = output
 
         # For checking purposes if it formats scraped data correctly.
         # Outputs extracted data to a json file in spiders directory.
@@ -57,3 +65,14 @@ class NewsscrapperPipeline:
 
 
         return item
+
+TRANSFORMER = 'all-MiniLM-L6-v2'
+
+class Embbeding:
+    def __init__(self):
+        self.model = SentenceTransformer(TRANSFORMER)
+
+    # Encode a query into its embedding representation.
+    def encode_as_tensor(self, text):
+        embedding = self.model.encode(text, convert_to_tensor=True)
+        return embedding

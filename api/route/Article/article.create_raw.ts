@@ -40,12 +40,13 @@ export const create_raw: Route = (req, res) => {
 
     const insertion = format(insertionTemplate, formattedArticles);
     getClient().query<Article>(insertion, [], (err, results) => {
-      console.log(err);
-      if (err)
-        return Error(res, (err as any).code === "23505" ? CONFLICT : INTERNAL_SERVER_ERROR, {
+      if (err) {
+        console.error(err);
+        return Error(res, (err as any).code === '23505' ? CONFLICT : INTERNAL_SERVER_ERROR, {
           message: err.message || 'An unknown error occurred',
           type: 'DatabaseError',
         });
+      }
 
       const { rowCount } = results;
       const message = `inserted ${rowCount} article${rowCount !== 1 ? 's' : ''}`;

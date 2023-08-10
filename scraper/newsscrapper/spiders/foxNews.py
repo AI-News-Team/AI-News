@@ -55,7 +55,7 @@ class foxNews(scrapy.Spider):
             if len(body) == 0:
                 return None
             
-        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science']
+        toFetchCategories = ['world', 'politics', 'entertainment', 'business', 'science']
         
         category = response.xpath('//head/meta[@data-hid="prism.section"]/@content').get()
 
@@ -66,6 +66,8 @@ class foxNews(scrapy.Spider):
             category = 'science'
         elif category == 'tv':
             category = 'entertainment'
+        elif category == 'us':
+            category = 'world'
 
         # Get rids of the categories that do not exist in the db
         if category is None or category not in toFetchCategories:

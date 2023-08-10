@@ -1,1 +1,1 @@
-*.sh text elo=lf # All shell scripts must use LF
+*.sh text elo=lf

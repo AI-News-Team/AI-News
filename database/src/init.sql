@@ -31,7 +31,6 @@ create table Article_Raw (
 
 insert into Category (category, description, color)
 values  ('news', 'generic news articles', '#cc0099'),
-        ('gardening', 'gardening, landscaping, or botanical articles', '#2596be'),
         ('politics', 'current political events and debate articles', '#ea6d2d'),
         ('business', 'business, fintech, or economic articles', '#f403fc'),
         ('culture', 'culturally significant articles', '#0aa834'),

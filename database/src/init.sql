@@ -27,6 +27,10 @@ create table Article_Raw (
         retrieved_date timestamptz not null default now()
 );
 
+create table Authors (
+        name varchar(32) primary key
+);
+
 -- Defaults --
 
 insert into Category (category, description, color)
@@ -46,5 +50,12 @@ values  ('news', 'generic news articles', '#cc0099'),
         ('tech', 'technology, gadgets, and software articles', '#1cba9d'),
         ('food', 'food, cooking, and recipes articles', '#5039a3'),
         ('sport', 'sport, fitness, and exercise articles', '#39a375');
+
+insert into Authors (name)
+values ('John Smith'),
+        ('Wendy Simpson'),
+        ('Perter Turner'),
+        ('Simon Major'),
+        ('Sarah Jones');
 
         

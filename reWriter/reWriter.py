@@ -7,7 +7,6 @@ import torch
 from dotenv import load_dotenv
 from requests.exceptions import RequestException
 from transformers import PegasusForConditionalGeneration, PegasusTokenizer
-from sentence_transformers import SentenceTransformer, util
 
 # Pegasus ReWriter-------------------------------------------------
 
@@ -83,21 +82,6 @@ for article in articles['data']:
             #re-writing article sentence
             article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
 
-    # Implement embedding here 
-
     send_article(article)
-
-
-TRANSFORMER =  'all-MiniLM-L6-v2'
-
-class Embbeding:
-    def __init__(self):
-        self.model = SentenceTransformer(TRANSFORMER)
-
-    # Encode a query into its embedding representation.
-    def encode_as_tensor(self, text):
-        embedding = self.model.encode(text, convert_to_tensor=True)
-        return embedding
-
 
 sys.exit("exiting")

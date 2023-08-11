@@ -11,6 +11,8 @@ COPY virtual.env /.env
 
 COPY scraper/ .
 
+RUN chmod u+x runspiders.sh;
+
 RUN \
   chmod u+x scrape.cron.sh; \
   cat /.env > .temp; \
@@ -20,6 +22,7 @@ RUN \
   crontab /etc/cron.d/scrape.cron.sh; \
   touch /var/log/cron.log;
 
+RUN chmod u+x runspiders.sh;
 CMD \
   ./runspiders.sh && \
   cron && \

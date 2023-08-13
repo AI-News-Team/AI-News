@@ -52,10 +52,11 @@ values  ('news', 'generic news articles', '#cc0099'),
         ('sport', 'sport, fitness, and exercise articles', '#39a375');
 
 insert into Authors (name)
-values ('John Smith'),
-        ('Wendy Simpson'),
-        ('Perter Turner'),
-        ('Simon Major'),
+values ('John Doe'),
+        ('Jane Doe'),
+        ('Joe Blow'),
+        ('Joey Sixpack'),
+        ('Tommy Writer'),
         ('Sarah Jones');
 
         

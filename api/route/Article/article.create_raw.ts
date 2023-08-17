@@ -6,10 +6,19 @@ import { Article, Category } from '@shared';
 import format from 'pg-format';
 import { AssertKeySchema } from '../../util/schema';
 
-const insertionKeySchema = ['name', 'author', 'publication_date', 'body', 'category', 'source_url', 'cover_url'] as const;
+const insertionKeySchema = [
+  'name',
+  'author',
+  'publication_date',
+  'body',
+  'category',
+  'source_url',
+  'cover_url',
+  'embbeded_name',
+] as const;
 
 const insertionTemplate = `
-  insert into Article_Raw (name, author, publication_date, body, category, source_url, cover_url) 
+  insert into Article_Raw (name, author, publication_date, body, category, source_url, cover_url, embbeded_name) 
   values %L
 `;
 

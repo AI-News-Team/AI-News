@@ -1,7 +1,8 @@
 #!/bin/bash
 cd newsscrapper/spiders
 
-spiders=("bbc" "cnn" "newYorkTimes" "foxNews")
+# spiders=("bbc" "cnn" "newYorkTimes" "foxNews")
+spiders=("cnn")
 for spider in "${spiders[@]}"; do
     echo "crawling $spider..."
     scrapy crawl $spider

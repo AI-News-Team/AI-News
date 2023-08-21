@@ -47,22 +47,33 @@ class CNNSpider(scrapy.Spider):
         item['author'] = response.xpath('//head/meta[@name="author"]/@content').get() or 'cnn'
 
         item['publication_date'] = response.xpath('//head/meta[@property="article:published_time"]/@content').get()
-                
-        main_content = response.xpath('//div[@class="article__content"]')
 
-        elements = main_content.xpath('.//*[self::p[@data-component-name="paragraph"] or '
-                                    'self::div[@class="list "] or '
-                                    'self::li[@class="list__item"]]')
+        item['body'] = response.xpath('//p[contains(@class, "paragraph inline-placeholder")]//text()').getall()
 
-        response.xpath('//p[@data-component-name="paragraph"]').getall()
+        # main_content = response.xpath('//div[@class="article__content"]')
 
-        scraped_text = []
+        # elements = main_content.xpath('.//*[self::p[@data-component-name="paragraph"] or '
+        #                             'self::p[@data-component-name="paragraph"]/a or '
+        #                             'self::div[@class="list "] or '
+        #                             'self::li[@class="list__item"]]')
 
-        for element in elements:
-            text = element.xpath('.//text()').get()
-            scraped_text.append(text)
+        # response.xpath('//p[@data-component-name="paragraph"]').getall()
 
-        item["body"] = scraped_text
+        # scraped_text = []
+
+        # for element in elements:
+        #     text = element.xpath('.//text()').get()
+        #     scraped_text.append(text)
+
+        # item["body"] = scraped_text
+
+        for i in reversed(range(len(item['body']))):
+            text = item['body'][i].rstrip()
+            item['body'][i] = text
+
+            if (text[len(text)-1] != "." and text[len(text)-1] != '"' and i+1 != len(item['body'])):
+                item['body'][i] = text + item['body'][i+1]
+                del item['body'][i+1]
 
 
         category = response.xpath('//head/meta[@name="meta-section"]/@content').get()
@@ -87,4 +98,5 @@ class CNNSpider(scrapy.Spider):
         if not item['body']:
             item['body'] = response.xpath('//head/meta[@name="description"]/@content').get()
         
-        yield item
+        print(item)
+        # yield item

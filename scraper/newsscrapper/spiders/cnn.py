@@ -67,9 +67,16 @@ class CNNSpider(scrapy.Spider):
 
         # item["body"] = scraped_text
 
+        for i in item['body']:
+            if i == '\n':
+                del item['body'][i]
+
+        print(item["body"])
+
         for i in reversed(range(len(item['body']))):
             text = item['body'][i].rstrip()
             item['body'][i] = text
+
 
             if (text[len(text)-1] != "." and text[len(text)-1] != '"' and i+1 != len(item['body'])):
                 item['body'][i] = text + item['body'][i+1]

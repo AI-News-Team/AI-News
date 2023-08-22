@@ -43,45 +43,30 @@ class CNNSpider(scrapy.Spider):
         item = Article()
         
         item['name'] = response.xpath('//head/meta[@property="og:title"]/@content').get()
-
         item['author'] = response.xpath('//head/meta[@name="author"]/@content').get() or 'cnn'
-
         item['publication_date'] = response.xpath('//head/meta[@property="article:published_time"]/@content').get()
-
         item['body'] = response.xpath('//p[contains(@class, "paragraph inline-placeholder")]//text()').getall()
 
-        # main_content = response.xpath('//div[@class="article__content"]')
+        if not item['body']:
+            return None
 
-        # elements = main_content.xpath('.//*[self::p[@data-component-name="paragraph"] or '
-        #                             'self::p[@data-component-name="paragraph"]/a or '
-        #                             'self::div[@class="list "] or '
-        #                             'self::li[@class="list__item"]]')
-
-        # response.xpath('//p[@data-component-name="paragraph"]').getall()
-
-        # scraped_text = []
-
-        # for element in elements:
-        #     text = element.xpath('.//text()').get()
-        #     scraped_text.append(text)
-
-        # item["body"] = scraped_text
-
-        for i in item['body']:
-            if i == '\n':
-                del item['body'][i]
-
-        print(item["body"])
-
+        # cleaning up the body, removing line breaks, empty items and whitespace
         for i in reversed(range(len(item['body']))):
-            text = item['body'][i].rstrip()
+            print(item['body'][i])
+            text = item['body'][i].replace("\n", "").strip()
             item['body'][i] = text
 
+            # removing empty items from list
+            if len(item['body'][i]) == 0:
+                print("deleted")
+                del item['body'][i]
 
+        # merging links into paragraphs
+        for i in reversed(range(len(item['body']))):
+            text = item['body'][i]
             if (text[len(text)-1] != "." and text[len(text)-1] != '"' and i+1 != len(item['body'])):
-                item['body'][i] = text + item['body'][i+1]
+                item['body'][i] = text + " " + item['body'][i+1]
                 del item['body'][i+1]
-
 
         category = response.xpath('//head/meta[@name="meta-section"]/@content').get()
 
@@ -105,5 +90,5 @@ class CNNSpider(scrapy.Spider):
         if not item['body']:
             item['body'] = response.xpath('//head/meta[@name="description"]/@content').get()
         
-        print(item)
-        # yield item
+        # print(item)
+        yield item

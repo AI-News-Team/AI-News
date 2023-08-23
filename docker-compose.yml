@@ -7,6 +7,10 @@ services:
       context: ./database
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
+    volumes:
+      - type: bind
+        source: ./database/backups
+        target: /tmp/postgres/backups
 
   api:
     container_name: api

@@ -12,6 +12,8 @@ COPY virtual.env /.env
 
 COPY reWriter .
 
+RUN chmod u+x ./init.sh;
+
 RUN \
   chmod u+x reWriter.cron.sh; \
   cat /.env > .temp; \

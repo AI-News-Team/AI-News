@@ -4,6 +4,7 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from newsscrapper.items import Article
 from scrapy.loader.processors import TakeFirst, MapCompose
+import re
 
 #   to install pytz module for converting time to UTC
 #   pip install pytz
@@ -44,16 +45,21 @@ class foxNews(scrapy.Spider):
         item['publication_date'] = response.xpath('//head/meta[@data-hid="dcterms.created"]/@content').get()
 
         # Get rids of the tags in the body
-        if response.xpath('//p[@class="speakable"]'):
-            item['body'] = response.xpath('//p[@class="speakable"]//text()').getall()
-        else:
-            body = response.xpath('//p//text()').getall()
-            body = body[10:]
-            body = body[:-14]
-            body = [item for item in body if "CLICK HERE TO GET THE FOX NEWS APP" not in item]
-            item['body'] = body
-            if len(body) == 0:
-                return None
+        # if response.xpath('//p[@class="speakable"]'):
+        #     item['body'] = response.xpath('//p[@class="speakable"]//text()').getall() or response.xpath('//p//text()').getall()
+        # else:
+         
+        body = response.xpath('//div[@class="article-body"]/p//text()').getall()
+
+        for i in reversed(range(len(body))):
+            text = body[i]
+            if (text.replace(" ", "").isupper()):
+                del body[i]
+            elif (text[len(text)-1] != "." and text[len(text)-1] != '"' and i+1 != len(body)):
+                body[i] = text + " " + body[i+1]
+                del body[i+1]
+
+        item['body'] = body
             
         toFetchCategories = ['world', 'politics', 'entertainment', 'business', 'science']
         
@@ -85,5 +91,6 @@ class foxNews(scrapy.Spider):
         elif item['cover_url'] is None:
             return None
         
+        # print (item)
         yield item
 

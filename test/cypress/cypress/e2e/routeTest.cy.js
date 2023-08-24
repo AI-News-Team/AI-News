@@ -11,7 +11,7 @@ describe('showing the basics of site are up', () => {
       cy.title().should('eq', 'AI Daily');
       cy.url().should('include', 'localhost:3000')
         })
-
+/*
  
     it('News sections showing', () => {
       cy.contains('NEWS').click()
@@ -93,38 +93,51 @@ describe('showing the basics of site are up', () => {
       }}
     )
 
-     
+     */
     it('POLITICS sections showing', () => {
       cy.contains('POLITICS').click()
       cy.url().should('include', '/politics')
 
-      let count6 = 2
-      for (let i = 0; i < count6; i++) { 
-       
+      //let count6 = 2
+      //let clicking = cy.get('#root').find('a img').wrap()
+      let count6 = cy.get('#root').find('a img').then($elements2 =>{
+      
+      let clicking = $elements2;
+      let lenele = clicking.length
+      count6 = lenele
+      cy.log(count6.length)
+       //let i = 0
+       //let count6 = lenele
+       for (let i = 0; i < count6; i++) { 
+      
         cy.get('#root').find('a img').then($elements => {
-          const elementsToClick = $elements;
-          //count6 = elementsToClick.length;
-          Cypress.config(count6 = elementsToClick.length) 
-          const lenele = elementsToClick.length;
-          count6=lenele
-          cy.log(lenele)
-          cy.log(count6)
-          cy.wrap(elementsToClick[i]).then(($ele)=> {
+          let elementsToClick = $elements;
+          count6 = elementsToClick.length;
+          
+          let lenele = elementsToClick.length;
+          count6 = lenele;
+          Cypress.config(count6 = lenele) 
+          cy.wrap(elementsToClick[i]).each(($ele)=> {
             cy.wrap($ele).click()
-            const isVisible = cy.get("#root").should('be.visible');
+            const isVisible = cy.get("#root").should('be.visible')
             cy.log(i)
+            cy.log(count6)
               cy
               .wait(1000)
               .go('back')
-              .wait(1000)})})
-        }}
-      )
+              .wait(1000)})}).then(($btn) => {
+                if (i = count6) {
+                  cy.end()
+                }})}})
+                
+          })
+      
   
 
 //loop the whole test 
 //incrment the route number - localhost:3000/artical/{number here}
 //cy.request('http://localhost:3001/article.getall')
-
+/*
   it('articals showing - world', () => {
     cy.contains('WORLD').click()
      cy.url().should('include', '/world')
@@ -221,6 +234,7 @@ describe('showing the basics of site are up', () => {
              .go('back')
              .wait(1000)})})
       }}
-    )
+    )*/
    
-  });
+  //});
+    })

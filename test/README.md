@@ -1,4 +1,4 @@
-# Tests for Mocha and Cypress
+# Tests for Mocha/Chai and Cypress
 
 ## For running the Cypress tests
 
@@ -20,7 +20,7 @@
 >npx cypress run
 > ```
 >
-## For Running Mocha Tests
+## For Running Mocha/Chai Tests
 
 >Navagate to the Mocha folder
 >

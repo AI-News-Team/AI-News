@@ -98,16 +98,13 @@ describe('showing the basics of site are up', () => {
       cy.contains('POLITICS').click()
       cy.url().should('include', '/politics')
 
-      //let count6 = 2
-      //let clicking = cy.get('#root').find('a img').wrap()
       let count6 = cy.get('#root').find('a img').then($elements2 =>{
       
       let clicking = $elements2;
       let lenele = clicking.length
       count6 = lenele
       cy.log(count6.length)
-       //let i = 0
-       //let count6 = lenele
+    
        for (let i = 0; i < count6; i++) { 
       
         cy.get('#root').find('a img').then($elements => {
@@ -123,9 +120,9 @@ describe('showing the basics of site are up', () => {
             cy.log(i)
             cy.log(count6)
               cy
-              .wait(1000)
+              .wait(50)
               .go('back')
-              .wait(1000)})}).then(($btn) => {
+              .wait(50)})}).then(($btn) => {
                 if (i = count6) {
                   cy.end()
                 }})}})

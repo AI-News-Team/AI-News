@@ -17,5 +17,8 @@
     "dependencies": {
         "@node-ipc/node-ipc": "^11.0.3",
         "cypress": "^12.17.3"
+    },
+    "devDependencies": {
+        "cypress-wait-until": "^2.0.1"
     }
 }

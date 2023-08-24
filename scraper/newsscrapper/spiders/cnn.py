@@ -58,7 +58,6 @@ class CNNSpider(scrapy.Spider):
 
             # removing empty items from list
             if len(item['body'][i]) == 0:
-                print("deleted")
                 del item['body'][i]
 
         # merging links into paragraphs

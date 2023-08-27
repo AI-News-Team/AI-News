@@ -52,7 +52,6 @@ class CNNSpider(scrapy.Spider):
 
         # cleaning up the body, removing line breaks, empty items and whitespace
         for i in reversed(range(len(item['body']))):
-            print(item['body'][i])
             text = item['body'][i].replace("\n", "").strip()
             item['body'][i] = text
 

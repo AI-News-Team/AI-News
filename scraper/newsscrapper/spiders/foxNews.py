@@ -43,15 +43,11 @@ class foxNews(scrapy.Spider):
         item['author'] = response.xpath('//head/meta[@data-hid="dc.creator"]/@content').get() or 'Fox News'
 
         item['publication_date'] = response.xpath('//head/meta[@data-hid="dcterms.created"]/@content').get()
-
-        # Get rids of the tags in the body
-        # if response.xpath('//p[@class="speakable"]'):
-        #     item['body'] = response.xpath('//p[@class="speakable"]//text()').getall() or response.xpath('//p//text()').getall()
-        # else:
          
         body = response.xpath('//div[@class="article-body"]/p//text()').getall()
 
         for i in reversed(range(len(body))):
+            body[i] = body[i].replace("\xa0", " ").strip()
             text = body[i]
             if (text.replace(" ", "").isupper()):
                 del body[i]

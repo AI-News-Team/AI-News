@@ -65,6 +65,7 @@ print("loading data...")
 articles = json.loads(data)
 
 print("paraphrasing...")
+
 for article in articles['data']:
     # formatting body if it isn't a list
     if isinstance(article['body'], str):
@@ -96,6 +97,9 @@ for article in articles['data']:
             else:
                 #re-writing article sentence
                 article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
+                
+        print(f"ReWriting article {article['id']} title")
+        article['name'] = get_response(article['name'],num_return_sequences,num_beams)[0]
 
     send_article(article)
 

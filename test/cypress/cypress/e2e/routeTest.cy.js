@@ -19,7 +19,6 @@ describe('showing the basics of site are up', () => {
       let clicking = $elements2;
       let lenele = clicking.length
       let count4 = lenele
-      if (lenele <= 50){
       for (let i = 0; i < count4; i++) { 
 
         cy.get('#root').find('a img').then($elements => {
@@ -37,8 +36,7 @@ describe('showing the basics of site are up', () => {
               .wait(50)})}).then(($btn) => {
                 if (i = count4) {
                   cy.end()
-                }})}}
-              })
+                }})}})
             })    
 
     
@@ -50,7 +48,6 @@ describe('showing the basics of site are up', () => {
       let clicking = $elements2;
       let lenele = clicking.length
       let count3 = lenele
-      if (lenele <= 50){
       for (let i = 0; i < count3; i++) { 
       
         cy.get('#root').find('a img').then($elements => {
@@ -68,7 +65,7 @@ describe('showing the basics of site are up', () => {
               .wait(50)})}).then(($btn) => {
                 if (i = count3) {
                   cy.end()
-                }})}}})
+                }})}})
                 
               })
     
@@ -80,7 +77,7 @@ describe('showing the basics of site are up', () => {
       let clicking = $elements2;
       let lenele = clicking.length
       let count9 = lenele
-      if (count9 <= 50){
+
       for (let i = 0; i < count9; i++) { 
         cy.get('#root').find('a img').then($elements => {
           let elementsToClick = $elements;
@@ -97,10 +94,7 @@ describe('showing the basics of site are up', () => {
               .wait(50)})}).then(($btn) => {
                 if (i = count9) {
                   cy.end()
-                }})}}else{
-                  count9 = 49
-                }
-              })
+                }})}})
               })
                 
 
@@ -112,7 +106,7 @@ describe('showing the basics of site are up', () => {
       let clicking = $elements2;
       let lenele = clicking.length
       let count6 = lenele
-      if (lenele <= 50){
+
        for (let i = 0; i < count6; i++) { 
       
         cy.get('#root').find('a img').then($elements => {
@@ -130,7 +124,7 @@ describe('showing the basics of site are up', () => {
               .wait(50)})}).then(($btn) => {
                 if (i = count6) {
                   cy.end()
-                 }})}}})
+                 }})}})
               })
         
       
@@ -172,7 +166,7 @@ describe('showing the basics of site are up', () => {
           let clicking = $elements2;
           let lenele = clicking.length
           let count7 = lenele
-          if (lenele <= 50){
+
           for (let i = 0; i < count7; i++) {   
             
               cy.get('#root').find('a img').then($elements => {
@@ -190,7 +184,7 @@ describe('showing the basics of site are up', () => {
                     .wait(50)})}).then(($btn) => {
                       if (i = count7) {
                         cy.end()
-                       }})}}})
+                       }})}})
                       })
 
     it('BUSINESS sections showing', () => {
@@ -202,7 +196,7 @@ describe('showing the basics of site are up', () => {
       let clicking = $elements2;
       let lenele = clicking.length
       let count = lenele
-      if (lenele <= 50){
+      
       for (let i = 0; i < count; i++) {  
       cy.get('#root').find('a img').then($elements => {
         let elementsToClick = $elements;
@@ -219,7 +213,7 @@ describe('showing the basics of site are up', () => {
             .wait(50)})}).then(($btn) => {
               if (i = count) {
                 cy.end()
-               }})}}})
+               }})}})
               })
               
     it('CULTURE sections showing', () => {
@@ -230,7 +224,6 @@ describe('showing the basics of site are up', () => {
       let clicking = $elements2;
       let lenele = clicking.length
       let count8 = lenele
-      if (lenele <= 50){
       for (let i = 0; i < count8; i++) { 
       
       cy.get('#root').find('a img').then($elements => {
@@ -248,7 +241,7 @@ describe('showing the basics of site are up', () => {
             .wait(50)})}).then(($btn) => {
               if (i = count8) {
                 cy.end()
-               }})}}})
+               }})}})
               }) 
     
 })

@@ -40,7 +40,7 @@ class BbcSpider(scrapy.Spider):
         item['publication_date'] = response.xpath('//time[@data-testid="timestamp"]/@datetime').get()
         item['body'] = response.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall()
 
-        # checks if item['body'] is empty and if it is, then return None
+
         if not item['body']:
             return None
         
@@ -63,21 +63,33 @@ class BbcSpider(scrapy.Spider):
         item['source_url'] = response.url
         item['cover_url'] = response.xpath('//div[@data-component="image-block"]/figure/div/span/picture/img/@src').get()
 
-        if response.xpath('//div[contains(@data-component, "text-block")]'):
-            main_content = response.xpath('//main[@id="main-content"]')
+        # if response.xpath('//div[contains(@data-component, "text-block")]'):
+        #     main_content = response.xpath('//main[@id="main-content"]')
 
-            elements = main_content.xpath('.//*[self::div[@data-component="unordered-list-block"] or '
-                                        'self::div[@data-component="subheadline-block"] or '
-                                        'self::div[@data-component="text-block"]]')
+        #     elements = main_content.xpath('.//*[self::div[@data-component="unordered-list-block"] or '
+        #                                 'self::div[@data-component="subheadline-block"] or '
+        #                                 'self::div[@data-component="text-block"]]')
 
-            scraped_text = []
+        #     scraped_text = []
 
-            for element in elements:
-                text = element.xpath('.//text()').get()
-                scraped_text.append(text)
+        #     for element in elements:
+        #         print(element)
+        #         text = element.xpath('.//text()').get()
+        #         scraped_text.append(text)
 
-            item["body"] = scraped_text
+        #     item["body"] = scraped_text
             
+        # Loop starts from the end, works back, if a line of text does not end in a full stop (meaning it is link text, or prior to link text),
+        # it will be combined it with the next line, next line will be removed from the list
+        # print(item['body'])
+        for i in reversed(range(len(item['body']))):
+            text = item['body'][i].rstrip()
+            item['body'][i] = text
+
+            if (text[len(text)-1] != "." and text[len(text)-1] != '"' and i+1 != len(item['body'])):
+                item['body'][i] = text + item['body'][i+1]
+                del item['body'][i+1]
+                
         if response.xpath('//div[@class="article__body-content"]'):
             item['author'] = response.xpath('//div[@class="author-unit"]/div/a/text()').get()
             item['publication_date'] = response.xpath('//div[@class="author-unit"]/div/span/text()').get()
@@ -88,5 +100,6 @@ class BbcSpider(scrapy.Spider):
             item['publication_date'] = response.xpath('//span[@class="qa-status-date-output"]/text()').get()
             item['body'] = response.xpath('//div[@data-reactid=".19qwbyoyauw.0.0.0.1"]/descendant-or-self::*[not(self::script)][normalize-space()]/text()').getall()
 
+        # print(item)
         yield item
         

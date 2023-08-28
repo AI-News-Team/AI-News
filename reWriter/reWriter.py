@@ -98,8 +98,8 @@ for article in articles['data']:
                 #re-writing article sentence
                 article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
                 
-        print(f"ReWriting article {article['id']} title")
-        article['name'] = get_response(article['name'],num_return_sequences,num_beams)[0]
+    print(f"ReWriting article {article['id']} title")
+    article['name'] = get_response(article['name'],num_return_sequences,num_beams)[0]
 
     send_article(article)
 

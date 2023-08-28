@@ -23,7 +23,7 @@ def get_response(input_text,num_return_sequences,num_beams):
 
 # Altering beams adjusts the number of words the rewriter looks ahead in a sentence that it is paraphrasing.
 # Higher beams should mean better results, but longer processing time
-num_beams = 5
+num_beams = 10
 
 ## Number of paraphrased results returned per sentence
 num_return_sequences = 1
@@ -65,29 +65,42 @@ print("loading data...")
 articles = json.loads(data)
 
 print("paraphrasing...")
-try:
-    for article in articles['data']:
-        # formatting body if it isn't a list
-        if isinstance(article['body'], str):
-            article['body'] = article['body'].split(".")
 
-        print(f"processing article {article['id']}")
-        print(f"{len(article['body'])} lines")
+for article in articles['data']:
+    # formatting body if it isn't a list
+    if isinstance(article['body'], str):
+        article['body'] = article['body'].split(".")
 
-        for i in range(len(article['body'])):
-            print(len(article['body']) - i)
-            # removing empty sentences
-            if article['body'][i] == '':
-                del article['body'][i]
+    print(f"processing {article['id']}")
+    print(f"{len(article['body'])} lines")
+
+    for i in range(len(article['body'])):
+
+        print(len(article['body']) - i)
+        article['body'][i] = article['body'][i].rstrip()
+        # removing empty sentences
+        if article['body'][i] == '':
+            del article['body'][i]
+        else:
+            # Checking for multiple sentences in article input
+            if ". " in article['body'][i]:
+                delimiter = ". "
+                jointString = ""
+                # split into multpile sentences
+                splitString = article['body'][i].split(delimiter)
+                for p in range(len(splitString)):
+                    # rewrite each sentence
+                    splitString[p] = get_response(splitString[p],num_return_sequences,num_beams)[0]
+                    # combine rewritten sentences into full paragraph
+                    jointString+=splitString[p]+" "
+                article['body'][i] = jointString
             else:
                 #re-writing article sentence
                 article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
-        
+                
         print(f"ReWriting article {article['id']} title")
         article['name'] = get_response(article['name'],num_return_sequences,num_beams)[0]
 
-        send_article(article)
-except RequestException as e:
-        print('Error reWriting articles: ', e)
+    send_article(article)
 
 sys.exit("exiting")

@@ -17,7 +17,8 @@ create table Article (
 
 create table Article_Raw (
         id serial primary key,
-        name varchar(256) not null UNIQUE,
+        name varchar(256) not null unique,
+        embbeded_name varchar(16276) not null,
         author varchar(256) not null,
         category varchar(32) not null references Category(category),
         body json not null,
@@ -35,7 +36,6 @@ create table Author (
 
 insert into Category (category, description, color)
 values  ('news', 'generic news articles', '#cc0099'),
-        ('gardening', 'gardening, landscaping, or botanical articles', '#2596be'),
         ('politics', 'current political events and debate articles', '#ea6d2d'),
         ('business', 'business, fintech, or economic articles', '#f403fc'),
         ('culture', 'culturally significant articles', '#0aa834'),

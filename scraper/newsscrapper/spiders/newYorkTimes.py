@@ -59,19 +59,28 @@ class newYorkTimesSpider(scrapy.Spider):
 
         # Extracts the body of the article depending on the layout of the article
         if response.xpath('//p[@class="g-body "]'):
-            item['body'] = response.xpath('//p[@class="g-body "]/text()').getall()
+            item['body'] = response.xpath('//p[@class="g-body "]//text()').getall()
         elif response.xpath('//div[@data-testid="document-block-body"]/p'):
             item['body'] = response.xpath('//div[@data-testid="document-block-body"]/p[position() < last()]//text()').getall()
         elif response.xpath('//p[@class="paragraph"]'):
-            item['body'] = response.xpath('//p[@class="paragraph"]/text()').getall()
+            item['body'] = response.xpath('//p[@class="paragraph"]//text()').getall()
         elif response.xpath('//div[@class="intro-wrapper"]/p'):
             item['body'] = response.xpath('//div[@class="intro-wrapper"]/p//text()').getall()
         else:
-            item['body'] = response.xpath('//section[@name="articleBody"]/div/div//p/text()').getall()
+            item['body'] = response.xpath('//section[@name="articleBody"]/div/div//p//text()').getall()
+
+        # merging links into sentences
+        for i in reversed(range(len(item['body']))):
+            text = item['body'][i]
+            if len(text) == 0:
+                del item['body'][i]
+            elif (text[len(text)-1] != "." and text[len(text)-1] != '"' and i+1 != len(item['body'])):
+                item['body'][i] = text + item['body'][i+1]
+                del item['body'][i+1]
 
         category = response.xpath('//head/meta[@name="CG"]/@content').get()
 
-        toFetchCategories = ['us', 'world', 'politics', 'entertainment', 'business', 'science', 'food', 'style', 'health', 'travel']
+        toFetchCategories = ['world', 'politics', 'entertainment', 'business', 'science', 'food', 'style', 'health', 'travel']
         entertainmentCategories = ['games', 'books', 'magazine', 'music', 'art']
 
         # Reassign category if it's not in the list of categories to fetch
@@ -84,8 +93,8 @@ class newYorkTimesSpider(scrapy.Spider):
             category = 'science'
         elif category == 'sports':
             category = 'sport'
-        elif category == 'nyregion':
-            category = 'us'
+        elif category == 'nyregion' or category == 'us':
+            category = 'world'
 
         # Returns noting if category is not in the db
         if category is None or category not in toFetchCategories:

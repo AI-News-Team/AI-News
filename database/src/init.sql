@@ -46,4 +46,48 @@ values  ('news', 'generic news articles', '#cc0099'),
         ('food', 'food, cooking, and recipes articles', '#5039a3'),
         ('sport', 'sport, fitness, and exercise articles', '#39a375');
 
+
+create table Access (
+  permission varchar(32) not null,
+  description varchar(128) not null
+  
+  primary key(permission)
+);
+
+create table Permission (
+  name varchar(32) not null
+  access varchar(32) not null,
+  route varchar(32) not null, -- probably use same name as API, or some other identifier
+   
+  primary key(name), -- unique name to identify this permission (read.Article.list, etc.)
+  constraint FK_access_permission
+    foreign key(permission)
+    references Access(permission)
+);
+
+-- Tokens handed out to users (hash wold be passed along with API requests)
+create table Token (
+  id serial int not null,
+  key uuid not null default gen_random_uuid() -- API key
+  name varchar(32) null, -- user defined useful name?
+  primary key(id) -- faster to index on `id` than hash
+);
+
+-- Associates permissions with API Tokens, eg:
+-- 'f7sdf89asd89fs8d7fd' 'READ.article.list'
+-- 'f7sdf89asd89fs8d7fd' 'READ.article.list_all'
+-- 'f7sdf89asd89fs8d7fd' 'READ.article.summary'
+create table Authorization (
+  token int not null,
+  permission varchar(32) not null,
+  
+  primary key(token, permission),
+  constraint FK_authorization_permission
+    foreign key(permission)
+    references Permission(name)
+  constraint FK_authorization_token
+    foreign key(token)
+    references Token(key)
+); 
+
         

@@ -1,13 +1,15 @@
-import os
 import ast
+import os
 from typing import Generator, List
 
+import numpy
 import requests
+import torch
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_restful import Api, Resource
-import torch
 from sentence_transformers import SentenceTransformer, util
+from sentence_transformers.cross_encoder import CrossEncoder
 
 dot = os.path.dirname(os.path.realpath(__file__))
 load_dotenv(f"{dot}/../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
@@ -19,12 +21,15 @@ API_HOST = os.getenv('API_HOST')
 if not API_HOST:
   raise Exception('API_HOST environment variable not found')
 
-
-TRANSFORMER =  'all-MiniLM-L6-v2'
-SEARCH_DOMAIN = f'http://{API_HOST}:{API_PORT}/article.search.domain'
 SUCCESS = 200
 NOT_FOUND = 404
 BAD_REQUEST = 400
+
+CROSS_ENCODER_MODEL = 'cross-encoder/stsb-distilroberta-base'
+SENTENCE_TRANSFORMER_MODEL =  'all-MiniLM-L6-v2'
+
+SEARCH_DOMAIN = f'http://{API_HOST}:{API_PORT}/article.search.domain'
+
 
 '''
 Encodes and stores a list of strings as a tensor providing semantic search functionality.
@@ -35,7 +40,7 @@ class SemanticSearch:
     # Initialize the SemanticSearch class with a corpus.
     def __init__(self):
         self.embedded_names = []
-        self.embedder = SentenceTransformer(TRANSFORMER)
+        self.embedder = SentenceTransformer(SENTENCE_TRANSFORMER_MODEL)
 
     def fetch(self) -> dict:
       try:
@@ -75,7 +80,7 @@ class SemanticSearch:
 
         self.fetch()
         if not self.embedded_names:
-            return  # No data, no search
+          return  # No data, no search
 
         query_embedding = self.encode_as_tensor(query)
         scored_results = util.semantic_search(query_embedding, self.embedded_names)[0]
@@ -84,20 +89,45 @@ class SemanticSearch:
           corpus_id = scored_result["corpus_id"]
           yield self.articles[corpus_id]
 
+'''
+Ranks a list of results based on their semantic similarity to the query.
+- ResultRanker::rank(query, results) - returns a list of results ordered by their similarity to the query
+'''
+class ResultRanker:
+  def __init__(self):
+    self.model = CrossEncoder(CROSS_ENCODER_MODEL);
+
+  def rank(self, query: str, results: List[dict]) -> List:
+    if not results: raise Exception('No results to rank')
+    if not query: return results 
+
+    corpus = [article['name'] for article in results] # reduce article names
+    combinations = [[query, c] for c in corpus] # pair the names with the query
+    scores = self.model.predict(combinations) # cross-embed these pairs to get similarity scores
+
+    # order the results by the score
+    rankings = reversed(numpy.argsort(scores)) # argsort returns the indices of the sorted array
+    ranked = [results[i] | { 'score' : scores[i] } for i in rankings]
+
+    return ranked
+
+# initialize models
+search = SemanticSearch()
+ranker = ResultRanker();
+
 # initialize flask
 app = Flask(__name__)
 api = Api(app)
 
-semanticSearch = SemanticSearch()
-
 '''
 Search API resource
 GET `http://<domain>:<port>/search/<query> - returns a list of articles that match the query
-`pip install -r requirements.txt && ./init`
 '''
 class SearchEngine(Resource):
   def get(self, query: str) -> list[str]: # todo: replace with `post`
-    results = [{"name": r["name"], "id": r["id"]} for r in semanticSearch.search(query)] # todo: stream results from generator?
-    return results#, SUCCESS, {'Access-Control-Allow-Origin': '*'}
+    results = [r for r in search.search(query)]
+    ranked = ranker.rank(query, results)
+    results = [{"name": r["name"], "id": r["id"], "score": str(r["score"])} for r in ranked] 
+    return results, SUCCESS, {'Access-Control-Allow-Origin': '*'}
 
 api.add_resource(SearchEngine, "/search/<query>")

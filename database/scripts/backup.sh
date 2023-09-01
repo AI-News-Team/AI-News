@@ -11,7 +11,6 @@ if [ -z ../../local.env ] ; then
 fi
 source ../../local.env;
 
-BACKUP_DIR=../backups;
 if [ ! -d $DATABASE_BACKUP_DIR ] ; then
   mkdir $DATABASE_BACKUP_DIR;
 fi

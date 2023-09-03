@@ -30,7 +30,6 @@ const categorizeArticles = (articles: Article[]) =>
 
 export const summary: Route = (_, res) => {
   getClient().query<Article>(groupCategoriesInThrees, (err, result) => {
-    console.log(result)
     if (err)
       return Error(res, INTERNAL_SERVER_ERROR, {
         message: err.message || 'An unknown error occurred',

@@ -19,6 +19,7 @@ describe('showing the basics of site are up', () => {
       let clicking = $elements2;
       let lenele = clicking.length
       let count4 = lenele
+      
       for (let i = 0; i < count4; i++) { 
 
         cy.get('#root').find('a img').then($elements => {

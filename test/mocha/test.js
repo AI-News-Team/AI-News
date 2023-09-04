@@ -26,7 +26,21 @@ describe("api tests content", () => {
         chai.expect(res.status).to.be.equal(200);
         chai.expect(res.body).to.be.a('object');
         const attributes = res.body.data;
-        chai.expect(attributes).to.include.keys("business", "opinions", "travel");
+        chai.expect(attributes).to.include.keys("world", "travel");
+        done();
+      });
+  });
+});
+
+
+describe("api", () => {
+  it("api catogries.list", (done) => {
+    console.log("HELLLLLOOOO");
+    chai
+      .request(BASE_URL)
+      .get("/category.list")
+      .end((err, res) => {
+        res.should.have.status(200);
         done();
       });
   });

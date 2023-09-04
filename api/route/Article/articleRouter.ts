@@ -7,6 +7,8 @@ import { get } from './article.get';
 import { summary } from './article.summary';
 import { getAll } from './article.getAll';
 import { create_raw } from './article.create_raw';
+import { record_clicks } from './article.record_clicks';
+
 
 const articleRouter = createRouter('article', {
   list: {
@@ -44,6 +46,11 @@ const articleRouter = createRouter('article', {
   getAll: {
     method: 'get',
     handler: getAll,
+  },
+  record_clicks: {
+    method: 'post',
+    pathParams: ['id'],
+    handler: record_clicks,
   },
 });
 

@@ -28,6 +28,17 @@ create table Article_Raw (
         retrieved_date timestamptz not null default now()
 );
 
+create table Article_Visits (
+        articleID INT not null,
+        click_date timestamptz not null default now(),
+        clicks INT not null,
+        primary key (articleID, click_date),
+        constraint fk_article
+                foreign key(articleID) 
+                        references Article (id) 
+                        on delete cascade
+);
+
 create table Author (
         name varchar(32) primary key
 );

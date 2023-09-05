@@ -1,17 +1,17 @@
 import { Route } from '..';
-import { getClient } from '../../database';
 import { Error, Success } from '../router';
+import { Article, Category } from '@shared';
+import { string } from 'pg-format';
+import { getClient } from '../../database';
 
-
-export const record_clicks: Route = (req, res) => {
-  const { id } = req.body as { id: Number };
-
-  const insertUser = async (id: Number) => {
+export const recordVisit: Route = (req, res) => {
+  const { id } = req.body;
+  const date = new Date()
+  const today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}}`
+  
+  const addRecord = async (id: Number) => {
     try {
-      await getClient().query(
-        `INSERT INTO Article ("id", "name", "body")  
-             VALUES ($1, $2, $3)`,
-      ); // sends queries
+      await getClient().query(`call record_visit($1, $2)`, [id, today]); // sends queries
       return true;
     } catch (error) {
       console.error(error);
@@ -19,10 +19,10 @@ export const record_clicks: Route = (req, res) => {
     }
   };
 
-  insertUser(id).then(result => {
+  addRecord(id).then(result => {
     if (result) {
       console.log('Visit recorded');
-      Success(res,  'Visit recorded' );
+      Success(res, 'Visit recorded');
     }
   });
 };

@@ -8,6 +8,7 @@ import { summary } from './article.summary';
 import { getAll } from './article.getAll';
 import { create_raw } from './article.create_raw';
 import { recordVisit } from './article.record_clicks';
+import { clicks } from './article.clicks';
 
 
 const articleRouter = createRouter('article', {
@@ -51,6 +52,10 @@ const articleRouter = createRouter('article', {
     method: 'post',
     handler: recordVisit,
   },
+  clicks: {
+    method: 'get',
+    handler: clicks,
+  }
 });
 
 export default articleRouter;

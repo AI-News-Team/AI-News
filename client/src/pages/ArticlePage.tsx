@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getData } from "../utils/axios";
+import { getData, postData } from "../utils/axios";
 import LeadingSidebar from "../components/page-components/LeadingSidebar";
 import { Article } from "@shared";
 import { noImage } from "../images/commonImages";
@@ -18,6 +18,7 @@ const ArticlePage = () => {
 
     const params = useParams();
     const currentDomain=`/article.get/${params.id}`
+    const postDomain = "/article.record_visit";
 
     const [data, setData] = useState<Article>();
     
@@ -26,6 +27,10 @@ const ArticlePage = () => {
         getData("/category.list", setCategories);
         window.scrollTo(0, 0);
         },[])
+    
+    useEffect(() => {
+        postData(postDomain, { id: params.id });
+    }, [])
 
     useEffect(()=>{
       categories.forEach(category => {
@@ -33,8 +38,6 @@ const ArticlePage = () => {
                 setColor(category.color)
             }})
     },[data])
-
-    console.log(categories)
 
 return (
   <div className="px-3 xl:p-0">

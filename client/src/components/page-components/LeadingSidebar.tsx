@@ -29,6 +29,7 @@ const LeadingSidebar = ({ color, topic }: Props) => {
         </h2>
         {data?.[topic]?.map((story: Article) => (
           <CompactStoryCard
+            key={story.id}
             id={story.id}
             image={story.cover_url}
             title={story.name}

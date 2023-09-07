@@ -3,7 +3,7 @@ import chaiHttp from "chai-http";
 import { describe, it } from "mocha";
 const BASE_URL = "localhost:3001";
 chai.should();
-chai.use(chaiHttp); 
+chai.use(chaiHttp);
 
 describe("api tests status", () => {
   it("staus tests", (done) => {
@@ -24,14 +24,13 @@ describe("api tests content", () => {
       .get("/article.summary")
       .end((_, res) => {
         chai.expect(res.status).to.be.equal(200);
-        chai.expect(res.body).to.be.a('object');
+        chai.expect(res.body).to.be.a("object");
         const attributes = res.body.data;
         chai.expect(attributes).to.include.keys("world", "travel");
         done();
       });
   });
 });
-
 
 describe("api", () => {
   it("api catogries.list", (done) => {
@@ -53,12 +52,11 @@ describe("api tests status", () => {
       .get("/article.getall")
       .end((_, res) => {
         chai.expect(res.status).to.be.equal(200);
-        chai.expect(res.body).to.be.a('object');
-        res.body.should.have.property('data')
-        res.body.data[0].should.have.property('id')
-        res.body.data[0].should.have.property('body')
+        chai.expect(res.body).to.be.a("object");
+        res.body.should.have.property("data");
+        res.body.data[0].should.have.property("id");
+        res.body.data[0].should.have.property("body");
         done();
       });
   });
 });
-

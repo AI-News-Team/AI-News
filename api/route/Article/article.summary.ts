@@ -4,16 +4,19 @@ import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
 import { Article } from '@shared';
 
-const ARTICLES_PER_CATEGORY = 4;
+const ARTICLES_PER_CATEGORY = 3;
 const groupCategoriesInThrees = `
-  select id, name, author, publication_date, category, source_url, cover_url
-  from (
-    select ar.id, a.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date, 
-      row_number() over (PARTITION BY ar.category order by ar.publication_date) index_in_category
+  select * from (
+    select *, row_number() over (partition by category order by clicks desc nulls last, 
+    publication_date desc nulls last) as clickRank from (
+      select ar.id, a.name, ar.category, ar.cover_url, ar.publication_date,
+      sum(av.clicks) clicks
       from Article_Raw ar
       join Article a on ar.id = a.id
-  ) categorized_articles 
-  where index_in_category < ${ARTICLES_PER_CATEGORY}
+      left join Article_Visits av on av.id = a.id
+      group by ar.id, a.name) categorized_articles 
+    ) ranked_articles
+  where clickRank <= ${ARTICLES_PER_CATEGORY}
 `;
 
 const baseSummary: ArticleSummary = {};

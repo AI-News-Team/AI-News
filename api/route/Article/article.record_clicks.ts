@@ -11,6 +11,7 @@ export const recordVisit: Route = (req, res) => {
   
   const addRecord = async (id: Number) => {
     try {
+      // records clicks using stored procedure 'record_visit'
       await getClient().query(`call record_visit($1, $2)`, [id, today]); // sends queries
       return true;
     } catch (error) {

@@ -29,20 +29,19 @@ create table Article_Raw (
 );
 
 create table Article_Visits (
-        id INT not null primary key,
+        id INT not null,
         click_date date not null default CURRENT_DATE,
-        clicks INT not null
-        -- primary key (articleID, click_date)
-        -- constraint fk_article
-        --         foreign key(articleID) 
-        --                 references Article (id) 
-        --                 on delete cascade
+        clicks INT not null,
+        primary key (id, click_date),
+        constraint fk_article
+                foreign key(id) 
+                     references Article (id) 
+                     on delete cascade
 );
 
 create table Author (
         name varchar(32) primary key
 );
-
 
 insert into Category (category, description, color)
 values  ('news', 'generic news articles', '#cc0099'),

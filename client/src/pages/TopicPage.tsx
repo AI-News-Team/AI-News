@@ -12,7 +12,6 @@ type Props = {
 };
 
 const TopicPage = ({ topic, color }: Props) => {
-  console.log(topic)
   const [searchParams, setSearchParams] = useSearchParams({});
   
   const articleData=`article.list/${topic}`

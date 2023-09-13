@@ -4,8 +4,20 @@ import { Route, Error, Success } from '../router';
 import { Article } from '@shared';
 
 const query = `
-  select ar.id, a.name, 
-  (SELECT name FROM Author ORDER BY random() LIMIT 1) as author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date
+  select 
+    ar.id, a.name, 
+    (
+      select name 
+      from Author 
+      order by random() 
+      limit 1
+    ) author,
+    a.body, 
+    ar.category, 
+    ar.source_url, 
+    ar.cover_url, 
+    ar.retrieved_date,
+    ar.publication_date
   from Article_Raw ar
   join Article a on ar.id = a.id
   where ar.id = $1

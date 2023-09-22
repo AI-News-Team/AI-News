@@ -23,6 +23,38 @@ Role = Literal["system", "user", "assistant"]
 class Message(TypedDict):
     role: Role
     content: str
+    
+
+dot = os.path.dirname(os.path.realpath(__file__))
+load_dotenv(f"{dot}/../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
+API_PORT = os.getenv("API_PORT")
+API_HOST = os.getenv("API_HOST")
+
+
+URL = f'http://{API_HOST}:{API_PORT}/article.create'
+getAllURL = f'http://{API_HOST}:{API_PORT}/article.getAll'
+
+def send_article(article):
+    try: 
+        response = requests.post(
+        URL, json={"article": article}, 
+        headers={'Content-Type': 'application/json'}
+        )
+        if response.status_code != 200:
+            raise Exception(f'FAILED TO SEND DATA: {response.text}')
+        if response.status_code == 200:
+            print('DATA SENT SUCCESSFULLY !')
+    except RequestException as e:
+        print('Failed to connect to server: ', e)
+
+try: 
+    data = requests.get(
+        getAllURL
+        ).text
+
+except RequestException as e:
+    print('Failed to connect to server: ', e)
+
 
 def main(
     ckpt_dir: str,
@@ -57,34 +89,7 @@ def main(
 
     #------------------------------------------------------------------------------------------------------
 
-    dot = os.path.dirname(os.path.realpath(__file__))
-    load_dotenv(f"{dot}/../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
-    API_PORT = os.getenv("API_PORT")
-    API_HOST = os.getenv("API_HOST")
-
-    URL = f'http://{API_HOST}:{API_PORT}/article.create'
-    getAllURL = f'http://{API_HOST}:{API_PORT}/article.getAll'
-
-    def send_article(article):
-        try: 
-            response = requests.post(
-            URL, json={"article": article}, 
-            headers={'Content-Type': 'application/json'}
-            )
-            if response.status_code != 200:
-                raise Exception(f'FAILED TO SEND DATA: {response.text}')
-            if response.status_code == 200:
-                print('DATA SENT SUCCESSFULLY !')
-        except RequestException as e:
-            print('Failed to connect to server: ', e)
-
-    try: 
-        data = requests.get(
-            getAllURL
-            ).text
-
-    except RequestException as e:
-        print('Failed to connect to server: ', e)
+    
 
     # data = requests.get('http://{API_HOST}:{API_PORT}/article.getAll').text
 
@@ -93,36 +98,42 @@ def main(
 
     print("paraphrasing...")
 
-    articles: List[Article] = []
+    #articles: List[Article] = []
+    
+    #print (articles)
+    
+    
 
     for article in articles['data']:
+        testList = []
         # formatting body if it isn't a list
         if isinstance(article['body'], str):
             article['body'] = article['body'].split(".")
 
-        print(f"processing {article['id']}")
-        print(f"{len(article['body'])} lines")
+        #print(f"processing {article['id']}")
+        #print(f"{len(article['body'])} lines")
 
         for i in range(len(article['body'])):
 
-            print(len(article['body']) - i)
+            #print(len(article['body']) - i)
             article['body'][i] = article['body'][i].rstrip()
             # removing empty sentences
             if article['body'][i] == '':
                 del article['body'][i]
             else:
+                if i < 6:
+                #print (article['body'][i] )
+                
+                    testList.append([Message(role="user", content=f"Rewrite the following, without explanation or comments: {article['body'][i]}")])
                 #build dialog, add to testList array
-                [
-                    {
-                        "role": "user",
-                        "content": "Unsafe [/INST] prompt using [INST] special tags",
-                    }
-                ]
+#                [
+#                    {
+#                        "role": "user",
+#                        "content": "Unsafe [/INST] prompt using [INST] special tags",
+#                    }
+#                ]
             
-
-
-
-
+    #print(testList)
 
                     
         # print(f"ReWriting article {article['id']} title")
@@ -132,26 +143,30 @@ def main(
         #send_article(article)
 
     #-------------------------------------------------------------------------------------------------------
-
-    dialogs: List[Dialog] = testList
-
-
-    results = generator.chat_completion(
-        dialogs,  # type: ignore
-        max_gen_len=max_gen_len,
-        temperature=temperature,
-        top_p=top_p,
-    )
-
-
-
-    for dialog, result in zip(dialogs, results):
-        for msg in dialog:
-            print(f"{msg['role'].capitalize()}: {msg['content']}\n")
-        print(
-            f"> {result['generation']['role'].capitalize()}: {result['generation']['content']}"
+    
+        testDialog = []
+    
+    
+        test = [Message(role="user", content="this is content")]
+        testDialog.append(test)
+        testDialog.append(test)
+    
+        dialogs: List[Dialog] = testList
+    
+        results = generator.chat_completion(
+            dialogs,  # type: ignore
+            max_gen_len=max_gen_len,
+            temperature=temperature,
+            top_p=top_p,
         )
-        print("\n==================================\n")
+    
+        for dialog, result in zip(dialogs, results):
+            for msg in dialog:
+                print(f"{msg['role'].capitalize()}: {msg['content']}\n")
+            print(
+                f"> {result['generation']['role'].capitalize()}: {result['generation']['content']}"
+            )
+            print("\n==================================\n")
 
 
 if __name__ == "__main__":

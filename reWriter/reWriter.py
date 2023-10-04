@@ -34,6 +34,7 @@ dot = os.path.dirname(os.path.realpath(__file__))
 load_dotenv(f"{dot}/../local.env") # todo: refactor this to check for containerized builds, in which case we should use the `virtual.env` file
 API_PORT = os.getenv("API_PORT")
 API_HOST = os.getenv("API_HOST")
+TOKEN = os.getenv("REWRITER_TOKEN")
 
 URL = f'http://{API_HOST}:{API_PORT}/article.create'
 getAllURL = f'http://{API_HOST}:{API_PORT}/article.getAll'
@@ -42,7 +43,7 @@ def send_article(article):
     try: 
         response = requests.post(
         URL, json={"article": article}, 
-        headers={'Content-Type': 'application/json'}
+        headers={'Content-Type': 'application/json', 'Authorization': f'Bearer {TOKEN}'}
         )
         if response.status_code != 200:
             raise Exception(f'FAILED TO SEND DATA: {response.text}')

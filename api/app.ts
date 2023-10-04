@@ -8,6 +8,8 @@ import { useRouter } from './route';
 import article from './route/Article';
 import category from './route/Category/category';
 
+import protectedRouter from './middleware/protectedRoutes';
+
 connectClient(); // Connect to the database
 
 const instance = express();
@@ -18,6 +20,9 @@ instance.use(express.urlencoded({ extended: true }));
 
 useRouter(instance, '/', article);
 useRouter(instance, '/', category);
+
+instance.use('/article.create', protectedRouter);
+instance.use('/article.create_raw', protectedRouter);
 
 
 const server = instance.listen(API_PORT, () => {

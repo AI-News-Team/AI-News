@@ -46,48 +46,33 @@ values  ('news', 'generic news articles', '#cc0099'),
         ('food', 'food, cooking, and recipes articles', '#5039a3'),
         ('sport', 'sport, fitness, and exercise articles', '#39a375');
 
-
-create table Access (
-  permission varchar(32) not null,
-  description varchar(128) not null
-  
-  primary key(permission)
+create table Routes (
+        route_id serial primary key,
+        route_name varchar(256),
+        description varchar(128) not null
 );
 
-create table Permission (
-  name varchar(32) not null
-  access varchar(32) not null,
-  route varchar(32) not null, -- probably use same name as API, or some other identifier
-   
-  primary key(name), -- unique name to identify this permission (read.Article.list, etc.)
-  constraint FK_access_permission
-    foreign key(permission)
-    references Access(permission)
+create table Tokens (
+        token_id serial primary key,
+        token varchar(256) not null,
+        module varchar(32) not null, -- Used to identify which module the token is for
+        created_at timestamptz not null default now()
+        -- expires_at timestamptz -- Can add this for token expiration. Not sure for how long we want tokens to last.
 );
 
--- Tokens handed out to users (hash wold be passed along with API requests)
-create table Token (
-  id serial int not null,
-  key uuid not null default gen_random_uuid() -- API key
-  name varchar(32) null, -- user defined useful name?
-  primary key(id) -- faster to index on `id` than hash
+create table Permissions (
+        permission_id serial primary key,
+        token_id int references Tokens(token_id),
+        route_id int references Routes(route_id)
 );
 
--- Associates permissions with API Tokens, eg:
--- 'f7sdf89asd89fs8d7fd' 'READ.article.list'
--- 'f7sdf89asd89fs8d7fd' 'READ.article.list_all'
--- 'f7sdf89asd89fs8d7fd' 'READ.article.summary'
-create table Authorization (
-  token int not null,
-  permission varchar(32) not null,
-  
-  primary key(token, permission),
-  constraint FK_authorization_permission
-    foreign key(permission)
-    references Permission(name)
-  constraint FK_authorization_token
-    foreign key(token)
-    references Token(key)
-); 
-
-        
+-- Inserts existing routes into Route table
+insert into Routes (route_name, description)
+values  ('/article.create_raw', 'creates an article after scraping website'),
+        ('/article.create', 'creates parahprased article'),
+        ('/article.get', 'retrieves a single article by id'),
+        ('/article.getAll', 'retrieves all scraped articles'),
+        ('/article.list', 'retrieves articles from selected category'),
+        ('/article.search.domain', 'saerches an article using embbedings'),
+        ('/article.search', 'searches for an article'),
+        ('/article.summary', 'retrieves a categorized summary of articles');

@@ -36,6 +36,7 @@ dist-ssr
 local.env
 container.env
 virtual.env
+test.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -152,3 +153,7 @@ cython_debug/
 
 # Database backups
 database/backups
+
+#
+test/cypress/cypress/screenshots
+test/cypress/cypress/videos

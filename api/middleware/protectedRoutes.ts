@@ -1,21 +1,25 @@
-import { Router } from 'express';
-import { isTokenValid } from '../util/jwt';
+import { Router, Request, Response, NextFunction } from 'express';
 import { getClient } from '../database';
+import { Error, Success } from '../route';
+import { FORBIDDEN, UNAUTHORIZED } from '../constant/code';
 
-const protectedRouter = Router();
+export default async function authRoute(req: Request, res: Response, next: NextFunction) {
+  const requestedRoute = req.url;
 
-protectedRouter.use(async (req, res, next) => {
-  // Checks if a token is provided and if it starts with 'Bearer'
-  const authorizationHeader = req.headers.authorization;
-  if (!authorizationHeader || !authorizationHeader.startsWith('Bearer')) {
-    return res.status(401).json({ error: 'Token not provided' });
+  // Query the database to check if route is in the
+  const Permissions = await getClient().query(
+    'SELECT * FROM Permissions p ' + 'INNER JOIN Routes r ON p.route_id = r.route_id where r.route_name = $1',
+    [requestedRoute],
+  );
+
+  if (!Permissions.rows.length) {
+    return next();
   }
 
-  // Extracts only token
-  const appToken = authorizationHeader.split(' ')[1];
-
-  if (!appToken || !isTokenValid(appToken, process.env.JWT_SECRET as string)) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  // Checks if a token is provided and if it starts with 'Bearer'
+  const appToken = req.headers.authorization;
+  if (!appToken) {
+    return Error(res, UNAUTHORIZED, { message: 'Token not provided', type: 'TokenError' });
   }
 
   // Checks if the token exists in the database
@@ -23,26 +27,22 @@ protectedRouter.use(async (req, res, next) => {
   const token = tokenQueryResult.rows[0];
 
   if (!token) {
-    return res.status(403).json({ error: 'Forbidden' });
+    return Error(res, UNAUTHORIZED, { message: 'Token not provided', type: 'TokenError' });
   }
-
-  const requestedRoute = req.url;
 
   // Query the database to check if the token has permission for the requested route
   const permissionQueryResult = await getClient().query(
     'SELECT * FROM Permissions p ' +
-    'INNER JOIN Routes r ON p.route_id = r.route_id ' +
-    'WHERE p.token_id = $1 AND r.route = $2',
-    [token.token_id, requestedRoute]
+      'INNER JOIN Routes r ON p.route_id = r.route_id ' +
+      'WHERE p.token_id = $1 AND r.route_name = $2',
+    [token.token_id, requestedRoute],
   );
 
   const hasPermission = permissionQueryResult.rows.length > 0;
 
   if (!hasPermission) {
-    return res.status(403).json({ error: 'Forbidden' });
+    return Error(res, FORBIDDEN, { message: 'Insufficient permissions', type: 'TokenError' });
   }
 
   next();
-});
-
-export default protectedRouter;
+}

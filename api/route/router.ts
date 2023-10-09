@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Method, Result, Table, timestamp, ResultError } from '../../shared';
 import { Code, OK, INTERNAL_SERVER_ERROR } from '../constant/code';
+import authRoute from '../middleware/protectedRoutes';
 
 import Core from 'express';
 type ExpressInstance = Core.Express;
@@ -37,8 +38,11 @@ export default function createRouter(namespace: string = '', operations: Operati
     return router;
   }, Router());
 }
-export function useRouter(instance: ExpressInstance, namespace: string = '/', router: Router) {
-  instance.use('/', router);
+export function useRouter(instance: ExpressInstance, namespace: string = '/', router: Router, authenticated: boolean = false) {
+  if (authenticated) {
+    instance.use('/', authRoute, router);
+  }
+  else instance.use('/', router);
 }
 
 function createResponse<T>(res: Response, code: Code, result: Result<T>) {

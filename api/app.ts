@@ -8,7 +8,7 @@ import { useRouter } from './route';
 import article from './route/Article';
 import category from './route/Category/category';
 
-import protectedRouter from './middleware/protectedRoutes';
+import authRoute from './middleware/protectedRoutes';
 
 connectClient(); // Connect to the database
 
@@ -18,12 +18,11 @@ instance.use(cors({ origin: '*', }));
 instance.use(express.json({ limit: '50mb' }));
 instance.use(express.urlencoded({ extended: true }));
 
-useRouter(instance, '/', article);
-useRouter(instance, '/', category);
+useRouter(instance, '/', article, true);
+useRouter(instance, '/', category, true);
 
-instance.use('/article.create', protectedRouter);
-instance.use('/article.create_raw', protectedRouter);
-
+instance.use('/article.create', authRoute);
+instance.use('/article.create_raw', authRoute);
 
 const server = instance.listen(API_PORT, () => {
   console.log(`${API_PORT} 🚀 Online`);

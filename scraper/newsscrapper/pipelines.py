@@ -49,7 +49,7 @@ class NewsscrapperPipeline:
         try: 
             response = requests.post(
             self.url, json={"articles": articles}, 
-            headers={'Content-Type': 'application/json', 'Authorization': f'Bearer {TOKEN}'}
+            headers={'Content-Type': 'application/json', 'Authorization': f'{TOKEN}'}
             )
 
             if response.status_code == 409:

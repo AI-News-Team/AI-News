@@ -43,7 +43,7 @@ def send_article(article):
     try: 
         response = requests.post(
         URL, json={"article": article}, 
-        headers={'Content-Type': 'application/json', 'Authorization': f'Bearer {TOKEN}'}
+        headers={'Content-Type': 'application/json', 'Authorization': f'{TOKEN}'}
         )
         if response.status_code != 200:
             raise Exception(f'FAILED TO SEND DATA: {response.text}')

@@ -30,7 +30,7 @@ const LeadingSidebar = ({ color, topic }: Props) => {
         {data?.[topic]?.map((story: Article) => (
           <CompactStoryCard
             id={story.id}
-            image={story.cover_url}
+            image={story?.image_gen ? `/article_images/${story.id}.png` : story.cover_url}
             title={story.name}
           />
         ))}

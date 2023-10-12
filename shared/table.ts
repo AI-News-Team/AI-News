@@ -15,6 +15,7 @@ export type Article = {
   cover_url: string | null;
   retrieved_date: string;
   publication_date: string | null;
+  image_gen: boolean;
 };
 export type ArticleResult = Result<Article>;
 

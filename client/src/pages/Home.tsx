@@ -34,7 +34,7 @@ const Home = (props: Props) => {
       <div className="px-3 mt-12 md:mt-12">
         <Headlines stories={data?.news} />
         {props.topics?.map((topic) => (
-          <TopicSection
+            <TopicSection
             key={topic.category}
             topic={topic.category}
             color={topic.color}

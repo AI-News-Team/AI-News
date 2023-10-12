@@ -17,7 +17,8 @@ const query = `
     ar.source_url, 
     ar.cover_url, 
     ar.retrieved_date,
-    ar.publication_date
+    ar.publication_date,
+    a.image_gen
   from Article_Raw ar
   join Article a on ar.id = a.id
   where ar.id = $1

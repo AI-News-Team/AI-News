@@ -6,9 +6,9 @@ import { Article } from '@shared';
 
 const ARTICLES_PER_CATEGORY = 4;
 const groupCategoriesInThrees = `
-  select id, name, author, publication_date, category, source_url, cover_url
+  select id, name, author, publication_date, category, source_url, cover_url, image_gen
   from (
-    select ar.id, a.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date, 
+    select ar.id, a.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date, a.image_gen, 
       row_number() over (PARTITION BY ar.category order by ar.publication_date) index_in_category
       from Article_Raw ar
       join Article a on ar.id = a.id

@@ -47,14 +47,14 @@ return (
       <div className="md:w-8/12 md:pr-6 border-gray-300 md:border-r">
         <h1 className="pb-8">{data?.name}</h1>
         {data?.image_gen ? 
-          <img className="object-cover h-96 w-full" src={`/article_images/${params.id}.png`} /> : 
+          <img className="object-cover h-[35em] w-full" src={`/article_images/${params.id}.png`} /> : 
           (data?.cover_url ? (
             <img className="object-cover h-96 w-full" src={data?.cover_url} />
           ) : (
             <img className="object-cover h-96 w-full" src={noImage} />
           ))
           }
-        <h3 className="py-6">{data?.author}</h3>
+        <h3 className="py-6 text-gray-400">By {data?.author} | AI News</h3>
         {Array.isArray(data?.body) ? (
           data?.body.map((text, i) => <p className={`py-2 lg:text-md ${i==0 ? 'font-bold' : 'font-normal'}`}>{text}</p>)
         ) : (

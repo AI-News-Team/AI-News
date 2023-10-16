@@ -26,6 +26,7 @@ recordImageURL = f'http://{API_HOST}:{API_PORT}/article.recordImage'
 getAllImageURL = f'http://{API_HOST}:{API_PORT}/article.getAllImageGen'
 
 def record_image(id):
+
     try: 
         response = requests.put(
         f'{recordImageURL}/{id}'
@@ -45,14 +46,12 @@ try:
 except RequestException as e:
     print('Failed to connect to server: ', e)
 
-
-print("loading data...")
+print("Generating images...")
 articles = json.loads(data)
 
 print("paraphrasing...")
 
 for article in articles['data']:
-    # formatting body if it isn't a list
     print(article['name'])
     print(article['id'])
     try:
@@ -64,20 +63,21 @@ for article in articles['data']:
         newsize = (976, 976)
         resized = image.resize(newsize)
 
-        # Setting cropped image size
+        # Setting cropped image size if required
         left = 0
         top = 213
         right = 976
         bottom = 763
 
-        # crop image
+        # crop image if required
         cropped = resized.crop((left, top, right, bottom))
 
-        cropped.save(f"../client/public/article_images/{article['id']}.png")
+        resized.save(f"../client/public/article_images/{article['id']}.png")
+        
+        #records image generation in the database
+        record_image(article['id'])
         
     except RequestException as e:
-        print('Error generating iamge: ', e)
-    
-    record_image(article['id'])
+        print('Error generating image: ', e)
 
 sys.exit("exiting")

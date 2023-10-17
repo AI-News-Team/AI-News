@@ -38,7 +38,7 @@ export default function createRouter(namespace: string = '', operations: Operati
     return router;
   }, Router());
 }
-export function useRouter(instance: ExpressInstance, namespace: string = '/', router: Router, authenticated: boolean = false) {
+export function useRouter(instance: ExpressInstance, router: Router, authenticated: boolean = false) {
   if (authenticated) {
     instance.use('/', authRoute, router);
   }

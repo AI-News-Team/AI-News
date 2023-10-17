@@ -18,11 +18,8 @@ instance.use(cors({ origin: '*', }));
 instance.use(express.json({ limit: '50mb' }));
 instance.use(express.urlencoded({ extended: true }));
 
-useRouter(instance, '/', article, true);
-useRouter(instance, '/', category, true);
-
-instance.use('/article.create', authRoute);
-instance.use('/article.create_raw', authRoute);
+useRouter(instance, article, true);
+useRouter(instance, category, true);
 
 const server = instance.listen(API_PORT, () => {
   console.log(`${API_PORT} 🚀 Online`);

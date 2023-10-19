@@ -9,8 +9,8 @@ const ARTICLES_PER_CATEGORY = 3;
 // query shows three items from each category ranking from most clicks to least, 
 // if no clicks registered for articles, orders by publication date
 const groupCategoriesInThrees = `
-  select * from (
-    select *, row_number() over (partition by category order by clicks desc nulls last, 
+  select id, name, cover_url, category from (
+    select id, name, cover_url, category, row_number() over (partition by category order by clicks desc nulls last, 
     publication_date desc nulls last) as clickRank from (
       select ar.id, a.name, ar.category, ar.cover_url, ar.publication_date,
       sum(av.clicks) clicks

@@ -4,7 +4,7 @@ import { Article, Category } from '@shared';
 import { string } from 'pg-format';
 import { getClient } from '../../database';
 
-export const recordVisit: Route = (req, res) => {
+export const recordVisit: Route = async (req, res) => {
   const { id } = req.body;
   const date = new Date()
   const today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}}`
@@ -20,10 +20,12 @@ export const recordVisit: Route = (req, res) => {
     }
   };
 
-  addRecord(id).then(result => {
+  try {
+    const result = await addRecord(id);
     if (result) {
-      console.log('Visit recorded');
       Success(res, 'Visit recorded');
     }
-  });
+  } catch (error) {
+    console.error(error);
+  }
 };

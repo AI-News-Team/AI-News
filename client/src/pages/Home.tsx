@@ -20,6 +20,10 @@ type Stories = {
 
 const Home = (props: Props) => {
 
+    if (!localStorage.getItem("visited")) {
+      localStorage.setItem("visited", "")
+    }
+
     const news:string = "news"
 
     const [data, setData] = useState<any>();
@@ -28,7 +32,8 @@ const Home = (props: Props) => {
         useEffect(() => {
             getData('article.summary', setData)
             getData('article.list', setHeadlines)
-        },[])
+          },[])
+          console.log(data)
         
     return (
       <div className="px-3 mt-12 md:mt-12">

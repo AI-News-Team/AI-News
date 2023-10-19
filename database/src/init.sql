@@ -10,7 +10,7 @@ create table Category (
         color varchar(32) not null
 );
 create table Article (
-        id INT primary key not null,
+        id int primary key not null,
         name varchar(256) not null,
         body json not null
 );
@@ -29,9 +29,9 @@ create table Article_Raw (
 );
 
 create table Article_Visits (
-        id INT not null,
+        id int not null,
         click_date date not null default CURRENT_DATE,
-        clicks INT not null,
+        clicks int not null,
         primary key (id, click_date),
         constraint fk_article
                 foreign key(id) 
@@ -157,7 +157,7 @@ create or replace procedure record_visit(
 language plpgsql    
 as $$
 begin
-if exists (select * from Article_Visits where sent_id = id and click_date = today) then
+if exists (select id, click_date from Article_Visits where sent_id = id and click_date = today) then
         update Article_Visits set clicks = clicks+1 where id = sent_id;
 else
         insert into Article_Visits (id, click_date, clicks)

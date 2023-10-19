@@ -16,21 +16,30 @@ const ArticlePage = () => {
     const [color, setColor] = useState<string>()
     const [categories, setCategories] = useState<Category[]>([])
 
-    const params = useParams();
+    const params = useParams<string>();
     const currentDomain=`/article.get/${params.id}`
     const postDomain = "/article.record_visit";
 
     const [data, setData] = useState<Article>();
+
+    const visitedPages = localStorage.getItem("visited")
     
     useEffect(()=>{
-        getData(currentDomain, setData)
-        getData("/category.list", setCategories);
-        window.scrollTo(0, 0);
-        },[])
-    
-    useEffect(() => {
+      //changing local storage string into array
+      const slicedString = visitedPages?.slice(2, -2);
+      const newVisitedArray = slicedString?.split('","')
+
+      //if current id is NOT in local storage array, add id, record in database as a visit
+      if (!newVisitedArray?.includes(`${params.id}`)) {
+        newVisitedArray?.push(`${params.id}`)
+        localStorage.setItem("visited", JSON.stringify(newVisitedArray))
         postData(postDomain, { id: params.id });
-    }, [])
+      }
+
+      getData(currentDomain, setData)
+      getData("/category.list", setCategories);
+      window.scrollTo(0, 0);
+    },[params.id])
 
     useEffect(()=>{
       categories.forEach(category => {

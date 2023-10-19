@@ -19,6 +19,7 @@ const LeadingSidebar = ({ color, topic }: Props) => {
 
     useEffect(() => {
       getData('article.summary', setData);
+      
     }, []);
 
   return (

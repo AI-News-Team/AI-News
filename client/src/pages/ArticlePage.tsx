@@ -25,6 +25,11 @@ const ArticlePage = () => {
     const visitedPages = localStorage.getItem("visited")
     
     useEffect(()=>{
+      
+      if (!localStorage.getItem("visited")) {
+        localStorage.setItem("visited", "")
+      }
+      
       //changing local storage string into array
       const slicedString = visitedPages?.slice(2, -2);
       const newVisitedArray = slicedString?.split('","')

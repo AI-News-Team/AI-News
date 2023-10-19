@@ -20,10 +20,6 @@ type Stories = {
 
 const Home = (props: Props) => {
 
-    if (!localStorage.getItem("visited")) {
-      localStorage.setItem("visited", "")
-    }
-
     const news:string = "news"
 
     const [data, setData] = useState<any>();

@@ -45,7 +45,7 @@ const TopicPage = ({ topic, color }: Props) => {
               <StoryCard
                 key={story.id}
                 id={story.id}
-                image={story.cover_url}
+                image={story?.image_gen ? `/article_images/${story.id}.png` : story.cover_url}
                 title={story.name}
                 body={story.body}
               />

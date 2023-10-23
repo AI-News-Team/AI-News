@@ -39,10 +39,7 @@ export default function createRouter(namespace: string = '', operations: Operati
   }, Router());
 }
 export function useRouter(instance: ExpressInstance, router: Router, authenticated: boolean = false) {
-  if (authenticated) {
-    instance.use('/', authRoute, router);
-  }
-  else instance.use('/', router);
+  instance.use('/', authRoute, router);
 }
 
 function createResponse<T>(res: Response, code: Code, result: Result<T>) {

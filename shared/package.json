@@ -1,6 +1,6 @@
 {
   "name": "ai-daily",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Just making our development easier :)",
   "main": "src/index.ts",
   "scripts": {
@@ -16,5 +16,8 @@
   ],
   "author": "AIDaily Team",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
 }

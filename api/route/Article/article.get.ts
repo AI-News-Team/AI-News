@@ -1,7 +1,7 @@
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../constant/code';
 import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
-import { Article } from '@shared';
+import { Article } from 'ai-daily';
 
 const query = `
   select 

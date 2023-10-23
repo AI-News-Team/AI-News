@@ -1,4 +1,4 @@
-import { ArticleSummary } from '../../../shared/table';
+import { ArticleSummary } from 'ai-daily';
 import { INTERNAL_SERVER_ERROR } from '../../constant/code';
 import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';

@@ -1,6 +1,6 @@
 import { Route } from '..';
 import { Error, Success } from '../router';
-import { Article, Category } from '@shared';
+import { Article, Category } from 'ai-daily';
 import { string } from 'pg-format';
 import { getClient } from '../../database';
 

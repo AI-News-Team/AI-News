@@ -1,0 +1,20 @@
+{
+  "name": "ai-daily",
+  "version": "1.0.0",
+  "description": "Just making our development easier :)",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/your-package.git"
+  },
+  "keywords": [
+    "npm",
+    "package"
+  ],
+  "author": "AIDaily Team",
+  "license": "MIT",
+  "dependencies": {}
+}

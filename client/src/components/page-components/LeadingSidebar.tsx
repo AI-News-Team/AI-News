@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getData } from "../../utils/axios";
 import CompactStoryCard from "./CompactStoryCard";
-import { Article } from "@shared";
+import { Article } from "ai-daily";
 
 type Props = {
   color: string

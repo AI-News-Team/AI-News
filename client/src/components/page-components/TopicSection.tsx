@@ -1,6 +1,6 @@
 import StoryCard from "./StoryCard";
 import { Link } from "react-router-dom";
-import { Article } from "@shared";
+import { Article } from "ai-daily";
 
 type Props = {
   topic: string;

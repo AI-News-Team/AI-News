@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getData } from "../utils/axios";
 import LeadingSidebar from "../components/page-components/LeadingSidebar";
-import { Article } from "@shared";
+import { Article } from "ai-daily";
 import { noImage } from "../images/commonImages";
 
 type Category = {

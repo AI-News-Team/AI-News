@@ -1,6 +1,6 @@
 {
   "name": "ai-daily",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Just making our development easier :)",
   "main": "src/index.ts",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/your-package.git"
+    "url": "https://github.com/AI-News-Team/AI-News.git"
   },
   "keywords": [
     "npm",

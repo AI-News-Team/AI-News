@@ -2,7 +2,7 @@
 
 Various utilities of use to both the front-end and back-end modules by AI-DAILY Team for AI-DAILY Team
 
-# Breakdown of the Shared Library
+# Breakdown of the Library
 
 ### Method
 A type that defines `HTTP` request methods, including:

@@ -3,14 +3,10 @@
 # Loads env vars
 if [ -f ../local.env ]; then
   source ../local.env
+elif [ -f ../virual.env ]; then
+  source ../virtual.env
 else
-  echo "Global local.env file not found. Please create it."
-  exit 1
-fi
-
-# Checks if JWT_LIFETIME and SECRET_KEY are set
-if [ -z "$JWT_LIFETIME" ] || [ -z "$JWT_SECRET" ]; then
-  echo "JWT_LIFETIME and JWT_SECRET must be set in the global .env file."
+  echo "Global .env file not found. Please create it."
   exit 1
 fi
 
@@ -20,17 +16,9 @@ if ! docker stats --no-stream &> /dev/null; then
   exit 1
 fi
 
-# Transpile TS to JS for tokenGen.ts 
-# Had troubles with ts-node, so I just used tsc
-tsc ./token/tokenGen.ts
-
-# Generate tokens for 'scrapy', and 'reWriter' modules
-SCRAPY_TOKEN=$(node -e "require('./token/tokenGen.js').generateAppToken('scrapy', '$JWT_SECRET', '$JWT_LIFETIME').then(console.log)")
-REWRITER_TOKEN=$(node -e "require('./token/tokenGen.js').generateAppToken('reWriter', '$JWT_SECRET', '$JWT_LIFETIME').then(console.log)")
-
-# Append tokens to existing vars in the local.env
-sed -i "s#^SCRAPY_TOKEN=.*#SCRAPY_TOKEN=$SCRAPY_TOKEN#" ../local.env
-sed -i "s#^REWRITER_TOKEN=.*#REWRITER_TOKEN=$REWRITER_TOKEN#" ../local.env
+# Use the token values from .env vars 
+SCRAPY_TOKEN="$SCRAPY_TOKEN"
+REWRITER_TOKEN="$REWRITER_TOKEN"
 
 # SQL script to insert tokens
 SQL_QUERY=$(cat <<EOF
@@ -56,7 +44,7 @@ EOF
 docker exec -i "$DATABASE_CONTAINER_NAME" psql -U $POSTGRES_USER -d $POSTGRES_DB <<< "$SQL_QUERY"
 
 echo ""
-echo "Tokens generated, appended to local.env file, and added to the DB."
+echo "Tokens added to the DB"
 echo ""
 echo "Scrapy token:     $SCRAPY_TOKEN"
 echo "reWriter token:   $REWRITER_TOKEN"

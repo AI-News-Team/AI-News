@@ -1,9 +1,15 @@
 {
   "name": "ai-daily",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Just making our development easier :)",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "tsup",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "ts-node": "^10.9.1",
+    "tsup": "^7.2.0",
     "typescript": "^4.9.5"
   }
 }

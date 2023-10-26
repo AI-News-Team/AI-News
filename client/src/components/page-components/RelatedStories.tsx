@@ -13,7 +13,7 @@ const RelatedStories = ({ topic, color, stories }: Props) => {
     return (
       <>
         <h2 className="pt-10 flex" style={{ color: color }}>
-          <Link to={`/${topic}`}>{topic?.toUpperCase()}</Link>
+          {topic?.toUpperCase()}
         </h2>
         <hr style={{ background: color }} className="h-[1px] border-0"></hr>
         <div className="md:flex justify-between pt-5 md:pt-10">

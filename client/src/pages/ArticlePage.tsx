@@ -4,12 +4,21 @@ import { getData } from "../utils/axios";
 import LeadingSidebar from "../components/page-components/LeadingSidebar";
 import { Article } from "@shared";
 import { noImage } from "../images/commonImages";
+import RelatedStories from "../components/page-components/RelatedStories";
 
 type Category = {
   category: string,
   description: string,
   color: string
 };
+
+type Story = {
+  id: number,
+  name: string,
+  cover_url: string,
+  image_gen: boolean,
+  score: string
+}
 
 const ArticlePage = () => {
 
@@ -20,6 +29,12 @@ const ArticlePage = () => {
     const currentDomain=`/article.get/${params.id}`
 
     const [data, setData] = useState<Article>();
+
+    const searchDomain=`article.search?query=${data?.name}`
+    const [related, setRelated] = useState<Story[]>();
+
+    // const relatedSample: Article[] = [];
+    const [relatedSample, setRelatedSample] = useState<Story[]>();
     
     useEffect(()=>{
         getData(currentDomain, setData)
@@ -32,6 +47,15 @@ const ArticlePage = () => {
             if (category.category == data?.category) {
                 setColor(category.color)
             }})
+            const temp: Story[] = [];
+
+            // Just for testing purposes, will remove
+            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
+            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
+            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
+            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
+            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
+            // setRelatedSample(temp.slice(0, 3))
     },[data])
 
 return (
@@ -65,6 +89,15 @@ return (
         <LeadingSidebar color={color!} topic={data?.category!} />
       </div>
     </div>
+    {related ? 
+      <RelatedStories
+        key={`related-${data?.id}`}
+        topic="Related Articles"
+        color={color}
+        stories={related?.slice(0, 3)}
+      /> 
+      : <div></div>
+    }
   </div>
 );
 }

@@ -13,8 +13,12 @@ export const search: Route = async (req, res) => {
         type: 'QueryError',
       });
 
+      console.log("object")
     const url = `${STD_PREFIX}${SEARCH_ENGINE_HOST}:${SEARCH_ENGINE_PORT}/search/${query}`;
     const { data } = await axios.get(url);
+
+    // const data = await fetch(url).then(data => data.json())
+    console.log(data)
 
     return Success(res, data);
   } catch (err) {

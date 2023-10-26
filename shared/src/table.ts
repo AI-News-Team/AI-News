@@ -1,4 +1,4 @@
-import { Result } from "../src/api";
+import { Result } from "./api";
 
 export type Table = Article | Category;
 

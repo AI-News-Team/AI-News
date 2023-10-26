@@ -15,7 +15,7 @@
   "author": "BIT Third Years",
   "license": "ISC",
   "dependencies": {
-    "ai-daily": "^1.0.6",
+    "ai-daily": "^1.0.7",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

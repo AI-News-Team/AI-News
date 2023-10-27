@@ -13,7 +13,7 @@ A type that defines `HTTP` request methods, including:
 
 Usage:
 ```typescript
-import { Method } from '@ai-daily';
+import { Method } from 'ai-daily';
 
 const method: Method = 'get';
 ```
@@ -29,7 +29,7 @@ A type that defines the types of errors that can be returned from a query, such 
 
 Usage:
 ```typescript
-import { ErrorType } from '@ai-daily';
+import { ErrorType } from 'ai-daily';
 
 // Simulating the error
 const errorType: ErrorType = 'ServerError';
@@ -55,7 +55,7 @@ A type that represents an error returned from a query, including a message and e
 
 Usage:
 ```typescript
-import { ResultError } from '@ai-daily';
+import { ResultError } from 'ai-daily';
 
 const error: ResultError = {
   message: 'Oops, something went wrong!',
@@ -74,7 +74,7 @@ A type that defines parameters for list or get queries, including:
 
 Usage:
 ```typescript
-import { ResultError } from '@ai-daily';
+import { ResultError } from 'ai-daily';
 
 const queryParameters: ListQueryParams = {
   filter: 'keyword',
@@ -94,7 +94,7 @@ A type that represents the result of a query of type `T`. It includes:
 
 Usage:
 ```typescript
-import { ResultError } from '@ai-daily';
+import { ResultError } from 'ai-daily';
 
 const result: Result<number> = {
   data: 69,
@@ -120,7 +120,7 @@ A type that defines a full article scrapped from the news outlets (we use BBC), 
 
 Usage:
 ```typescript
-import { Article } from '@ai-daily';
+import { Article } from 'ai-daily';
 
 const article: Article = {
   id: 1,
@@ -145,7 +145,7 @@ A type that represents the result of a full article query, including:
 
 Usage:
 ```typescript
-import { ArticleResult } from '@ai-daily';
+import { ArticleResult } from 'ai-daily';
 
 const articleResult: ArticleResult = {
   data: article,
@@ -160,7 +160,7 @@ const articleResult: ArticleResult = {
 A type that defines an article returned in a list query, omitting the body property.
 
 ```typescript
-import { ListedArticle } from '@ai-daily';
+import { ListedArticle } from 'ai-daily';
 
 const listedArticle: ListedArticle = {
   id: 1,
@@ -182,7 +182,7 @@ A type that represents the result of a listed article query, including:
 * `success` properties.
 
 ```typescript
-import { ListedArticleResult } from '@ai-daily';
+import { ListedArticleResult } from 'ai-daily';
 
 const listedArticleResult: ListedArticleResult = {
   data: listedArticle,
@@ -197,7 +197,7 @@ const listedArticleResult: ListedArticleResult = {
 A type that defines a summary of the latest articles in each category.
 
 ```typescript
-import { ArticleSummary } from '@ai-daily';
+import { ArticleSummary } from 'ai-daily';
 
 const articleSummary: ArticleSummary = {
   Technology: [article], 
@@ -214,7 +214,7 @@ A type that represents the result of an article summary query, including:
 * `success` properties.
 
 ```typescript
-import { ArticleSummary } from '@ai-daily';
+import { ArticleSummary } from 'ai-daily';
 
 const articleSummaryResult: ArticleSummaryResult = {
   data: articleSummary,
@@ -238,7 +238,7 @@ A type that represents the result of a category query, including:
 
 Usage:
 ```typescript
-import { Category, CategoryResult } from '@ai-daily';
+import { Category, CategoryResult } from 'ai-daily';
 
 const technologyCategory: Category = {
   category: 'Technology',
@@ -268,7 +268,7 @@ Converts a string from snake_case to readable format
 
 Usage:
 ```typescript
-import { fromSnakeCase } from '@ai-daily';
+import { fromSnakeCase } from 'ai-daily';
 
 const readableString = fromSnakeCase('hello_world_this_is_a_test_string');
 
@@ -283,7 +283,7 @@ Just capitalizes the first letter of a string
 
 Usage:
 ```typescript
-import { toSentenceCase } from '@ai-daily';
+import { toSentenceCase } from 'ai-daily';
 
 const sentence = toSentenceCase('hello world');
 
@@ -298,7 +298,7 @@ It returns `timestamp` in "ISO 8601" format ("YYYY-MM-DDTHH:mm:ss.sssZ")
 
 Usage:
 ```typescript
-import { timestamp } from '@ai-daily';
+import { timestamp } from 'ai-daily';
 
 const currentTimestamp = timestamp();
 

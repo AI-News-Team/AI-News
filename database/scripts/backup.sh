@@ -11,7 +11,6 @@ if [ -z ../../local.env ] ; then
 fi
 source ../../local.env;
 
-BACKUP_DIR=../backups;
 if [ ! -d $DATABASE_BACKUP_DIR ] ; then
   mkdir $DATABASE_BACKUP_DIR;
 fi
@@ -21,12 +20,12 @@ fi
 BACKUP_NAME=`date +%Y-%m-%d"T"%H-%M-%S`.backup.sql;
 docker exec \
   -it \
-  $CONTAINER_NAME \
+  $DATABASE_CONTAINER_NAME \
     pg_dump \
       --column-inserts \
       -a \
-      -U $USERNAME \
-      $DATABASE \
+      -U $POSTGRES_USER \
+      $POSTGRES_DB \
     > $DATABASE_BACKUP_DIR/$BACKUP_NAME;
 
 echo "Backup successful: $BACKUP_NAME";

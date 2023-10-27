@@ -1,11 +1,11 @@
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../constant/code';
 import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
-import { Article } from '@shared';
+import { Article } from 'ai-daily';
 
 // This query works for now, but will no longer work if the title is also paraphrased
 const query = `
-  SELECT id, body
+  SELECT id, name, body
   FROM Article_Raw 
   WHERE id NOT IN (
     SELECT id FROM Article

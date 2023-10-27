@@ -2,7 +2,7 @@ import Headlines from "../components/page-components/Headlines"
 import TopicSection from "../components/page-components/TopicSection";
 import { useEffect, useState } from "react";
 import { getData } from "../utils/axios";
-import { Article } from "@shared";
+import { Article } from "ai-daily";
 
 type Topic = {
   category: string;
@@ -27,14 +27,14 @@ const Home = (props: Props) => {
             
         useEffect(() => {
             getData('article.summary', setData)
-            getData('article.list', setHeadlines)
+            getData('article.list/world', setHeadlines)
         },[])
         
     return (
       <div className="px-3 mt-12 md:mt-12">
-        <Headlines stories={data?.news} />
+        <Headlines stories={headlines} />
         {props.topics?.map((topic) => (
-          <TopicSection
+            <TopicSection
             key={topic.category}
             topic={topic.category}
             color={topic.color}

@@ -1,4 +1,4 @@
-import { Category } from '@shared';
+import { Category } from 'ai-daily';
 import { INTERNAL_SERVER_ERROR } from '../../constant/code';
 import { getClient } from '../../database';
 import createRouter, { Success } from '../router';

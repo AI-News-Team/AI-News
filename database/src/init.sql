@@ -11,7 +11,9 @@ create table Category (
 );
 create table Article (
         id INT primary key not null,
-        body json not null
+        name varchar(256) not null,
+        body json not null,
+        image_gen boolean default false
 );
 
 create table Article_Raw (
@@ -25,6 +27,30 @@ create table Article_Raw (
         cover_url varchar(256) null,
         publication_date timestamptz not null,
         retrieved_date timestamptz not null default now()
+);
+
+create table Author (
+        name varchar(32) primary key
+);
+
+create table Routes (
+        route_id serial primary key,
+        route_name varchar(256),
+        description varchar(128) not null
+);
+
+create table Tokens (
+        token_id serial primary key,
+        token varchar(256) not null,
+        module varchar(32) not null, -- Used to identify which module the token is for
+        created_at timestamptz not null default now()
+        -- expires_at timestamptz -- Can add this for token expiration. Not sure for how long we want tokens to last.
+);
+
+create table Permissions (
+        permission_id serial primary key,
+        token_id int references Tokens(token_id),
+        route_id int references Routes(route_id)
 );
 
 -- Defaults --
@@ -46,25 +72,95 @@ values  ('news', 'generic news articles', '#cc0099'),
         ('food', 'food, cooking, and recipes articles', '#5039a3'),
         ('sport', 'sport, fitness, and exercise articles', '#39a375');
 
-create table Routes (
-        route_id serial primary key,
-        route_name varchar(256),
-        description varchar(128) not null
-);
-
-create table Tokens (
-        token_id serial primary key,
-        token varchar(256) not null,
-        module varchar(32) not null, -- Used to identify which module the token is for
-        created_at timestamptz not null default now()
-        -- expires_at timestamptz -- Can add this for token expiration. Not sure for how long we want tokens to last.
-);
-
-create table Permissions (
-        permission_id serial primary key,
-        token_id int references Tokens(token_id),
-        route_id int references Routes(route_id)
-);
+insert into Author (name)
+values ('Michael Knight'),
+        ('Maggie Seaver'),
+        ('Hannibal Smith'),
+        ('Alex P. Keaton'),
+        ('Angela Bower'),
+        ('Tony Micelli'),
+        ('MacGyver'),
+        ('Jessica Fletcher'),
+        ('Al Bundy'),
+        ('Dorothy Zbornak'),
+        ('Hawkeye Pierce'),
+        ('Sam Malone'),
+        ('Crockett'),
+        ('Tubbs'),
+        ('Max Headroom'),
+        ('Murphy Brown'),
+        ('A-Team'),
+        ('Bo Duke'),
+        ('Luke Duke'),
+        ('Daisy Duke'),
+        ('Magnum'),
+        ('Higgins'),
+        ('Mr. T'),
+        ('Face'),
+        ('B.A. Baracus'),
+        ('Murdock'),
+        ('Mork'),
+        ('Mindy'),
+        ('Alf'),
+        ('Will Smith'),
+        ('Carlton Banks'),
+        ('Hilary Banks'),
+        ('Uncle Phil'),
+        ('Ashley Banks'),
+        ('Geoffrey Butler'),
+        ('Screech Powers'),
+        ('Zack Morris'),
+        ('A.C. Slater'),
+        ('Kelly Kapowski'),
+        ('Lisa Turtle'),
+        ('Jessie Spano'),
+        ('Maddie Hayes'),
+        ('David Addison'),
+        ('Blanche Devereaux'),
+        ('Rose Nylund'),
+        ('Sophia Petrillo'),
+        ('Mama'),
+        ('Cliff Huxtable'),
+        ('Clair Huxtable'),
+        ('Theo Huxtable'),
+        ('Denise Huxtable'),
+        ('Rudy Huxtable'),
+        ('Vanessa Huxtable'),
+        ('Elvin Tibideaux'),
+        ('Samantha Micelli'),
+        ('Jonathan Bower'),
+        ('Phoebe Buffay'),
+        ('Monica Geller'),
+        ('Rachel Green'),
+        ('Ross Geller'),
+        ('Chandler Bing'),
+        ('Joey Tribbiani'),
+        ('Blair Warner'),
+        ('Natalie Green'),
+        ('Tootie Ramsey'),
+        ('Jo Polniaczek'),
+        ('Mrs. Garrett'),
+        ('Willie Tanner'),
+        ('Kate Tanner'),
+        ('Lynn Tanner'),
+        ('Brian Tanner'),
+        ('Judith Light'),
+        ('Vinnie Barbarino'),
+        ('Juan Epstein'),
+        ('Freddie Washington'),
+        ('Arnold Horshack'),
+        ('Mr. Kotter'),
+        ('Laura Ingalls'),
+        ('Mary Ingalls'),
+        ('Caroline Ingalls'),
+        ('Charles Ingalls'),
+        ('Nellie Oleson'),
+        ('Almanzo Wilder'),
+        ('Fred Sanford'),
+        ('Lamont Sanford'),
+        ('Aunt Esther'),
+        ('Grady Wilson'),
+        ('Rollo Lawson');
 
 -- Inserts existing routes into Route table
 insert into Routes (route_name, description)

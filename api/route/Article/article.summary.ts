@@ -1,4 +1,4 @@
-import { ArticleSummary } from '../../../shared/table';
+import { ArticleSummary } from 'ai-daily';
 import { INTERNAL_SERVER_ERROR } from '../../constant/code';
 import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
@@ -6,10 +6,10 @@ import { Article } from '@shared';
 
 const ARTICLES_PER_CATEGORY = 4;
 const groupCategoriesInThrees = `
-  select id, name, author, publication_date, category, source_url, cover_url
+  select id, name, author, publication_date, category, source_url, cover_url, image_gen
   from (
-    select ar.id, ar.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date,
-      row_number() over (order by publication_date) index_in_category 
+    select ar.id, a.name, ar.author, a.body, ar.category, ar.source_url, ar.cover_url, ar.retrieved_date, ar.publication_date, a.image_gen, 
+      row_number() over (PARTITION BY ar.category order by ar.publication_date) index_in_category
       from Article_Raw ar
       join Article a on ar.id = a.id
   ) categorized_articles 

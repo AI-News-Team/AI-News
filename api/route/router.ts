@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { Method, Result, Table, timestamp, ResultError } from '../../shared';
+import { Method, Result, Table, timestamp, ResultError } from 'ai-daily';
 import { Code, OK, INTERNAL_SERVER_ERROR } from '../constant/code';
 import authRoute from '../middleware/protectedRoutes';
 

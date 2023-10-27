@@ -11,6 +11,7 @@ export type ErrorType =
   | "QueryError" // Your query is malformed or invalid
   | "ServerError" // Something went wrong on the server
   | "DatabaseError" // Not your fault
+  | "TokenError" // Your token is invalid or expired
   | "UnhandledError"; // An unknown error occurred
 
 /**

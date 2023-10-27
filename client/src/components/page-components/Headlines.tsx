@@ -1,5 +1,5 @@
 import HeadlineCard from "./HeadlineCard"
-import { Article } from "@shared";
+import { Article } from "ai-daily";
 
 type Props = {
     stories: Article[]

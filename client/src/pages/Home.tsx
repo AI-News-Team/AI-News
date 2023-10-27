@@ -2,7 +2,7 @@ import Headlines from "../components/page-components/Headlines"
 import TopicSection from "../components/page-components/TopicSection";
 import { useEffect, useState } from "react";
 import { getData } from "../utils/axios";
-import { Article } from "@shared";
+import { Article } from "ai-daily";
 
 type Topic = {
   category: string;

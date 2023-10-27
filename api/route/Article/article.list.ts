@@ -1,10 +1,10 @@
 import { Route } from '..';
-import { ListedArticle } from '../../../shared/table';
+import { ListedArticle } from 'ai-daily';
 import { INTERNAL_SERVER_ERROR, BAD_REQUEST } from '../../constant/code';
 import { getClient } from '../../database/index';
 import { getListParams } from '../../util/schema';
 import { Error, Success } from '../router';
-import { Article, Category } from '@shared';
+import { Article, Category } from 'ai-daily';
 
 export const list: Route = (req, res) => {
   const {

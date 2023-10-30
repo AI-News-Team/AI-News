@@ -64,21 +64,7 @@ create table Permissions (
         route_id int references Routes(route_id)
 );
 
-create or replace procedure record_visit(
-   sent_id integer,
-   today date
-)
-language plpgsql    
-as $$
-begin
-if exists (select id, click_date from Article_Visits where sent_id = id and click_date = today) then
-        update Article_Visits set clicks = clicks+1 where id = sent_id;
-else
-        insert into Article_Visits (id, click_date, clicks)
-        values (sent_id, today, 1);
-END IF;
-    commit;
-end;$$
+
 
 -- Defaults --
 
@@ -200,3 +186,19 @@ values  ('/article.create_raw', 'creates an article after scraping website'),
         ('/article.search', 'searches for an article'),
         ('/article.summary', 'retrieves a categorized summary of articles');
 
+
+create or replace procedure record_visit(
+   sent_id integer,
+   today date
+)
+language plpgsql    
+as $$
+begin
+if exists (select id, click_date from Article_Visits where sent_id = id and click_date = today) then
+        update Article_Visits set clicks = clicks+1 where id = sent_id;
+else
+        insert into Article_Visits (id, click_date, clicks)
+        values (sent_id, today, 1);
+END IF;
+    commit;
+end;$$

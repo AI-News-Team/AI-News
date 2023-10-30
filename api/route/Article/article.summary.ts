@@ -2,22 +2,22 @@ import { ArticleSummary } from 'ai-daily';
 import { INTERNAL_SERVER_ERROR } from '../../constant/code';
 import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
-import { Article } from '@shared';
+import { Article } from 'ai-daily';
 
 const ARTICLES_PER_CATEGORY = 3;
 
 // query shows three items from each category ranking from most clicks to least, 
 // if no clicks registered for articles, orders by publication date
 const groupCategoriesInThrees = `
-  select id, name, cover_url, category from (
-    select id, name, cover_url, category, row_number() over (partition by category order by clicks desc nulls last, 
+  select id, name, cover_url, category, image_gen from (
+    select id, name, cover_url, category, image_gen, row_number() over (partition by category order by clicks desc nulls last, 
     publication_date desc nulls last) as clickRank from (
-      select ar.id, a.name, ar.category, ar.cover_url, ar.publication_date,
+      select ar.id, a.name, ar.category, ar.cover_url, ar.publication_date, a.image_gen,
       sum(av.clicks) clicks
       from Article_Raw ar
       join Article a on ar.id = a.id
       left join Article_Visits av on av.id = a.id
-      group by ar.id, a.name) categorized_articles 
+      group by ar.id, a.name, a.image_gen) categorized_articles 
     ) ranked_articles
   where clickRank <= ${ARTICLES_PER_CATEGORY}
 `;

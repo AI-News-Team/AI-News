@@ -26,6 +26,7 @@ A type that defines the types of errors that can be returned from a query, such 
 * `ServerError`
 * `DatabaseError` 
 * `UnhandledError`
+* `TokenError`
 
 Usage:
 ```typescript

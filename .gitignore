@@ -153,4 +153,5 @@ cython_debug/
 # Database backups
 database/backups
 
+# Generated Article Images
 client/public/article_images

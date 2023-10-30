@@ -1,4 +1,4 @@
-import { ListQueryParams, Order, orders } from '../../shared';
+import { ListQueryParams, Order, orders } from 'ai-daily';
 
 /**
  * Assert object keys have been provided in an expected order

@@ -1,0 +1,5 @@
+# Ignores everything in the root dir
+/*
+
+# Except for the /shared dir
+!/shared

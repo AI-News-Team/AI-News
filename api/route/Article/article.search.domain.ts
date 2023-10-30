@@ -1,11 +1,11 @@
-import { Article } from '@shared';
+import { Article } from 'ai-daily';
 import { INTERNAL_SERVER_ERROR } from '../../constant/code';
 import { getClient } from '../../database';
 import { Route, Error, Success } from '../router';
 
 export const searchDomain: Route = (_, res) => {
   const query = `
-        select a.id, embbeded_name, name
+        select a.id, embbeded_name, a.name
         from Article a
         join Article_Raw ar on a.id = ar.id;
       `;

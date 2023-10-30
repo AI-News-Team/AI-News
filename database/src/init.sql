@@ -12,7 +12,8 @@ create table Category (
 create table Article (
         id int primary key not null,
         name varchar(256) not null,
-        body json not null
+        body json not null,
+        image_gen boolean default false
 );
 
 create table Article_Raw (
@@ -42,6 +43,44 @@ create table Article_Visits (
 create table Author (
         name varchar(32) primary key
 );
+
+create table Routes (
+        route_id serial primary key,
+        route_name varchar(256),
+        description varchar(128) not null
+);
+
+create table Tokens (
+        token_id serial primary key,
+        token varchar(256) not null,
+        module varchar(32) not null, -- Used to identify which module the token is for
+        created_at timestamptz not null default now()
+        -- expires_at timestamptz -- Can add this for token expiration. Not sure for how long we want tokens to last.
+);
+
+create table Permissions (
+        permission_id serial primary key,
+        token_id int references Tokens(token_id),
+        route_id int references Routes(route_id)
+);
+
+create or replace procedure record_visit(
+   sent_id integer,
+   today date
+)
+language plpgsql    
+as $$
+begin
+if exists (select id, click_date from Article_Visits where sent_id = id and click_date = today) then
+        update Article_Visits set clicks = clicks+1 where id = sent_id;
+else
+        insert into Article_Visits (id, click_date, clicks)
+        values (sent_id, today, 1);
+END IF;
+    commit;
+end;$$
+
+-- Defaults --
 
 insert into Category (category, description, color)
 values  ('news', 'generic news articles', '#cc0099'),
@@ -150,18 +189,14 @@ values ('Michael Knight'),
         ('Grady Wilson'),
         ('Rollo Lawson');
 
-create or replace procedure record_visit(
-   sent_id integer,
-   today date
-)
-language plpgsql    
-as $$
-begin
-if exists (select id, click_date from Article_Visits where sent_id = id and click_date = today) then
-        update Article_Visits set clicks = clicks+1 where id = sent_id;
-else
-        insert into Article_Visits (id, click_date, clicks)
-        values (sent_id, today, 1);
-END IF;
-    commit;
-end;$$
+-- Inserts existing routes into Route table
+insert into Routes (route_name, description)
+values  ('/article.create_raw', 'creates an article after scraping website'),
+        ('/article.create', 'creates parahprased article'),
+        ('/article.get', 'retrieves a single article by id'),
+        ('/article.getAll', 'retrieves all scraped articles'),
+        ('/article.list', 'retrieves articles from selected category'),
+        ('/article.search.domain', 'saerches an article using embbedings'),
+        ('/article.search', 'searches for an article'),
+        ('/article.summary', 'retrieves a categorized summary of articles');
+

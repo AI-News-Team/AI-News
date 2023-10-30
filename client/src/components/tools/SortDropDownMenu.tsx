@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
-import {fromSnakeCase, toSentenceCase} from "../../../../shared/stringUtilities"
+import {fromSnakeCase, toSentenceCase} from "ai-daily"
 
 
 type Props = {

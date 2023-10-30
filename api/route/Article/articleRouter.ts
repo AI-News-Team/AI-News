@@ -9,7 +9,8 @@ import { getAll } from './article.getAll';
 import { create_raw } from './article.create_raw';
 import { recordVisit } from './article.record_clicks';
 import { clicks } from './article.clicks';
-
+import { getAllImageGen } from './article.getAllImageGen'
+import {recordImageGen} from './article.recordImageGen'
 
 const articleRouter = createRouter('article', {
   list: {
@@ -55,6 +56,15 @@ const articleRouter = createRouter('article', {
   clicks: {
     method: 'get',
     handler: clicks,
+   },                             
+  getAllImageGen: {
+    method: 'get',
+    handler: getAllImageGen,
+  },
+  recordImage: {
+    method: 'put',
+    pathParams: ['id'],
+    handler: recordImageGen,
   }
 });
 

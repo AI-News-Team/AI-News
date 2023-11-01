@@ -18,7 +18,6 @@ const api = axios.create({
 });
 
 export const getData = async (domain: string, setData: Function) => {
-  console.log(`http://${API_HOST}:${API_PORT}/`);
   try {
     const response = await api.get(domain);
     setData(response.data.data);

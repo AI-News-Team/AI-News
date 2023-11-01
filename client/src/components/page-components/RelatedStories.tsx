@@ -8,7 +8,9 @@ type Props = {
   stories: Article[];
 };
 
+
 const RelatedStories = ({ topic, color, stories }: Props) => {
+  console.log(stories)
   if (stories) {
     return (
       <>

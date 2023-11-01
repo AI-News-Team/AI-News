@@ -33,23 +33,25 @@ const ArticlePage = () => {
     const searchDomain=`article.search?query=${data?.name}`
     const [related, setRelated] = useState<Story[]>();
 
-    // const relatedSample: Article[] = [];
-    const [relatedSample, setRelatedSample] = useState<Story[]>();
+    // ***** Just for testing purposes, will remove ******
+    // const [relatedSample, setRelatedSample] = useState<Story[]>();
     
     useEffect(()=>{
         getData(currentDomain, setData)
         getData("/category.list", setCategories);
         window.scrollTo(0, 0);
-        },[])
+    },[])
 
     useEffect(()=>{
-      categories.forEach(category => {
+        categories.forEach(category => {
             if (category.category == data?.category) {
                 setColor(category.color)
             }})
-            const temp: Story[] = [];
 
-            // Just for testing purposes, will remove
+        getData(searchDomain, setRelated)
+
+            // ***** Just for testing purposes, will remove ******
+            // const temp: Story[] = [];
             // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
             // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
             // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})

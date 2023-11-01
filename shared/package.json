@@ -1,6 +1,6 @@
 {
   "name": "ai-daily",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Just making our development easier :)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

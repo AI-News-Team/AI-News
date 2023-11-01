@@ -25,10 +25,10 @@ const Home = (props: Props) => {
     const [data, setData] = useState<any>();
     const [headlines, setHeadlines] = useState<any>();
             
-        useEffect(() => {
-            getData('article.summary', setData)
-            getData('article.list/world', setHeadlines)
-        },[])
+    useEffect(() => {
+        getData('article.summary', setData)
+        getData('article.list/world', setHeadlines)
+    },[])
         
     return (
       <div className="px-3 mt-12 md:mt-12">

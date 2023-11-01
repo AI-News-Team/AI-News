@@ -10,7 +10,7 @@ create table Category (
         color varchar(32) not null
 );
 create table Article (
-        id INT primary key not null,
+        id int primary key not null,
         name varchar(256) not null,
         body json not null,
         image_gen boolean default false
@@ -27,6 +27,17 @@ create table Article_Raw (
         cover_url varchar(256) null,
         publication_date timestamptz not null,
         retrieved_date timestamptz not null default now()
+);
+
+create table Article_Visits (
+        id int not null,
+        click_date date not null default CURRENT_DATE,
+        clicks int not null,
+        primary key (id, click_date),
+        constraint fk_article
+                foreign key(id) 
+                     references Article (id) 
+                     on delete cascade
 );
 
 create table Author (
@@ -52,6 +63,8 @@ create table Permissions (
         token_id int references Tokens(token_id),
         route_id int references Routes(route_id)
 );
+
+
 
 -- Defaults --
 
@@ -172,3 +185,20 @@ values  ('/article.create_raw', 'creates an article after scraping website'),
         ('/article.search.domain', 'saerches an article using embbedings'),
         ('/article.search', 'searches for an article'),
         ('/article.summary', 'retrieves a categorized summary of articles');
+
+
+create or replace procedure record_visit(
+   sent_id integer,
+   today date
+)
+language plpgsql    
+as $$
+begin
+if exists (select id, click_date from Article_Visits where sent_id = id and click_date = today) then
+        update Article_Visits set clicks = clicks+1 where id = sent_id;
+else
+        insert into Article_Visits (id, click_date, clicks)
+        values (sent_id, today, 1);
+END IF;
+    commit;
+end;$$

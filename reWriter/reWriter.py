@@ -76,13 +76,15 @@ for article in articles['data']:
     print(f"{len(article['body'])} lines")
 
     for i in range(len(article['body'])):
-
-        print(len(article['body']) - i)
+        print(f"Re-writing line: {len(article['body']) - i}")
+        print("----------------------------------------------------------------------------------------------------------------")
         article['body'][i] = article['body'][i].rstrip()
         # removing empty sentences
         if article['body'][i] == '':
             del article['body'][i]
         else:
+            print(f"original: {article['body'][i]}\n")
+            
             # Checking for multiple sentences in article input
             if ". " in article['body'][i]:
                 delimiter = ". "
@@ -98,6 +100,8 @@ for article in articles['data']:
             else:
                 #re-writing article sentence
                 article['body'][i] = get_response(article['body'][i],num_return_sequences,num_beams)[0]
+        print(f"reWritten: {article['body'][i]}")
+        print("----------------------------------------------------------------------------------------------------------------\n\n\n")
                 
     print(f"ReWriting article {article['id']} title")
     article['name'] = get_response(article['name'],num_return_sequences,num_beams)[0]

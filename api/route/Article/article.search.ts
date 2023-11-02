@@ -4,6 +4,7 @@ import { SEARCH_ENGINE_HOST, SEARCH_ENGINE_PORT } from '../../environment';
 import { Route, Error as ErrorResponse, Success } from '../router';
 import { STD_PREFIX } from '../util';
 
+
 export const search: Route = async (req, res) => {
   try {
     const { query } = req.query;

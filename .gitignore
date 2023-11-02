@@ -153,5 +153,5 @@ cython_debug/
 # Database backups
 database/scripts/backups
 
-# Generated Artivle Images
+# Generated Article Images
 client/public/article_images

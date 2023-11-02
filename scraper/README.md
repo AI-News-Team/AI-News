@@ -37,12 +37,14 @@ pip install scrapy
 
 ---
 
-### 3. Create `.env` file 
-* It should be created inside `newsscrapper` directory
+### 3. Create `local.env` or `virtual.env` file 
+* It should be created inside project's root directory
+* Set `SCRAPY_TOKEN` along with `API_PORT` & `API_HOST`
+* More documentation for setting `scrapy` tokens can be found in `api`'s `README` file
 * That should be it!
 --- 
 
-### How to run Spyders with a script?
+### How to run Spiders with a script?
 * Add `.env` to `/newsscrapper` directory. There is a `template.env` in `/scraper` that will help you with other sub-setup
 * Then go to `scraper` directory
 ``` shell

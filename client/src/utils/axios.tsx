@@ -25,3 +25,11 @@ export const getData = async (domain: string, setData: Function) => {
     console.log(error);
   }
 };
+
+export const postData = async (domain: string, data: object) => {
+  try {
+    await api.post(domain, data)
+  } catch (error) {
+    console.log(error);
+  }
+};

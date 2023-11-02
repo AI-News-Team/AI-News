@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getData } from "../../utils/axios";
 import CompactStoryCard from "./CompactStoryCard";
-import { Article } from "@shared";
+import { Article } from "ai-daily";
 
 type Props = {
   color: string
@@ -19,6 +19,7 @@ const LeadingSidebar = ({ color, topic }: Props) => {
 
     useEffect(() => {
       getData('article.summary', setData);
+      
     }, []);
 
   return (
@@ -29,6 +30,7 @@ const LeadingSidebar = ({ color, topic }: Props) => {
         </h2>
         {data?.[topic]?.map((story: Article) => (
           <CompactStoryCard
+            key={story.id}
             id={story.id}
             image={story?.image_gen ? `/article_images/${story.id}.png` : story.cover_url}
             title={story.name}

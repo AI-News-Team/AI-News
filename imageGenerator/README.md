@@ -1,6 +1,6 @@
 # Image Generator
 
-Only works on the server Rob gave us, so cannot be run on existing server.
+Only works on a server with suitable GPU capabilities.
 
 Fetches articles that do not have images (by checking article table "image_gen" field)
 Generates images using the original titles as prompts

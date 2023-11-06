@@ -18,10 +18,17 @@ const api = axios.create({
 });
 
 export const getData = async (domain: string, setData: Function) => {
-  console.log(`http://${API_HOST}:${API_PORT}/`);
   try {
     const response = await api.get(domain);
     setData(response.data.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postData = async (domain: string, data: object) => {
+  try {
+    await api.post(domain, data)
   } catch (error) {
     console.log(error);
   }

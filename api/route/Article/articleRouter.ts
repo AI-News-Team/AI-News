@@ -7,6 +7,8 @@ import { get } from './article.get';
 import { summary } from './article.summary';
 import { getAll } from './article.getAll';
 import { create_raw } from './article.create_raw';
+import { recordVisit } from './article.record_clicks';
+import { clicks } from './article.clicks';
 import { getAllImageGen } from './article.getAllImageGen'
 import {recordImageGen} from './article.recordImageGen'
 
@@ -47,6 +49,14 @@ const articleRouter = createRouter('article', {
     method: 'get',
     handler: getAll,
   },
+  record_visit: {
+    method: 'post',
+    handler: recordVisit,
+  },
+  clicks: {
+    method: 'get',
+    handler: clicks,
+   },                             
   getAllImageGen: {
     method: 'get',
     handler: getAllImageGen,

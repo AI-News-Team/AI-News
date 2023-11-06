@@ -2,7 +2,7 @@ import { Route } from '..';
 import { INTERNAL_SERVER_ERROR, BAD_REQUEST, CONFLICT, Code } from '../../constant/code';
 import { getClient } from '../../database';
 import { Error, Success } from '../router';
-import { Article, Category } from '@shared';
+import { Article, Category } from 'ai-daily';
 import format from 'pg-format';
 import { AssertKeySchema } from '../../util/schema';
 

@@ -21,8 +21,12 @@ class newYorkTimesSpider(scrapy.Spider):
 
     # Extracts all the links for the categories
     def parse(self, response):
-        for categories in response.xpath('//li[@data-testid="mini-nav-item"]//a/@href').getall():
-            url = response.urljoin(str(categories))
+
+        # Couldn't get the scraper to pick up categories from the nav, so have hard coded them
+        baseURL="https://www.nytimes.com/international/section/"
+        categories=[baseURL+"world", baseURL+"business", baseURL+"arts", baseURL+"opinion"]
+        
+        for url in categories:
             yield scrapy.Request(url, callback = self.getCategory, meta={'categories': categories})
             
     # Extracts all the links for the articles in the categories

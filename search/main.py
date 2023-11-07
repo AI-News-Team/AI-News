@@ -125,9 +125,14 @@ GET `http://<domain>:<port>/search/<query> - returns a list of articles that mat
 '''
 class SearchEngine(Resource):
   def get(self, query: str) -> list[str]: # todo: replace with `post`
+    
     results = [r for r in search.search(query)]
     ranked = ranker.rank(query, results)
-    results = [{"name": r["name"], "id": r["id"], "score": str(r["score"])} for r in ranked] 
+    results = [{"name": r["name"], 
+              "id": r["id"], 
+              "cover_url": r["cover_url"], 
+              "image_gen": r["image_gen"],
+              "score": str(r["score"])} for r in ranked] 
     return results, SUCCESS, {'Access-Control-Allow-Origin': '*'}
 
 api.add_resource(SearchEngine, "/search/<query>")

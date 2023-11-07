@@ -29,13 +29,13 @@ class CNNSpider(scrapy.Spider):
         fetched_category = response.xpath('//head/meta[@name="meta-section"]/@content').get()
 
         # iterate through all the categories
-        for href in response.xpath('//a[@class="container__link container_lead-plus-headlines__link"]/@href').getall():
+        for href in response.xpath('//a[@class="container__link container__link--type-article container_lead-plus-headlines__link"]/@href').getall():
             url = response.urljoin(href)
 
             # Checks if the category is in not in DB and if it is not, then returns None
             if fetched_category == 'video' or fetched_category == 'cnn-underscored':
                 yield None
-            else:             
+            else:      
                 yield scrapy.Request(url, callback = self.getArticle)
                 
     # Extracts all the information from the article

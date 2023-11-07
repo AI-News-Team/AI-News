@@ -151,7 +151,7 @@ dmypy.json
 cython_debug/
 
 # Database backups
-database/backups
+database/scripts/backups
 
 # Generated Article Images
 client/public/article_images

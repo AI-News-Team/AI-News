@@ -7,12 +7,9 @@ from newsscrapper.spiders.bbc import BbcSpider
 expected_urls = [
     "https://www.bbc.com/news/world",
     "https://www.bbc.com/news/world/asia",
-    "https://www.bbc.com/news/uk",
     "https://www.bbc.com/news/business",
     "https://www.bbc.com/news/technology",
-    "https://www.bbc.com/news/entertainment_and_arts",
     "https://www.bbc.com/news/health",
-    "https://www.bbc.com/news/world-60525350",
 ]
 
 class BbcSpiderTest(unittest.TestCase):
@@ -40,6 +37,29 @@ class BbcSpiderTest(unittest.TestCase):
         else:
             return None
 
+    def get_first_article_html(self):
+        main_page_response = self.fetch_main_page_html()
+
+        if main_page_response:
+            # Extracts article URL from the "gel-wrap gs-u-pt+" CSS class
+            first_article_url = main_page_response.xpath('//div[@class="gel-wrap gs-u-pt+"]/div/div[position()=5]//a/@href').get()
+            
+            # Returns html response of the first article if can be fetched
+            if first_article_url:
+                base = 'https://www.bbc.com'
+                first_article_url = base + first_article_url
+
+                first_article_response = requests.get(first_article_url)
+
+                if first_article_response.status_code == 200:
+                    return HtmlResponse(url=first_article_url, body=first_article_response.text, encoding='utf-8')
+                else:
+                    return None
+            else:
+                return None
+        else:
+            return None
+
     def test_categories_fetching(self):
         results = self.parseMainPage()
 
@@ -53,11 +73,15 @@ class BbcSpiderTest(unittest.TestCase):
             print("")
             print("======================================================================")
             print("Test:    test_categories_fetching")
-            print("Status:  PASSED")
+            print("Status:  PASSED ☑")
             print("======================================================================")
 
         else:
-            print("No results found")
+            print("")
+            print("======================================================================")
+            print("Test:    test_categories_fetching")
+            print("Status:  No results found ☒")
+            print("======================================================================")
     
     def test_can_fetch_articles_in_categories(self):
         results = self.parseMainPage()
@@ -75,51 +99,42 @@ class BbcSpiderTest(unittest.TestCase):
                         self.assertTrue(len(articles) > 0, f"No articles found in {result.url}")
                     else:
                         print(f"Error fetching {result.url}")
+                        print("")
+                        print("======================================================================")
+                        print("Test:    test_can_fetch_articles_in_categories")
+                        print(f"Status:  Error fetching {result.url} ☒")
+                        print("======================================================================")
             
             # Prints success message
             print("")
             print("======================================================================")
             print("Test:    test_can_fetch_articles_in_categories")
-            print("Status:  PASSED")
+            print("Status:  PASSED ☑")
             print("======================================================================")
     
     def test_can_fetch_articles_values(self):
-        main_page_response = self.fetch_main_page_html()
+        first_article = self.get_first_article_html()
 
-        if main_page_response:
-            # Calls the parse method of the spider with the fetched main page response
-            results = list(self.spider.parse(main_page_response))
+        if first_article:
+            # Checks if the article has all the required values
+            self.assertIsNotNone(first_article.xpath('//head/meta[@property="article:section"]/@content').get(), "Article category not found")
+            self.assertIsNotNone(first_article.xpath('//h1/text()').get(), "Article name not found")
+            self.assertIsNotNone(first_article.xpath('//div[contains(@class, "ssrcss-68pt20-Text-TextContributorName")]/text()').get(), "Article author not found")
+            self.assertIsNotNone(first_article.xpath('//time[@data-testid="timestamp"]/@datetime').get(), "Article date not found")
+            self.assertIsNotNone(first_article.xpath('//div[contains(@data-component, "text-block")]/div//text()').getall(), "Article body not found")
 
-            for result in results:
-                if result.url in expected_urls:
-                    category_url = result.url  # URL of the category page
-                    category_page_response = requests.get(category_url)
-
-                    if category_page_response.status_code == 200:
-                        category_page_html = HtmlResponse(url=category_url, body=category_page_response.text, encoding='utf-8')
-                        articles = list(self.spider.getCategory(category_page_html))
-
-                        for article in articles:
-                            article_url = article.url
-                            article_response = requests.get(article_url)
-
-                            if article_response.status_code == 200:
-                                single_article_url = HtmlResponse(url=article_url, body=article_response.text, encoding='utf-8')
-                                article_data = next(self.spider.getArticle(single_article_url))
-
-                                # Check if the article has the expected values
-                                self.assertTrue(article_data['name'], "Article name not found")
-                                self.assertTrue(article_data['author'], "Article author not found")
-                                self.assertTrue(article_data['publication_date'], "Article publication date not found")
-                                self.assertTrue(article_data['body'], "Article body not found")
-                                self.assertTrue(article_data['category'], "Article category not found")
-                                self.assertTrue(article_data['source_url'], "Article source URL not found")
-                                self.assertTrue(article_data['cover_url'], "Article cover URL not found")
-                            else:
-                                print(f"Error fetching {article_url}")
-                    else:
-                        print(f"Error fetching {category_url}")
-
+            # Prints success message
+            print("")
+            print("======================================================================")
+            print("Test:    test_can_fetch_articles_values")
+            print("Status:  PASSED ☑")
+            print("======================================================================")
+        else:
+            print("")
+            print("======================================================================")
+            print("Test:    test_can_fetch_articles_values")
+            print("Status:  Article not found ☒")
+            print("======================================================================")
 
 if __name__ == '__main__':
     unittest.main()

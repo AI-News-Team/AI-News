@@ -42,7 +42,7 @@ class BbcSpiderTest(unittest.TestCase):
 
         if main_page_response:
             # Extracts article URL from the "gel-wrap gs-u-pt+" CSS class
-            first_article_url = main_page_response.xpath('//div[@class="gel-wrap gs-u-pt+"]/div/div[position()=5]//a/@href').get()
+            first_article_url = main_page_response.xpath('//li[@data-entityid="most-popular-read-1"]//a/@href').get()
             
             # Returns html response of the first article if can be fetched
             if first_article_url:

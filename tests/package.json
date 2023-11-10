@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@types/chai": "^4.3.10",
+    "@types/mocha": "^10.0.4",
+    "@types/sinon": "^17.0.1",
+    "chai": "^4.3.10",
+    "dotenv": "^16.3.1",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1",
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "test:crud": "mocha --require ts-node/register --extensions ts,tsx api-tests/crud-tests.ts"
+  }
+}

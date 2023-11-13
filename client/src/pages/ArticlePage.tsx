@@ -69,14 +69,6 @@ const ArticlePage = () => {
 
         getData(searchDomain, setRelated)
 
-            // ***** Just for testing purposes, will remove ******
-            // const temp: Story[] = [];
-            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
-            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
-            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
-            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
-            // temp.push({id: data?.id, name: data?.name, cover_url: data?.cover_url, image_gen: data?.image_gen,})
-            // setRelatedSample(temp.slice(0, 3))
     },[data])
 
 return (
@@ -115,7 +107,7 @@ return (
         key={`related-${data?.id}`}
         topic="Related Articles"
         color={color}
-        stories={related?.slice(0, 3)}
+        stories={related?.slice(1, 4)}
       /> 
       : <div></div>
     }

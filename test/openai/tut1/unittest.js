@@ -1,3 +1,13 @@
+// code from https://medium.com/innovies-club/generate-unit-tests-in-a-snap-with-openais-api-3c72fcae6e4e
+
+// curl https://api.openai.com/v1/chat/completions \
+//     -H "Content-Type: application/json" \
+//     -H "Authorization: Bearer $OPENAI_API_KEY" \
+//     -d'{
+//         "model": "gpt-3.5-tubo",
+//         "messages": [{"role": "user", "content": "Hello!"}]
+//         }'
+
 const async = require("async");
 const {Configuration, OpenAIApi} = require("openai");
 

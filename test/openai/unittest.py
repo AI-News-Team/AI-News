@@ -1,6 +1,9 @@
 # imports needed to run the code in this notebook
 import ast  # used for detecting whether generated Python code is valid
 import openai  # used for calling the OpenAI API
+import os 
+from dotenv import load_dotenv
+load_dotenv
 
 color_prefix_by_role = {
     "system": "\033[0m",  # gray
@@ -225,3 +228,28 @@ import {unit_test_package}  # used for our unit tests
 
     # return the unit test as a string
     return code
+
+example_function = """def pig_latin(text):
+    def translate(word):
+        vowels = 'aeiou'
+        if word[0] in vowels:
+            return word + 'way'
+        else:
+            consonants = ''
+            for letter in word:
+                if letter not in vowels:
+                    consonants += letter
+                else:
+                    break
+            return word[len(consonants):] + consonants + 'ay'
+
+    words = text.lower().split()
+    translated_words = [translate(word) for word in words]
+    return ' '.join(translated_words)
+"""
+unit_tests = unit_tests_from_function(
+    example_function,
+    approx_min_cases_to_cover=10,
+    print_text=True
+)
+print(unit_tests,os.getenv("OPENAI_API_KEY"))

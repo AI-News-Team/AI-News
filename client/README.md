@@ -1,5 +1,10 @@
 # Web Client
 
+### Full Demo (youTube link)
+[![Watch the video](https://img.youtube.com/vi/augQ6nfGkf8/hqdefault.jpg)](https://www.youtube.com/embed/augQ6nfGkf8)
+
+## How to Run the Client
+
 To run the front end through local host with a local database (via docker):
 
 ### 1. Clone the repo
